@@ -8656,6 +8656,8 @@ void battletest::deleteuser(eosio::name _user)
 ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _index)
 {
     require_auth("epochchasert"_n);
+    user_auths user_auths_table(_self, _self.value);
+    auto user_auths_iter = user_auths_table.find(_user.value);
     if (_type == "servant")
     {
         user_servants user_servant_table(_self, _user.value);
@@ -8665,6 +8667,17 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         eosio_assert(servant_iter->party_number == 0, "changetoken : Already Party Servant");
         user_servant_table.modify(servant_iter, _self, [&](auto &new_token) {
             new_token.servant.state = object_state::on_tokenization;
+        });
+
+        user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            if (delete_index.current_servant_inventory -1 <= 0)
+            {
+                delete_index.current_servant_inventory = 0;
+            }
+            else
+            {
+                delete_index.current_servant_inventory -= 1;
+            }
         });
     }
     else if (_type == "monster")
@@ -8677,6 +8690,16 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         user_monster_table.modify(monster_iter, _self, [&](auto &new_token) {
             new_token.monster.state = object_state::on_tokenization;
         });
+        user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            if (delete_index.current_monster_inventory - 1 <= 0)
+            {
+                delete_index.current_monster_inventory = 0;
+            }
+            else
+            {
+                delete_index.current_monster_inventory -= 1;
+            }
+        });
     }
     else if (_type == "equipment")
     {
@@ -8686,6 +8709,16 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         eosio_assert(equipment_iter->equipment.state == object_state::on_inventory, "changetoken : Not Inventory Equipment");
         user_equipment_table.modify(equipment_iter, _self, [&](auto &new_token) {
             new_token.equipment.state = object_state::on_tokenization;
+        });
+        user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            if (delete_index.current_equipment_inventory - 1 <= 0)
+            {
+                delete_index.current_equipment_inventory = 0;
+            }
+            else
+            {
+                delete_index.current_equipment_inventory -= 1;
+            }
         });
     }
     else
@@ -10318,18 +10351,18 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
                 new_servant.servant = master_iter->servant;
                 new_servant.servant.state = object_state::on_inventory;
             });
-            user_auths user_auths_table(_self, _self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                if (delete_index.current_servant_inventory <= 0)
-                {
-                    delete_index.current_servant_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_servant_inventory -= 1;
-                }
-            });
+            // user_auths user_auths_table(_self, _self.value);
+            // auto user_auths_iter = user_auths_table.find(_master.value);
+            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            //     if (delete_index.current_servant_inventory <= 0)
+            //     {
+            //         delete_index.current_servant_inventory = 0;
+            //     }
+            //     else
+            //     {
+            //         delete_index.current_servant_inventory -= 1;
+            //     }
+            // });
             master_table.erase(master_iter);
         }
     }
@@ -10365,18 +10398,18 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
                 new_monster.monster.state = object_state::on_inventory;
             });
 
-            user_auths user_auths_table(_self, _self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                if (delete_index.current_monster_inventory <= 0)
-                {
-                    delete_index.current_monster_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_monster_inventory -= 1;
-                }
-            });
+            // user_auths user_auths_table(_self, _self.value);
+            // auto user_auths_iter = user_auths_table.find(_master.value);
+            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            //     if (delete_index.current_monster_inventory <= 0)
+            //     {
+            //         delete_index.current_monster_inventory = 0;
+            //     }
+            //     else
+            //     {
+            //         delete_index.current_monster_inventory -= 1;
+            //     }
+            // });
             master_table.erase(master_iter);
         }
     }
@@ -10411,18 +10444,18 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
                 new_equip.equipment = master_iter->equipment;
                 new_equip.equipment.state = object_state::on_inventory;
             });
-            user_auths user_auths_table(_self, _self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                if (delete_index.current_equipment_inventory <= 0)
-                {
-                    delete_index.current_equipment_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_equipment_inventory -= 1;
-                }
-            });
+            // user_auths user_auths_table(_self, _self.value);
+            // auto user_auths_iter = user_auths_table.find(_master.value);
+            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+            //     if (delete_index.current_equipment_inventory <= 0)
+            //     {
+            //         delete_index.current_equipment_inventory = 0;
+            //     }
+            //     else
+            //     {
+            //         delete_index.current_equipment_inventory -= 1;
+            //     }
+            // });
             master_table.erase(master_iter);
         }
     }
