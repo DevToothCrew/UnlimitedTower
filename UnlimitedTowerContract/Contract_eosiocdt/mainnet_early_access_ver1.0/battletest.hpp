@@ -1775,23 +1775,21 @@ ACTION systemact(std::string _function, eosio::name _user, std::string _type);
 //--------------------------daily_check_table-----------------------------//
 //------------------------------------------------------------------------//
 
-#pragma region dailycheck
 
-TABLE tdaily
-{
-    eosio::name user;
-    uint64_t total_day;
-    uint64_t check_time;
-    uint64_t primary_key() const { return user.value; }
-};
-typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
-
-ACTION dailycheck(eosio::name _user, string _seed);
-bool timecheck(uint64_t user_checktime);
-void daily_check_reward(eosio::name _user, uint64_t totalday, uint64_t _seed);
-//ACTION resetdaily(eosio::name _user);
 
 servant_info get_servant_random_state(uint32_t _id, uint64_t _seed, uint32_t _job, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
 monster_info get_monster_random_state(uint32_t _id, uint64_t _seed, uint32_t _grade, uint32_t _tribe, uint32_t _type, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
 equipment_info get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _type, uint32_t _tier, uint32_t _job, uint32_t _grade);
+servant_db::const_iterator get_servant_db(uint64_t _id);
+monster_db::const_iterator get_monster_db(uint64_t _id);
+tribe_db::const_iterator get_tribe_db(uint64_t _id);
+equipment_db::const_iterator get_equipment_db(uint64_t _id);
+active_db::const_iterator get_active_db(uint64_t _id);
+passive_db::const_iterator get_passive_db(uint64_t _id);
+user_servants::const_iterator get_user_servant(eosio::name _user, uint64_t _index);
+user_monsters::const_iterator get_user_monster(eosio::name _user, uint64_t _index);
+user_equip_items::const_iterator get_user_equipment(eosio::name _user, uint64_t _index);
+shop_list::const_iterator get_shop_list(uint64_t _id);
+item_shop::const_iterator get_item_shop(uint64_t _id);
+allitem_db::const_iterator get_allitem_db(uint64_t _id);
 };
