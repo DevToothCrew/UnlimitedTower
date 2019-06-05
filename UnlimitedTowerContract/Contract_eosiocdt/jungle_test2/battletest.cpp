@@ -10680,7 +10680,7 @@ ACTION battletest::claim(name who, uint64_t fnum)
     user_logs user_log(_self, _self.value);
     auto log_iter = user_log.find(who.value);
     user_log.modify(log_iter, _self, [&](auto &data) {
-        data.top_clear_tower = fnum + 1;
+        data.top_clear_tower = fnum;
     });
 
     // // EOS 스냅샷 확인후 지급
@@ -10725,7 +10725,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
         user_logs user_log(_self, _self.value);
         auto iter = user_log.find(winner.value);
 
-        if (iter->top_clear_tower == fnum)
+        if (iter->top_clear_tower < fnum)
         {
             user_log.modify(iter, _self, [&](auto &data) {
                 data.top_clear_tower = data.top_clear_tower + 1;
