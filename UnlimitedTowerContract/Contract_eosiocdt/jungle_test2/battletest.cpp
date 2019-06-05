@@ -3031,19 +3031,21 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
     uint32_t random_head = gacha_servant_head(_seed, 3);
     uint32_t random_hair = gacha_servant_hair(_seed, 4);
 
-    servant_db servant_id_table(_self, _self.value);
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Signup : Empty Servant ID / Wrong Servant ID");
+    // servant_db servant_id_table(_self, _self.value);
+    
+    // const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Signup : Empty Servant ID / Wrong Servant ID");
+    auto servant_id_db_iter = get_servant_db(servant_index);
 
     serstat_db servant_base_table(_self, _self.value);
-    uint32_t servant_job_base = (servant_id_db_iter.job * 1000) + (servant_id_db_iter.grade * 100) + 1;
+    uint32_t servant_job_base = (servant_id_db_iter->job * 1000) + (servant_id_db_iter->grade * 100) + 1;
     const auto &ser_iter = servant_base_table.get(servant_job_base, "Signup Servant : Empty Servant Stat");
 
     user_servants user_servant_table(_self, _user.value);
     user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
         update_user_servant_list.index = 1;
 
-        servant_info new_servant = get_servant_random_state(servant_id_db_iter.id,
+        servant_info new_servant = get_servant_random_state(servant_id_db_iter->id,
                                                             _seed,
                                                             random_job,
                                                             ser_iter.base_str,
@@ -3059,11 +3061,13 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
     uint32_t random_monster_id = safeseed::get_random_value(_seed, 7, 1, 1);
     random_monster_id += 103100;
 
-    monster_db monster_id_db_table(_self, _self.value);
-    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
+    // monster_db monster_id_db_table(_self, _self.value);
+    // const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
+    auto monster_id_db_iter = get_monster_db(random_monster_id);
 
-    tribe_db tribe_db_table(_self, _self.value);
-    const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Signup Monster : Empty Monster Tribe");
+    // tribe_db tribe_db_table(_self, _self.value);
+    // const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter->tribe, "Signup Monster : Empty Monster Tribe");
+    auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
 
     user_monsters user_monster_table(_self, _user.value);
     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
@@ -3077,14 +3081,14 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
 
-        monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
+        monster_info new_monster = get_monster_random_state(monster_id_db_iter->id,
                                                             _seed,
                                                             5,
-                                                            monster_id_db_iter.tribe,
-                                                            monster_id_db_iter.type,
-                                                            tribe_iter.base_str,
-                                                            tribe_iter.base_dex,
-                                                            tribe_iter.base_int);
+                                                            monster_id_db_iter->tribe,
+                                                            monster_id_db_iter->type,
+                                                            tribe_iter->base_str,
+                                                            tribe_iter->base_dex,
+                                                            tribe_iter->base_int);
 
         update_user_monster_list.party_number = EMPTY_PARTY;
         update_user_monster_list.monster = new_monster;
@@ -3317,8 +3321,9 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
 
                 auto monster_db_iter = get_monster_db(pre_gacha_db_iter->db_index);
 
-                tribe_db tribe_db_table(_self, _self.value);
-                const auto &tribe_iter = tribe_db_table.get(monster_db_iter->tribe, "mailopen : Empty Monster Tribe");
+                // tribe_db tribe_db_table(_self, _self.value);
+                // const auto &tribe_iter = tribe_db_table.get(monster_db_iter->tribe, "mailopen : Empty Monster Tribe");
+                auto tribe_iter = get_tribe_db(monster_db_iter->tribe);
 
                 move_monster.monster.id = monster_db_iter->id;
                 move_monster.party_number = 0;
@@ -3332,9 +3337,9 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_monster.monster.status.basic_dex = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_dex].update_status;
                 move_monster.monster.status.basic_int = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_int].update_status;
 
-                move_monster.monster.status.basic_str = (move_monster.monster.status.basic_str * tribe_iter.base_str) / 100;
-                move_monster.monster.status.basic_dex = (move_monster.monster.status.basic_dex * tribe_iter.base_dex) / 100;
-                move_monster.monster.status.basic_int = (move_monster.monster.status.basic_int * tribe_iter.base_int) / 100;
+                move_monster.monster.status.basic_str = (move_monster.monster.status.basic_str * tribe_iter->base_str) / 100;
+                move_monster.monster.status.basic_dex = (move_monster.monster.status.basic_dex * tribe_iter->base_dex) / 100;
+                move_monster.monster.status.basic_int = (move_monster.monster.status.basic_int * tribe_iter->base_int) / 100;
 
                 uint32_t passive_id = get_passive_skill(2, monster_db_iter->tribe, _seed);
                 move_monster.monster.passive_skill.push_back(passive_id);
@@ -4213,12 +4218,14 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _j
 
     uint32_t random_hair = gacha_servant_hair(_seed, 3);
 
-    servant_db servant_id_table(_self, _self.value);
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Gacha Servant : Empty Servant ID");
+    // servant_db servant_id_table(_self, _self.value);
+    
+    // const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Gacha Servant : Empty Servant ID");
+    auto servant_id_db_iter = get_servant_db(servant_index);
    
     serstat_db servant_base_table(_self, _self.value);
-    uint32_t servant_job_base = (servant_id_db_iter.job * 1000) + (servant_id_db_iter.grade * 100) + 1;
+    uint32_t servant_job_base = (servant_id_db_iter->job * 1000) + (servant_id_db_iter->grade * 100) + 1;
     const auto &ser_iter = servant_base_table.get(servant_job_base, "Gacha Servant : Empty Servant Stat");
 
     user_logs user_log_table(_self, _self.value);
@@ -4250,7 +4257,7 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _j
 
         update_user_servant_list.party_number = EMPTY_PARTY;
         //update_user_servant_list.servant = new_servant;
-        update_user_servant_list.servant = get_servant_random_state(servant_id_db_iter.id, _seed, servant_id_db_iter.job,ser_iter.base_str,ser_iter.base_dex,ser_iter.base_int);
+        update_user_servant_list.servant = get_servant_random_state(servant_id_db_iter->id, _seed, servant_id_db_iter->job,ser_iter.base_str,ser_iter.base_dex,ser_iter.base_int);
 
     });
             write_log(_user, _gold_type, 1, result.index, 1);
@@ -4329,11 +4336,13 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
         gacha_db_index = gacha_monster_db_iter->db_index;
     }
 
-    monster_db monster_id_db_table(_self, _self.value);
-    const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Gacha Monster : Empty Monster ID");
+    // monster_db monster_id_db_table(_self, _self.value);
+    // const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Gacha Monster : Empty Monster ID");
+    auto monster_id_db_iter = get_monster_db(gacha_db_index);
 
-    tribe_db tribe_db_table(_self, _self.value);
-    const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Monster : Empty Monster Tribe");
+    // tribe_db tribe_db_table(_self, _self.value);
+    // const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter->tribe, "Gacha Monster : Empty Monster Tribe");
+    auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
 
 
     uint64_t random_rate = 0;
@@ -4384,7 +4393,7 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
         result.type = result::monster;
 
         update_user_monster_list.party_number = EMPTY_PARTY;
-        update_user_monster_list.monster = get_monster_random_state(monster_id_db_iter.id, _seed, random_grade,monster_id_db_iter.tribe, monster_id_db_iter.type,tribe_iter.base_str,tribe_iter.base_dex,tribe_iter.base_int);
+        update_user_monster_list.monster = get_monster_random_state(monster_id_db_iter->id, _seed, random_grade,monster_id_db_iter->tribe, monster_id_db_iter->type,tribe_iter->base_str,tribe_iter->base_dex,tribe_iter->base_int);
     });
     write_log(_user, _gold_type, result::monster, result.index, 1);
 
@@ -7793,12 +7802,14 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
     uint32_t random_head = gacha_servant_head(_seed, 3);
     uint32_t random_hair = gacha_servant_hair(_seed, 4);
 
-    servant_db servant_id_table(_self, _self.value);
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Get Reward Servant : Empty Servant ID / Wrong Servnat ID");
+    // servant_db servant_id_table(_self, _self.value);
+    
+    // const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Get Reward Servant : Empty Servant ID / Wrong Servnat ID");
+    auto servant_id_db_iter = get_servant_db(servant_index);
 
     serstat_db servant_base_table(_self, _self.value);
-    uint32_t servant_job_base = (servant_id_db_iter.job * 1000) + (servant_id_db_iter.grade * 100) + 1;
+    uint32_t servant_job_base = (servant_id_db_iter->job * 1000) + (servant_id_db_iter->grade * 100) + 1;
     const auto &ser_iter = servant_base_table.get(servant_job_base, "Get Reward Servant : Empty Servant Stat");
 
     user_logs user_log_table(_self, _self.value);
@@ -7811,7 +7822,7 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
     mail_reward_list mail_reward_list_table(_self, _user.value);
     user_mail user_mail_table(_self, _user.value);
     
-    servant_info new_servant = get_servant_random_state(servant_id_db_iter.id, _seed, random_job, ser_iter.base_str, ser_iter.base_dex, ser_iter.base_int);
+    servant_info new_servant = get_servant_random_state(servant_id_db_iter->id, _seed, random_job, ser_iter.base_str, ser_iter.base_dex, ser_iter.base_int);
 
     if (_type == 1) //일반 보상
     {
@@ -7885,7 +7896,7 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
             move_mail.mail_type = 8;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = 1;
-            move_mail.icon_id = servant_id_db_iter.id;
+            move_mail.icon_id = servant_id_db_iter->id;
             move_mail.get_time = now();
         });
        
@@ -7902,7 +7913,7 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
 {
     uint32_t random_monster_id = 0;
     uint32_t gacha_db_index = _id;
-    monster_db monster_id_db_table(_self, _self.value);
+    
 
     if (_id == 0)
     {
@@ -7917,11 +7928,15 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
         gacha_db_index = gacha_monster_db_iter->db_index;
         
     }
-    const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Get Reward Monster : Empty Monster ID/ Wrong Monster ID");
+    // monster_db monster_id_db_table(_self, _self.value);
+    // const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Get Reward Monster : Empty Monster ID/ Wrong Monster ID");
+    auto monster_id_db_iter = get_monster_db(gacha_db_index);
        
 
-    tribe_db tribe_db_table(_self, _self.value);
-    const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Reward Monster : Empty Monster Tribe");
+    // tribe_db tribe_db_table(_self, _self.value);
+    // const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter->tribe, "Gacha Reward Monster : Empty Monster Tribe");
+    auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
+
 
     user_auths auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
@@ -7947,14 +7962,14 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
    
     monster_data new_data;
 
-    monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
+    monster_info new_monster = get_monster_random_state(monster_id_db_iter->id,
                                                             _seed,
                                                             random_grade,
-                                                            monster_id_db_iter.tribe,
-                                                            monster_id_db_iter.type,
-                                                            tribe_iter.base_str,
-                                                            tribe_iter.base_dex,
-                                                            tribe_iter.base_int);
+                                                            monster_id_db_iter->tribe,
+                                                            monster_id_db_iter->type,
+                                                            tribe_iter->base_str,
+                                                            tribe_iter->base_dex,
+                                                            tribe_iter->base_int);
 
     user_monsters user_monster_table(_self, _user.value);
     if(_type ==1)   //일반 보상 
@@ -8027,7 +8042,7 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
             move_mail.mail_type = 9;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = 1;
-            move_mail.icon_id = monster_id_db_iter.id;
+            move_mail.icon_id = monster_id_db_iter->id;
             move_mail.get_time = now();
         });
 
