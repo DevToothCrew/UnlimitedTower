@@ -10,7 +10,7 @@ public class ShopBuyPackagePopup : MonoBehaviour {
     public Image imageObjectIcon;
     public Image imagePriceIcon;
     public Text textPrice;
-    public GameObject[] packageList = new GameObject[8];
+    public GameObject[] packageList = new GameObject[3];
 
     public bool SetShopPackageBuyPopup(ShopProductInfo getInfo)
     {
@@ -28,7 +28,7 @@ public class ShopBuyPackagePopup : MonoBehaviour {
             return false;
         }
 
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 3; i++)
         {
             packageList[i].SetActive(false);
         }

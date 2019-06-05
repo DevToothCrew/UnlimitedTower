@@ -792,7 +792,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else if(type == SHOP_TYPE.PACKAGE)
         {
-            for(int i = 16; i<= 23; i++)
+            for(int i = 16; i<= 18; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;
