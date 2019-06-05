@@ -7913,9 +7913,8 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
             {
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
-            mail_reward_first_index = move_mail.mail_index;
             move_mail.mail_type = 8;
-            move_mail.type_index = mail_reward_first_index;
+            move_mail.type_index = new_data.index;
             move_mail.count = 1;
             move_mail.icon_id = servant_id_db_iter->id;
             move_mail.get_time = now();
@@ -8057,9 +8056,8 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
             {
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
-            mail_reward_first_index = move_mail.mail_index;
             move_mail.mail_type = 9;
-            move_mail.type_index = mail_reward_first_index;
+            move_mail.type_index = new_data.index;
             move_mail.count = 1;
             move_mail.icon_id = monster_id_db_iter->id;
             move_mail.get_time = now();
@@ -8188,9 +8186,8 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
             {
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
-            mail_reward_first_index = move_mail.mail_index;
             move_mail.mail_type = 10;
-            move_mail.type_index = mail_reward_first_index;
+            move_mail.type_index = new_data.index;
             move_mail.count = 1;
             move_mail.icon_id = equip_item_iter.item_id;
             move_mail.get_time = now();
@@ -8304,7 +8301,7 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
                 update_reward.index = mail_reward_list_table.available_primary_key();
             }
             update_reward.type = 4; //잡템 4
-
+            mail_reward_first_index = update_reward.index;
             body_data += to_string(_id) + ":",
             body_data += to_string(_count);
 
@@ -8322,7 +8319,7 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
             {
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
-            mail_reward_first_index = move_mail.mail_index;
+            
             move_mail.mail_type = 11;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = _count;
