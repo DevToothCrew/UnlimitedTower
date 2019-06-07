@@ -3592,7 +3592,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             mail_reward_list mail_reward_list_table(_self, _user.value);
             auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
             eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-            if (mail_reward_list_iter->type == 2) //몬스터
+            if (mail_reward_list_iter->type == 2)  
             {
                 substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
                 user_monsters user_monster_table(_self, _user.value);
@@ -3635,7 +3635,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             mail_reward_list mail_reward_list_table(_self, _user.value);
             auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
             eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-            if (mail_reward_list_iter->type == 3) //장비
+            if (mail_reward_list_iter->type == 3) 
             {
                 substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
                 user_equip_items user_equip_items_table(_self, _user.value);
@@ -3676,10 +3676,10 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             mail_reward_list mail_reward_list_table(_self, _user.value);
             auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
             eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-            if (mail_reward_list_iter->type == 4) //잡템
+            if (mail_reward_list_iter->type == 4)  
             {
                 substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
-                add_inventory = sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+                add_inventory += sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
 
                 mail_reward_list_table.erase(mail_reward_list_iter);
             }
