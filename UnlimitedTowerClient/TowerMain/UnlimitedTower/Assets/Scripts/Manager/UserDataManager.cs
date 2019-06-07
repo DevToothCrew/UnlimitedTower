@@ -334,7 +334,14 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (itemDic.ContainsKey(itemData.id) == true)
         {
-            itemDic[itemData.id] = itemData;
+            if (itemData.itemInfoList.Count == 0)
+            {
+                itemDic.Remove(itemData.id);
+            }
+            else
+            {
+                itemDic[itemData.id] = itemData;
+            }
         }
         else
         {
