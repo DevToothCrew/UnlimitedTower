@@ -535,10 +535,10 @@ CONTRACT battletest : public contract
     //ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    //ACTION dbinit(std::string _table);
+    ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
