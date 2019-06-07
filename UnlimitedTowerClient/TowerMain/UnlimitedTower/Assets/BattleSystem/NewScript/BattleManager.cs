@@ -95,7 +95,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 stageActionInfo.character_action_list[i + 1].action_info_list[0].target_position == stageActionInfo.character_action_list[i].my_position ||
                  stageActionInfo.character_action_list[i + 1].my_position == stageActionInfo.character_action_list[i].action_info_list[0].target_position))
             {
-                yield return new WaitForSeconds(5.0f);
+                yield return new WaitForSeconds(6.0f);
             }
             else
             {
