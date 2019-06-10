@@ -3153,11 +3153,12 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
 {
     require_auth(NFT_CONTRACT);
 
+    uint64_t index = 0 ;
+
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "nftmail : Empty Log Table / Not Yet Signup");
 
-    //  메일 테이블에 변경된 스탯으로 저장
     user_mail user_mail_table(_self, _user.value);
     user_mail_table.emplace(_self, [&](auto &move_mail) {
         uint64_t change_type;
@@ -3173,17 +3174,59 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
         if (_type == "servant")
         {
             change_type = 5;
+            std::string temp = "UTS";
+            uts_db uts_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto uts_db_iter = uts_db_table.find(_token_index);
+            eosio_assert(uts_db_iter != uts_db_table.end(), "nftmail : end table error");
+            index = nftexchange(uts_db_iter->owner,
+                        uts_db_iter->master,
+                        _type,
+                        uts_db_iter->t_idx);
+
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, uts_db_iter->idx))
+                .send();
         }
         else if (_type == "monster")
         {
             change_type = 6;
+            std::string temp = "UTM";
+            utm_db utm_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto utm_db_iter = utm_db_table.find(_token_index);
+            eosio_assert(utm_db_iter != utm_db_table.end(), "nftmail : end table error");
+            std::string temp_type = "monster";
+            index = nftexchange(utm_db_iter->owner,
+                        utm_db_iter->master,
+                        temp_type,
+                        utm_db_iter->t_idx);
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, utm_db_iter->idx))
+                .send();
         }
         else if (_type == "item")
         {
             change_type = 7;
+            std::string temp = "UTI";
+            uti_db uti_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto uti_db_iter = uti_db_table.find(_token_index);
+            eosio_assert(uti_db_iter != uti_db_table.end(), "nftmail : end table error");
+            std::string temp_type = "equipment";
+            index = nftexchange(uti_db_iter->owner, uti_db_iter->master, temp_type, uti_db_iter->t_idx);
+
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, uti_db_iter->idx))
+                .send();
         }
+        else
+        {
+            eosio_assert(1 == 0, "nftmail : Wrong Type Token");
+        }
+        eosio_assert(index != 0, "nftmail : Wrong Index");
         move_mail.mail_type = change_type;
-        move_mail.type_index = _token_index;
+        move_mail.type_index = index;
         move_mail.count = 1;
         move_mail.icon_id = _icon_id;
         move_mail.get_time = now();
@@ -3192,7 +3235,9 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.mail += 1;
     });
+
 }
+
 
 ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index)
 {
@@ -3202,17 +3247,22 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "mailopen : Empty user_auth Table / Not Yet Signup");
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "mailopen : Empty Log Table / Not Yet Signup");
+    user_logs user_logs_table(_self, _self.value);
+    auto user_log_iter = user_logs_table.find(_user.value);
+    eosio_assert(user_log_iter != user_logs_table.end(), "mailopen : Empty Log Table / Not Yet Signup");
 
     user_mail user_mail_table(_self, _user.value);
     main_gacha_db main_gacha_db_table(_self, _self.value);
     pre_gacha_db pre_gacha_db_table(_self, _self.value);
-
     eosio_assert(_mail_index.size() < 9, "mailopen : Max mail open count = 8");
     uint32_t mail_erase_count = 0 ;    
     eosio_assert(check_inventory(_user, 1) == true, "mailopen : your inventory is full");
+
+    uint32_t servant_add_inventory =0;
+    uint32_t monster_add_inventory =0;
+    uint32_t equipment_add_inventory =0;
+    uint32_t add_inventory = 0;
+    uint64_t utg_get_amount =0;
 
     for (uint32_t i = 0; i < _mail_index.size(); ++i)
     {
@@ -3226,12 +3276,12 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         user_mail_iter->mail_type == 5 || user_mail_iter->mail_type == 6 || user_mail_iter->mail_type == 7 || user_mail_iter->mail_type ==8
         || user_mail_iter->mail_type ==9|| user_mail_iter->mail_type ==10 || user_mail_iter->mail_type ==11 || user_mail_iter->mail_type ==12), "Not exist select type");
 
-        if (user_mail_iter->mail_type == 1) //프리가차 서번트
+        if (user_mail_iter->mail_type == 1)
         {
             uint64_t temp_grade = 5;
 
             servant_lv_status_db servant_lv_status_db_table(_self, _self.value);
-            auto servant_lv_status_db_iter = servant_lv_status_db_table.find(temp_grade); //아직은 서번트 등급은 0이지만 5로 표현
+            auto servant_lv_status_db_iter = servant_lv_status_db_table.find(temp_grade);
 
             user_preregist_servants user_preregist_servant_table(_self, _user.value);
             auto user_preregist_servant_iter = user_preregist_servant_table.find(user_mail_iter->type_index);
@@ -3239,6 +3289,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_servant_iter->id);
             eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "mailopen :Not exist pre_gacha_db_iter");
             eosio_assert(servant_lv_status_db_iter != servant_lv_status_db_table.end(), "mailopen :Not exist servant_lv_status Data");
+
 
             user_servants user_servant_table(_self, _user.value);
             user_servant_table.emplace(_self, [&](auto &move_servant) {
@@ -3258,7 +3309,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 auto servant_db_iter = get_servant_db(pre_gacha_db_iter->db_index);
 
                 serstat_db serstat_db_table(_self, _self.value);
-                uint32_t stat_id = (1000 * servant_db_iter->job) + (100 * 5) + 1;
+                uint32_t stat_id = (1000 * servant_db_iter->job) + (100 *5) + 1;
                 auto stat_iter = serstat_db_table.find(stat_id);
 
                 move_servant.party_number = 0;
@@ -3286,14 +3337,12 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 }
             });
 
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_servant_inventory += 1;
-            });
+            servant_add_inventory +=1;
 
             user_preregist_servant_table.erase(user_preregist_servant_iter);
         }
 
-        else if (user_mail_iter->mail_type == 2) //몬스터
+        else if (user_mail_iter->mail_type == 2)
         {
             user_preregist_monsters user_preregist_monster_table(_self, _user.value);
             auto user_preregist_monster_iter = user_preregist_monster_table.find(user_mail_iter->type_index);
@@ -3346,14 +3395,12 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_monster.monster.passive_skill.push_back(passive_id);
             });
 
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_monster_inventory += 1;
-            });
+            monster_add_inventory +=1;
 
             user_preregist_monster_table.erase(user_preregist_monster_iter);
         }
 
-        else if (user_mail_iter->mail_type == 3) //아이템
+        else if (user_mail_iter->mail_type == 3)
         {
             user_preregist_items user_preregist_item_table(_self, _user.value);
             auto user_preregist_item_iter = user_preregist_item_table.find(user_mail_iter->type_index);
@@ -3366,6 +3413,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             }
             uint64_t _check_grade = user_preregist_item_iter->grade;
             uint64_t _check_sum = _check_type * 10 + _check_grade;
+
 
             auto equipment_lv_status_db_iter = equipment_lv_status_db_table.find(_check_sum);
             eosio_assert(equipment_lv_status_db_iter != equipment_lv_status_db_table.end(), "mailopen : Not exist equipment_lv_status Data");
@@ -3403,81 +3451,216 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 set_tier_status(move_item.equipment.value, equipitem_db_iter->tier);
             });
 
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_equipment_inventory += 1;
-            });
+            equipment_add_inventory +=1;
             user_preregist_item_table.erase(user_preregist_item_iter);
         }
 
-        else if (user_mail_iter->mail_type == 4) //UTG 및 재화
+        else if (user_mail_iter->mail_type == 4)
         {
-            //아직 미구현
+
         }
         else if (user_mail_iter->mail_type == 5) //UTS
         {
-            std::string temp = "UTS";
-            uts_db uts_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto uts_db_iter = uts_db_table.find(user_mail_iter->type_index);
-            eosio_assert(uts_db_iter != uts_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "servant";
-            nftexchange(uts_db_iter->owner,
-                        uts_db_iter->master,
-                        temp_type,
-                        uts_db_iter->t_idx);
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_servant_inventory += 1;
+            user_servants user_servant_table(_self, _user.value);
+            auto user_servants_iter = user_servant_table.find(user_mail_iter->type_index);
+            eosio_assert(user_servants_iter != user_servant_table.end(), "mailopen : Not eixst mail data NFT");
+            user_servant_table.modify(user_servants_iter, _self, [&](auto &new_data) {
+                new_data.servant.state = object_state::on_inventory;
             });
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, uts_db_iter->idx))
-                .send();
+            servant_add_inventory +=1;
+ 
         }
 
         else if (user_mail_iter->mail_type == 6) //UTM
         {
-            std::string temp = "UTM";
-            utm_db utm_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto utm_db_iter = utm_db_table.find(user_mail_iter->type_index);
-            eosio_assert(utm_db_iter != utm_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "monster";
-            nftexchange(utm_db_iter->owner,
-                        utm_db_iter->master,
-                        temp_type,
-                        utm_db_iter->t_idx);
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_monster_inventory += 1;
+            user_monsters user_monster_table(_self, _user.value);
+            auto user_monster_iter = user_monster_table.find(user_mail_iter->type_index);
+            eosio_assert(user_monster_iter != user_monster_table.end(), "mailopen : Not eixst mail data NFT");
+            user_monster_table.modify(user_monster_iter,_self, [&](auto &move_monster) {
+                move_monster.monster.state = object_state::on_inventory;
             });
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, utm_db_iter->idx))
-                .send();
+
+            monster_add_inventory +=1;
         }
         else if (user_mail_iter->mail_type == 7) //UTI
         {
-            std::string temp = "UTI";
-            uti_db uti_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto uti_db_iter = uti_db_table.find(user_mail_iter->type_index);
-            eosio_assert(uti_db_iter != uti_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "equipment";
-            nftexchange(uti_db_iter->owner, uti_db_iter->master, temp_type, uti_db_iter->t_idx);
-
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.current_equipment_inventory += 1;
+            user_equip_items user_equipment_table(_self, _user.value);
+            auto user_equip_iter = user_equipment_table.find(user_mail_iter->type_index);
+            eosio_assert(user_equip_iter != user_equipment_table.end(), "mailopen : Not eixst mail data NFT");
+            user_equipment_table.modify(user_equip_iter, _self, [&](auto &move_item) {
+                move_item.equipment.state = object_state::on_inventory;
             });
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, uti_db_iter->idx))
-                .send();
+
+            equipment_add_inventory +=1;
+
         }
-        else if(user_mail_iter->mail_type == 8 || user_mail_iter->mail_type ==9 || user_mail_iter->mail_type ==10 || user_mail_iter->mail_type ==11 ||user_mail_iter->mail_type ==12) 
-        {            
-            get_mail(_user, user_mail_iter->type_index);                             
+        else if (user_mail_iter->mail_type == 8)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
+
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+
+            if (mail_reward_list_iter->type == 1) //서번트
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
+                user_servants user_servant_table(_self, _user.value);
+                user_servant_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_servant_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_servant_table.available_primary_key();
+                    }
+
+                    new_data.servant.id = atoll(value_list[0].c_str());
+
+                    auto servant_db_iter = get_servant_db(new_data.servant.id);
+
+                    new_data.party_number = 0;
+                    new_data.servant.state = object_state::on_inventory;
+                    new_data.servant.exp = 0;
+                    new_data.servant.level = 1;
+                    new_data.servant.grade = 5;
+                    new_data.servant.status.basic_str = atoi(value_list[1].c_str());
+                    new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
+                    new_data.servant.status.basic_int = atoi(value_list[3].c_str());
+                    new_data.servant.equip_slot.resize(3);
+                    new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
+                    new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
+                });
+
+                servant_add_inventory +=1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 9)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
+
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 2)  
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
+                user_monsters user_monster_table(_self, _user.value);
+                user_monster_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_monster_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_monster_table.available_primary_key();
+                    }
+
+                    new_data.monster.id = atoll(value_list[0].c_str());
+                    auto monster_db_iter = get_monster_db(new_data.monster.id);
+
+                    new_data.party_number = 0;
+                    new_data.monster.state = object_state::on_inventory;
+                    new_data.monster.exp = 0;
+                    new_data.monster.level = 1;
+                    new_data.monster.type = monster_db_iter->type;
+                    new_data.monster.tribe = monster_db_iter->tribe;
+                    new_data.monster.grade = atoi(value_list[1].c_str());
+                    new_data.monster.status.basic_str = atoi(value_list[2].c_str());
+                    new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
+                    new_data.monster.status.basic_int = atoi(value_list[4].c_str());
+                    new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
+                });
+
+                monster_add_inventory +=1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 10)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
+
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 3) 
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
+                user_equip_items user_equip_items_table(_self, _user.value);
+                user_equip_items_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_equip_items_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_equip_items_table.available_primary_key();
+                    }
+
+                    new_data.equipment.id = atoll(value_list[0].c_str());
+                    equipment_db my_table(_self, _self.value);
+                    auto equipment_db_iter = my_table.find(new_data.equipment.id);
+                    eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
+                    //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
+                    new_data.equipment.state = object_state::on_inventory;
+                    new_data.equipment.type = equipment_db_iter->type;
+                    new_data.equipment.tier = equipment_db_iter->tier;
+                    new_data.equipment.job = equipment_db_iter->job;
+                    new_data.equipment.grade = atoi(value_list[1].c_str());
+                    new_data.equipment.upgrade = 0;
+                    new_data.equipment.value = atoi(value_list[2].c_str());
+                });
+
+                equipment_add_inventory +=1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 11)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
+
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 4)  
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
+                add_inventory += sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 12)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
+
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
+            daily_check_result.amount = atoll(mail_reward_list_iter->body.c_str());
+            utg_get_amount += daily_check_result.amount;
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+                .send();
+            mail_reward_list_table.erase(mail_reward_list_iter);
         }
         user_mail_table.erase(user_mail_iter);
         mail_erase_count +=1;
     }
-    
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+
+    user_logs_table.modify(user_log_iter, _self, [&](auto &update_log) {
         if (update_log.mail - mail_erase_count <= 0)
         {
             update_log.mail = 0;
@@ -3486,155 +3669,163 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         {
             update_log.mail -= mail_erase_count;
         }
+        update_log.get_utg += utg_get_amount;
+    });
+
+    user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+        change_auth_user.current_servant_inventory += servant_add_inventory;
+        change_auth_user.current_monster_inventory += monster_add_inventory;
+        change_auth_user.current_equipment_inventory += equipment_add_inventory;
+        change_auth_user.current_item_inventory += add_inventory;
     });
 }
 
 
 
-void battletest::get_mail(eosio::name _user,uint32_t _type_index)
-{
-    user_logs user_logs_table(_self, _self.value);
-    auto user_logs_iter = user_logs_table.find(_user.value);
-    eosio_assert(user_logs_iter != user_logs_table.end(), "get mail : Not exist user_log");
+//void battletest::get_mail(eosio::name _user, uint32_t _type_index)
+//{
+ //   user_logs user_logs_table(_self, _self.value);
+ //   auto user_logs_iter = user_logs_table.find(_user.value);
+ //   eosio_assert(user_logs_iter != user_logs_table.end(), "get mail : Not exist user_log");
 
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter != user_auth_table.end(), "get mail : Empty user_auth Table / Not Yet Signup");
+//     user_auths user_auth_table(_self, _self.value);
+//     auto user_auth_iter = user_auth_table.find(_user.value);
+//     eosio_assert(user_auth_iter != user_auth_table.end(), "get mail : Empty user_auth Table / Not Yet Signup");
    
-    mail_reward_list mail_reward_list_table(_self, _user.value);
-    auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
-    eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
+//     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
 
-    std::vector<size_t> size_list;
-    std::vector<std::string> value_list;
-    uint32_t add_inventory = 0; 
-    if (mail_reward_list_iter->type == 1) //서번트
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
-        user_servants user_servant_table(_self, _user.value);
-        user_servant_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_servant_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_servant_table.available_primary_key();
-            }
+//     std::vector<size_t> size_list;
+//     std::vector<std::string> value_list;
+//     uint32_t add_inventory = 0; 
+//     if (mail_reward_list_iter->type == 1) //서번트
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
+//         user_servants user_servant_table(_self, _user.value);
+//         user_servant_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_servant_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_servant_table.available_primary_key();
+//             }
 
-            new_data.servant.id = atoll(value_list[0].c_str());
+//             new_data.servant.id = atoll(value_list[0].c_str());
 
-            auto servant_db_iter = get_servant_db(new_data.servant.id);
+//             auto servant_db_iter = get_servant_db(new_data.servant.id);
 
-            new_data.party_number = 0;
-            new_data.servant.state = object_state::on_inventory;
-            new_data.servant.exp = 0;
-            new_data.servant.level = 1;
-            new_data.servant.grade = 5;
-            new_data.servant.status.basic_str = atoi(value_list[1].c_str());
-            new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
-            new_data.servant.status.basic_int = atoi(value_list[3].c_str());
-            new_data.servant.equip_slot.resize(3);            
-            new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
-            new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
-        });
+//             new_data.party_number = 0;
+//             new_data.servant.state = object_state::on_inventory;
+//             new_data.servant.exp = 0;
+//             new_data.servant.level = 1;
+//             new_data.servant.grade = 5;
+//             new_data.servant.status.basic_str = atoi(value_list[1].c_str());
+//             new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
+//             new_data.servant.status.basic_int = atoi(value_list[3].c_str());
+//             new_data.servant.equip_slot.resize(3);            
+//             new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
+//             new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_servant_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 2) //몬스터
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
-        user_monsters user_monster_table(_self, _user.value);
-        user_monster_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_monster_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_monster_table.available_primary_key();
-            }
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_servant_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 2) //몬스터
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
+//         user_monsters user_monster_table(_self, _user.value);
+//         user_monster_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_monster_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_monster_table.available_primary_key();
+//             }
 
-            new_data.monster.id = atoll(value_list[0].c_str());
-            auto monster_db_iter = get_monster_db(new_data.monster.id);
+//             new_data.monster.id = atoll(value_list[0].c_str());
+//             auto monster_db_iter = get_monster_db(new_data.monster.id);
 
-            new_data.party_number = 0;
-            new_data.monster.state = object_state::on_inventory;
-            new_data.monster.exp = 0;
-            new_data.monster.level = 1;
-            new_data.monster.type = monster_db_iter->type;
-            new_data.monster.tribe = monster_db_iter->tribe;
-            new_data.monster.grade =  atoi(value_list[1].c_str());
-            new_data.monster.status.basic_str = atoi(value_list[2].c_str());
-            new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
-            new_data.monster.status.basic_int = atoi(value_list[4].c_str());       
-            new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
-        });
+//             new_data.party_number = 0;
+//             new_data.monster.state = object_state::on_inventory;
+//             new_data.monster.exp = 0;
+//             new_data.monster.level = 1;
+//             new_data.monster.type = monster_db_iter->type;
+//             new_data.monster.tribe = monster_db_iter->tribe;
+//             new_data.monster.grade =  atoi(value_list[1].c_str());
+//             new_data.monster.status.basic_str = atoi(value_list[2].c_str());
+//             new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
+//             new_data.monster.status.basic_int = atoi(value_list[4].c_str());       
+//             new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_monster_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 3) //장비
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
-        user_equip_items user_equip_items_table(_self, _user.value);
-        user_equip_items_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_equip_items_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_equip_items_table.available_primary_key();
-            }
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_monster_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 3) //장비
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
+//         user_equip_items user_equip_items_table(_self, _user.value);
+//         user_equip_items_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_equip_items_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_equip_items_table.available_primary_key();
+//             }
 
-            new_data.equipment.id = atoll(value_list[0].c_str());
-            equipment_db my_table(_self, _self.value);
-            auto equipment_db_iter = my_table.find(new_data.equipment.id);
-            eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
-            //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
-            new_data.equipment.state = object_state::on_inventory;
-            new_data.equipment.type = equipment_db_iter->type;
-            new_data.equipment.tier = equipment_db_iter->tier;
-            new_data.equipment.job = equipment_db_iter->job;
-            new_data.equipment.grade = atoi(value_list[1].c_str());
-            new_data.equipment.upgrade = 0;
-            new_data.equipment.value = atoi(value_list[2].c_str());
-        });
+//             new_data.equipment.id = atoll(value_list[0].c_str());
+//             equipment_db my_table(_self, _self.value);
+//             auto equipment_db_iter = my_table.find(new_data.equipment.id);
+//             eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
+//             //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
+//             new_data.equipment.state = object_state::on_inventory;
+//             new_data.equipment.type = equipment_db_iter->type;
+//             new_data.equipment.tier = equipment_db_iter->tier;
+//             new_data.equipment.job = equipment_db_iter->job;
+//             new_data.equipment.grade = atoi(value_list[1].c_str());
+//             new_data.equipment.upgrade = 0;
+//             new_data.equipment.value = atoi(value_list[2].c_str());
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_equipment_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 4) //잡템
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
-        add_inventory = sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_equipment_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 4) //잡템
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
+//         add_inventory = sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_item_inventory += add_inventory;
-        });
-    }
-    else //UTG
-    {
-        asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
-        daily_check_result.amount = atoll(mail_reward_list_iter->body.c_str());
-        action(permission_level{get_self(), "active"_n},
-               get_self(), "transfer"_n,
-               std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
-            .send();
-        user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
-            update_data.get_utg += daily_check_result.amount;
-        });
-    }
-    mail_reward_list_table.erase(mail_reward_list_iter);
-}
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_item_inventory += add_inventory;
+//         });
+//     }
+//     else //UTG
+//     {
+//         asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
+//         daily_check_result.amount = atoll(mail_reward_list_iter->body.c_str());
+//         action(permission_level{get_self(), "active"_n},
+//                get_self(), "transfer"_n,
+//                std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+//             .send();
+//         user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
+//             update_data.get_utg += daily_check_result.amount;
+//         });
+//     }
+//     mail_reward_list_table.erase(mail_reward_list_iter);
+// }
 
 // eosio.token recipient
 // memo description spec
@@ -3674,8 +3865,8 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
     require_auth(transfer_data.from);
-    eosio_assert(transfer_data.to == receiver, "Eos Transfer : Reciver Miss Match"); //to 랑 receiver 가 같을 경우만 <- receiver 조작에 대한 예외 처리
-    eosio_assert(transfer_data.from == sender, "Eos Transfer : Sender Miss Match");  //from 이랑 sender 가 같을 경우만 <- sender 조작에 대한 예외처리
+    eosio_assert(transfer_data.to == receiver, "Eos Transfer : Reciver Miss Match");
+    eosio_assert(transfer_data.from == sender, "Eos Transfer : Sender Miss Match");
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Eos Transfer : Only Accepts EOS");
     eosio_assert(transfer_data.quantity.is_valid(), "Eos Transfer : Invalid Token Transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Eos Transfer : Quantity Must Be Positive");
@@ -3684,7 +3875,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
     size_t l_center = transfer_data.memo.find(':');
 
     res.action = transfer_data.memo.substr(0, l_center);
-    if (transfer_data.from == _self)        //컨트랙트에서 돈이 나갈 경우
+    if (transfer_data.from == _self)
     {
         bool flag = false;
         if(transfer_data.to == "eosio.ram"_n)
@@ -3707,11 +3898,11 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
             eosio_assert(system_master_iter != system_master_table.end(), "Eos Transfer : Impossible Send EOS");
         }
     }
-    else        //다른 사람이 보낼 경우
+    else
     {
         system_master system_master_table(_self, _self.value);
         auto system_master_iter = system_master_table.find(transfer_data.from.value);
-        if (system_master_iter == system_master_table.end())    //보낸 계정이 마스터 계정이 아닌경우
+        if (system_master_iter == system_master_table.end())
         {
             system_check(transfer_data.from);
             if (res.action == "gacha")
@@ -3835,7 +4026,7 @@ uint32_t battletest::get_servant_index(uint32_t _job, uint32_t _body, uint32_t _
 uint32_t battletest::change_servant_status(uint32_t _status_grade)
 {
     servant_lv_status_db servant_lv_status_db_table(_self, _self.value);
-    auto status_iter = servant_lv_status_db_table.find(5); //서번트는 등급 고정
+    auto status_iter = servant_lv_status_db_table.find(5);
     int a = 0;
     for (uint32_t i = 0; i < status_iter->change_status.size(); ++i)
     {
