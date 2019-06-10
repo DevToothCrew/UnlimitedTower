@@ -20,14 +20,13 @@
 #define PAIR_SLOT               5
 
 //============Gacha==============//
-//최대값의 + 1로 지정해야한다
 #define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
 #define EQUIP_GACHA_ID_START    30000
 #define SERVANT_GACHA_ID_START  10000
 #define ITEM_GACHA_ID_START     60000
-#define SERVANT_JOB_COUNT       5
+#define SERVANT_JOB_COUNT       4
 #define HEAD_COUNT              4
 #define HAIR_COUNT              4
 #define BODY_COUNT              3
@@ -51,15 +50,14 @@
 #define ITEM_UPGRADE_RATE     100
 
 //============reward============//
-#define TIER_1_MAX_COUNT        9
-#define TIER_2_MAX_COUNT        9
-#define TIER_3_MAX_COUNT        9
-#define TIER_4_MAX_COUNT        9
+#define TIER_1_MAX_COUNT        8
+#define TIER_2_MAX_COUNT        8
+#define TIER_3_MAX_COUNT        8
+#define TIER_4_MAX_COUNT        8
 
 //==========change_money=======//
 #define ORIGINRAL_MONEY         10000
-#define TEST_MONEY              10000
-#define UTG                     10000
+#define TEST_MONEY              1
 
 using namespace std;
 using namespace eosio;

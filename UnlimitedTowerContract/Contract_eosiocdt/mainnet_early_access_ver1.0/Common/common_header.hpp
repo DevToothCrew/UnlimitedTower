@@ -20,13 +20,14 @@
 #define PAIR_SLOT               5
 
 //============Gacha==============//
+//�ִ밪�� + 1�� �����ؾ��Ѵ�
 #define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
 #define EQUIP_GACHA_ID_START    30000
 #define SERVANT_GACHA_ID_START  10000
 #define ITEM_GACHA_ID_START     60000
-#define SERVANT_JOB_COUNT       4
+#define SERVANT_JOB_COUNT       5
 #define HEAD_COUNT              4
 #define HAIR_COUNT              4
 #define BODY_COUNT              3
@@ -50,10 +51,15 @@
 #define ITEM_UPGRADE_RATE     100
 
 //============reward============//
-#define TIER_1_MAX_COUNT        8
-#define TIER_2_MAX_COUNT        8
-#define TIER_3_MAX_COUNT        8
-#define TIER_4_MAX_COUNT        8
+#define TIER_1_MAX_COUNT        9
+#define TIER_2_MAX_COUNT        9
+#define TIER_3_MAX_COUNT        9
+#define TIER_4_MAX_COUNT        9
+
+//==========change_money=======//
+#define ORIGINRAL_MONEY         10000
+#define TEST_MONEY              10000
+#define UTG                     10000
 
 using namespace std;
 using namespace eosio;
