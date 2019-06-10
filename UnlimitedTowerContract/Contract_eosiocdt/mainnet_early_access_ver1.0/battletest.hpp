@@ -965,7 +965,7 @@ CONTRACT battletest : public contract
 
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
-    void get_mail(eosio::name _user, uint32_t _type_index);
+    //void get_mail(eosio::name _user, uint32_t _type_index);
     
     void gold_gacha_item_id(eosio::name _user, uint64_t _seed);
 
@@ -1517,7 +1517,7 @@ CONTRACT battletest : public contract
 
 #pragma region tower_system
 
-    void nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
+    uint64_t nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index,uint64_t _icon_id);
 
     //-------------------------------------------------------------------------------//

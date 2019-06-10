@@ -2139,7 +2139,7 @@ ACTION battletest::dbinit(std::string _table)
     permission_level master_auth;
     master_auth.actor = system_master_iter->master;
     master_auth.permission = "active"_n;
-    require_auth(master_auth);
+    require_auth(_self);
 
     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
@@ -3222,6 +3222,8 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
 {
     require_auth(NFT_CONTRACT);
 
+    uint64_t index = 0 ;
+
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "nftmail : Empty Log Table / Not Yet Signup");
@@ -3241,17 +3243,59 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
         if (_type == "servant")
         {
             change_type = 5;
+            std::string temp = "UTS";
+            uts_db uts_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto uts_db_iter = uts_db_table.find(_token_index);
+            eosio_assert(uts_db_iter != uts_db_table.end(), "nftmail : end table error");
+            index = nftexchange(uts_db_iter->owner,
+                        uts_db_iter->master,
+                        _type,
+                        uts_db_iter->t_idx);
+
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, uts_db_iter->idx))
+                .send();
         }
         else if (_type == "monster")
         {
             change_type = 6;
+            std::string temp = "UTM";
+            utm_db utm_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto utm_db_iter = utm_db_table.find(_token_index);
+            eosio_assert(utm_db_iter != utm_db_table.end(), "nftmail : end table error");
+            std::string temp_type = "monster";
+            index = nftexchange(utm_db_iter->owner,
+                        utm_db_iter->master,
+                        temp_type,
+                        utm_db_iter->t_idx);
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, utm_db_iter->idx))
+                .send();
         }
         else if (_type == "item")
         {
             change_type = 7;
+            std::string temp = "UTI";
+            uti_db uti_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
+            auto uti_db_iter = uti_db_table.find(_token_index);
+            eosio_assert(uti_db_iter != uti_db_table.end(), "nftmail : end table error");
+            std::string temp_type = "equipment";
+            index = nftexchange(uti_db_iter->owner, uti_db_iter->master, temp_type, uti_db_iter->t_idx);
+
+            action(permission_level{get_self(), "active"_n},
+                   NFT_CONTRACT, "deletedata"_n,
+                   std::make_tuple(temp, uti_db_iter->idx))
+                .send();
         }
+        else
+        {
+            eosio_assert(1 == 0, "nftmail : Wrong Type Token");
+        }
+        eosio_assert(index != 0, "nftmail : Wrong Index");
         move_mail.mail_type = change_type;
-        move_mail.type_index = _token_index;
+        move_mail.type_index = index;
         move_mail.count = 1;
         move_mail.icon_id = _icon_id;
         move_mail.get_time = now();
@@ -3486,58 +3530,38 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         }
         else if (user_mail_iter->mail_type == 5) //UTS
         {
-            std::string temp = "UTS";
-            uts_db uts_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto uts_db_iter = uts_db_table.find(user_mail_iter->type_index);
-            eosio_assert(uts_db_iter != uts_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "servant";
-            nftexchange(uts_db_iter->owner,
-                        uts_db_iter->master,
-                        temp_type,
-                        uts_db_iter->t_idx);
-
+            user_servants user_servant_table(_self, _user.value);
+            auto user_servants_iter = user_servant_table.find(user_mail_iter->type_index);
+            eosio_assert(user_servants_iter != user_servant_table.end(), "mailopen : Not eixst mail data NFT");
+            user_servant_table.modify(user_servants_iter, _self, [&](auto &new_data) {
+                new_data.servant.state = object_state::on_inventory;
+            });
             servant_add_inventory +=1;
-
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, uts_db_iter->idx))
-                .send();
+ 
         }
 
         else if (user_mail_iter->mail_type == 6) //UTM
         {
-            std::string temp = "UTM";
-            utm_db utm_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto utm_db_iter = utm_db_table.find(user_mail_iter->type_index);
-            eosio_assert(utm_db_iter != utm_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "monster";
-            nftexchange(utm_db_iter->owner,
-                        utm_db_iter->master,
-                        temp_type,
-                        utm_db_iter->t_idx);
+            user_monsters user_monster_table(_self, _user.value);
+            auto user_monster_iter = user_monster_table.find(user_mail_iter->type_index);
+            eosio_assert(user_monster_iter != user_monster_table.end(), "mailopen : Not eixst mail data NFT");
+            user_monster_table.modify(user_monster_iter,_self, [&](auto &move_monster) {
+                move_monster.monster.state = object_state::on_inventory;
+            });
 
             monster_add_inventory +=1;
-
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, utm_db_iter->idx))
-                .send();
         }
         else if (user_mail_iter->mail_type == 7) //UTI
         {
-            std::string temp = "UTI";
-            uti_db uti_db_table(NFT_CONTRACT, NFT_CONTRACT.value);
-            auto uti_db_iter = uti_db_table.find(user_mail_iter->type_index);
-             eosio_assert(uti_db_iter != uti_db_table.end(), "mailopen : end table error");
-            std::string temp_type = "equipment";
-            nftexchange(uti_db_iter->owner, uti_db_iter->master, temp_type, uti_db_iter->t_idx);
+            user_equip_items user_equipment_table(_self, _user.value);
+            auto user_equip_iter = user_equipment_table.find(user_mail_iter->type_index);
+            eosio_assert(user_equip_iter != user_equipment_table.end(), "mailopen : Not eixst mail data NFT");
+            user_equipment_table.modify(user_equip_iter, _self, [&](auto &move_item) {
+                move_item.equipment.state = object_state::on_inventory;
+            });
 
             equipment_add_inventory +=1;
 
-            action(permission_level{get_self(), "active"_n},
-                   NFT_CONTRACT, "deletedata"_n,
-                   std::make_tuple(temp, uti_db_iter->idx))
-                .send();
         }
         else if (user_mail_iter->mail_type == 8)
         {
@@ -3727,150 +3751,150 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
 
 
 
-void battletest::get_mail(eosio::name _user, uint32_t _type_index)
-{
-    user_logs user_logs_table(_self, _self.value);
-    auto user_logs_iter = user_logs_table.find(_user.value);
-    eosio_assert(user_logs_iter != user_logs_table.end(), "get mail : Not exist user_log");
+//void battletest::get_mail(eosio::name _user, uint32_t _type_index)
+//{
+ //   user_logs user_logs_table(_self, _self.value);
+ //   auto user_logs_iter = user_logs_table.find(_user.value);
+ //   eosio_assert(user_logs_iter != user_logs_table.end(), "get mail : Not exist user_log");
 
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter != user_auth_table.end(), "get mail : Empty user_auth Table / Not Yet Signup");
+//     user_auths user_auth_table(_self, _self.value);
+//     auto user_auth_iter = user_auth_table.find(_user.value);
+//     eosio_assert(user_auth_iter != user_auth_table.end(), "get mail : Empty user_auth Table / Not Yet Signup");
    
-    mail_reward_list mail_reward_list_table(_self, _user.value);
-    auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
-    eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
+//     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
 
-    std::vector<size_t> size_list;
-    std::vector<std::string> value_list;
-    uint32_t add_inventory = 0; 
-    if (mail_reward_list_iter->type == 1) //서번트
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
-        user_servants user_servant_table(_self, _user.value);
-        user_servant_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_servant_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_servant_table.available_primary_key();
-            }
+//     std::vector<size_t> size_list;
+//     std::vector<std::string> value_list;
+//     uint32_t add_inventory = 0; 
+//     if (mail_reward_list_iter->type == 1) //서번트
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
+//         user_servants user_servant_table(_self, _user.value);
+//         user_servant_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_servant_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_servant_table.available_primary_key();
+//             }
 
-            new_data.servant.id = atoll(value_list[0].c_str());
+//             new_data.servant.id = atoll(value_list[0].c_str());
 
-            auto servant_db_iter = get_servant_db(new_data.servant.id);
+//             auto servant_db_iter = get_servant_db(new_data.servant.id);
 
-            new_data.party_number = 0;
-            new_data.servant.state = object_state::on_inventory;
-            new_data.servant.exp = 0;
-            new_data.servant.level = 1;
-            new_data.servant.grade = 5;
-            new_data.servant.status.basic_str = atoi(value_list[1].c_str());
-            new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
-            new_data.servant.status.basic_int = atoi(value_list[3].c_str());
-            new_data.servant.equip_slot.resize(3);            
-            new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
-            new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
-        });
+//             new_data.party_number = 0;
+//             new_data.servant.state = object_state::on_inventory;
+//             new_data.servant.exp = 0;
+//             new_data.servant.level = 1;
+//             new_data.servant.grade = 5;
+//             new_data.servant.status.basic_str = atoi(value_list[1].c_str());
+//             new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
+//             new_data.servant.status.basic_int = atoi(value_list[3].c_str());
+//             new_data.servant.equip_slot.resize(3);            
+//             new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
+//             new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_servant_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 2) //몬스터
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
-        user_monsters user_monster_table(_self, _user.value);
-        user_monster_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_monster_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_monster_table.available_primary_key();
-            }
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_servant_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 2) //몬스터
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
+//         user_monsters user_monster_table(_self, _user.value);
+//         user_monster_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_monster_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_monster_table.available_primary_key();
+//             }
 
-            new_data.monster.id = atoll(value_list[0].c_str());
-            auto monster_db_iter = get_monster_db(new_data.monster.id);
+//             new_data.monster.id = atoll(value_list[0].c_str());
+//             auto monster_db_iter = get_monster_db(new_data.monster.id);
 
-            new_data.party_number = 0;
-            new_data.monster.state = object_state::on_inventory;
-            new_data.monster.exp = 0;
-            new_data.monster.level = 1;
-            new_data.monster.type = monster_db_iter->type;
-            new_data.monster.tribe = monster_db_iter->tribe;
-            new_data.monster.grade =  atoi(value_list[1].c_str());
-            new_data.monster.status.basic_str = atoi(value_list[2].c_str());
-            new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
-            new_data.monster.status.basic_int = atoi(value_list[4].c_str());       
-            new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
-        });
+//             new_data.party_number = 0;
+//             new_data.monster.state = object_state::on_inventory;
+//             new_data.monster.exp = 0;
+//             new_data.monster.level = 1;
+//             new_data.monster.type = monster_db_iter->type;
+//             new_data.monster.tribe = monster_db_iter->tribe;
+//             new_data.monster.grade =  atoi(value_list[1].c_str());
+//             new_data.monster.status.basic_str = atoi(value_list[2].c_str());
+//             new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
+//             new_data.monster.status.basic_int = atoi(value_list[4].c_str());       
+//             new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_monster_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 3) //장비
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
-        user_equip_items user_equip_items_table(_self, _user.value);
-        user_equip_items_table.emplace(_self, [&](auto &new_data) {
-            uint32_t first_index = user_equip_items_table.available_primary_key();
-            if (first_index == 0)
-            {
-                new_data.index = 1;
-            }
-            else
-            {
-                new_data.index = user_equip_items_table.available_primary_key();
-            }
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_monster_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 3) //장비
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
+//         user_equip_items user_equip_items_table(_self, _user.value);
+//         user_equip_items_table.emplace(_self, [&](auto &new_data) {
+//             uint32_t first_index = user_equip_items_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 new_data.index = 1;
+//             }
+//             else
+//             {
+//                 new_data.index = user_equip_items_table.available_primary_key();
+//             }
 
-            new_data.equipment.id = atoll(value_list[0].c_str());
-            equipment_db my_table(_self, _self.value);
-            auto equipment_db_iter = my_table.find(new_data.equipment.id);
-            eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
-            //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
-            new_data.equipment.state = object_state::on_inventory;
-            new_data.equipment.type = equipment_db_iter->type;
-            new_data.equipment.tier = equipment_db_iter->tier;
-            new_data.equipment.job = equipment_db_iter->job;
-            new_data.equipment.grade = atoi(value_list[1].c_str());
-            new_data.equipment.upgrade = 0;
-            new_data.equipment.value = atoi(value_list[2].c_str());
-        });
+//             new_data.equipment.id = atoll(value_list[0].c_str());
+//             equipment_db my_table(_self, _self.value);
+//             auto equipment_db_iter = my_table.find(new_data.equipment.id);
+//             eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
+//             //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
+//             new_data.equipment.state = object_state::on_inventory;
+//             new_data.equipment.type = equipment_db_iter->type;
+//             new_data.equipment.tier = equipment_db_iter->tier;
+//             new_data.equipment.job = equipment_db_iter->job;
+//             new_data.equipment.grade = atoi(value_list[1].c_str());
+//             new_data.equipment.upgrade = 0;
+//             new_data.equipment.value = atoi(value_list[2].c_str());
+//         });
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_equipment_inventory += 1;
-        });
-    }
-    else if (mail_reward_list_iter->type == 4) //잡템
-    {
-        substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
-        add_inventory = sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_equipment_inventory += 1;
+//         });
+//     }
+//     else if (mail_reward_list_iter->type == 4) //잡템
+//     {
+//         substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
+//         add_inventory = sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
 
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.current_item_inventory += add_inventory;
-        });
-    }
-    else //UTG
-    {
-        asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
-        daily_check_result.amount = atoll(mail_reward_list_iter->body.c_str());
-        action(permission_level{get_self(), "active"_n},
-               get_self(), "transfer"_n,
-               std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
-            .send();
-        user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
-            update_data.get_utg += daily_check_result.amount;
-        });
-    }
-    mail_reward_list_table.erase(mail_reward_list_iter);
-}
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//             change_auth_user.current_item_inventory += add_inventory;
+//         });
+//     }
+//     else //UTG
+//     {
+//         asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
+//         daily_check_result.amount = atoll(mail_reward_list_iter->body.c_str());
+//         action(permission_level{get_self(), "active"_n},
+//                get_self(), "transfer"_n,
+//                std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+//             .send();
+//         user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
+//             update_data.get_utg += daily_check_result.amount;
+//         });
+//     }
+//     mail_reward_list_table.erase(mail_reward_list_iter);
+// }
 
 // eosio.token recipient
 // memo description spec
@@ -9781,162 +9805,82 @@ uint32_t battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32
 
 }
 
-void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
+uint64_t battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
 {
-    require_auth(_owner);
+    uint64_t index = 0 ;
     std::string contents_list;
     if (_type == "servant")
     {
-        if (_owner == _master)
-        {
-            user_servants user_servant_table(_self, _owner.value);
-            auto servant_iter = user_servant_table.find(_master_index);
-            eosio_assert(servant_iter != user_servant_table.end(), "nftexchange : Not Exist Servant");
-            user_servant_table.modify(servant_iter, _self, [&](auto &new_servant) {
-                new_servant.servant.state = object_state::on_inventory;
+        user_servants master_table(_self, _master.value);
+        auto master_iter = master_table.find(_master_index);
+        eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
 
-            });
-        }
-        else
-        {
-            user_servants master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
-
-            user_servants owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_servant) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_servant.index = 1;
-                }
-                else
-                {
-                    new_servant.index = owner_table.available_primary_key();
-                }
-                new_servant.party_number = 0;
-                new_servant.servant = master_iter->servant;
-                new_servant.servant.state = object_state::on_inventory;
-
-            });
-            // user_auths user_auths_table(_self, _self.value);
-            // auto user_auths_iter = user_auths_table.find(_master.value);
-            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-            //     if (delete_index.current_servant_inventory <= 0)
-            //     {
-            //         delete_index.current_servant_inventory = 0;
-            //     }
-            //     else
-            //     {
-            //         delete_index.current_servant_inventory -= 1;
-            //     }
-            // });
-            master_table.erase(master_iter);
-        }
-
+        user_servants owner_table(_self, _owner.value);
+        owner_table.emplace(_self, [&](auto &new_servant) {
+            uint32_t first_index = owner_table.available_primary_key();
+            if (first_index == 0)
+            {
+                new_servant.index = 1;
+            }
+            else
+            {
+                new_servant.index = owner_table.available_primary_key();
+            }
+            new_servant.party_number = 0;
+            new_servant.servant = master_iter->servant;
+            index = new_servant.index;
+        });
+        master_table.erase(master_iter);
     }
-    else if(_type == "monster")
+    else if (_type == "monster")
     {
-        if (_owner == _master)
-        {
-            user_monsters user_monster_table(_self, _owner.value);
-            auto monster_iter = user_monster_table.find(_master_index);
-            eosio_assert(monster_iter != user_monster_table.end(), "nftexchange : Not Exist Monster");
-            user_monster_table.modify(monster_iter, _self, [&](auto &new_monster) {
-                new_monster.monster.state = object_state::on_inventory;
+        user_monsters master_table(_self, _master.value);
+        auto master_iter = master_table.find(_master_index);
+        eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 2");
 
-            });
-        }
-        else
-        {
-            user_monsters master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(),"nftexchange : Wrong Master Index 2");
-
-            user_monsters owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_monster) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_monster.index = 1;
-                }
-                else
-                {
-                    new_monster.index = owner_table.available_primary_key();
-                }
-                new_monster.monster = master_iter->monster;
-                new_monster.monster.state = object_state::on_inventory;
-
-            });
-
-            // user_auths user_auths_table(_self, _self.value);
-            // auto user_auths_iter = user_auths_table.find(_master.value);
-            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-            //     if (delete_index.current_monster_inventory <= 0)
-            //     {
-            //         delete_index.current_monster_inventory = 0;
-            //     }
-            //     else
-            //     {
-            //         delete_index.current_monster_inventory -= 1;
-            //     }
-            // });
-            master_table.erase(master_iter);
-        }
+        user_monsters owner_table(_self, _owner.value);
+        owner_table.emplace(_self, [&](auto &new_monster) {
+            uint32_t first_index = owner_table.available_primary_key();
+            if (first_index == 0)
+            {
+                new_monster.index = 1;
+            }
+            else
+            {
+                new_monster.index = owner_table.available_primary_key();
+            }
+            new_monster.monster = master_iter->monster;
+            index = new_monster.index;
+        });
+        master_table.erase(master_iter);
     }
-    else if(_type == "equipment")
+    else if (_type == "equipment")
     {
-        if (_owner == _master)
-        {
-            user_equip_items user_equipment_table(_self, _owner.value);
-            auto equipment_iter = user_equipment_table.find(_master_index);
-            eosio_assert(equipment_iter != user_equipment_table.end(), "nftexchange : Not Exist equipment");
-            user_equipment_table.modify(equipment_iter, _self, [&](auto &new_equip) {
-                new_equip.equipment.state = object_state::on_inventory;
+        user_equip_items master_table(_self, _master.value);
+        auto master_iter = master_table.find(_master_index);
+        eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 3");
 
-            });
-        }
-        else
-        {
-            user_equip_items master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 3");
-
-            user_equip_items owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_equip) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_equip.index = 1;
-                }
-                else
-                {
-                    new_equip.index = owner_table.available_primary_key();
-                }
-                new_equip.equipment = master_iter->equipment;
-                new_equip.equipment.state = object_state::on_inventory;
-
-
-            });
-            // user_auths user_auths_table(_self, _self.value);
-            // auto user_auths_iter = user_auths_table.find(_master.value);
-            // user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-            //     if (delete_index.current_equipment_inventory <= 0)
-            //     {
-            //         delete_index.current_equipment_inventory = 0;
-            //     }
-            //     else
-            //     {
-            //         delete_index.current_equipment_inventory -= 1;
-            //     }
-            // });
-            master_table.erase(master_iter);
-        }
+        user_equip_items owner_table(_self, _owner.value);
+        owner_table.emplace(_self, [&](auto &new_equip) {
+            uint32_t first_index = owner_table.available_primary_key();
+            if (first_index == 0)
+            {
+                new_equip.index = 1;
+            }
+            else
+            {
+                new_equip.index = owner_table.available_primary_key();
+            }
+            new_equip.equipment = master_iter->equipment;
+            index = new_equip.index;
+        });
+        master_table.erase(master_iter);
     }
     else
     {
         eosio_assert(1 == 0 ,"nftexchange : Wrong Type Token");
     }
+    return index;
 }
 
 // ACTION battletest::chat(name _user, asset _price, string _text)
