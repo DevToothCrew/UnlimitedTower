@@ -1232,59 +1232,48 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Write log : Log Table Empty / Not yet signup");
 
+    gold_logs gold_logs_table(_self, _self.value);
+    auto gold_logs_iter = gold_logs_table.find(_user.value);
+    eosio_assert(gold_logs_iter != gold_logs_table.end(), "Write log : Gold Log Table Empty / Not yet signup");
+
     result_info result;
 
     result.index = _gacha_index;
 
-    if (_gold_type == 1) // EOS
+    uint32_t servant_add_inventory = 0;
+    uint32_t monster_add_inventory = 0;
+    uint32_t equipment_add_inventory = 0;
+    uint32_t item_add_inventory = 0;
+
+    uint32_t log_servant_num = 0;
+    uint32_t log_monster_num = 0;
+    uint32_t log_equip_num = 0;
+    uint32_t log_item_num = 0;
+    uint32_t log_gacha_num = 0;
+    uint32_t log_mail_count = 0;
+
+    if (_gold_type == use_money_type::EOS_GACHA) // EOS 가차
     {
-        if (_gacha_type == 1)
+        if (_gacha_type == 1) //서번트
         {
             result.type = result::servant;
-
-            user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-                update_log.servant_num += 1;
-                update_log.gacha_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_servant_inventory += _inventory_count;
-            });
+            log_gacha_num += 1;
+            log_servant_num += 1;
+            servant_add_inventory += 1;
         }
         else if (_gacha_type == 2)
         {
             result.type = result::monster;
-
-            user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-                update_log.monster_num += 1;
-                update_log.gacha_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_monster_inventory += _inventory_count;
-            });
+            log_gacha_num += 1;
+            log_monster_num += 1;
+            monster_add_inventory += 1;
         }
         else if (_gacha_type == 3)
         {
             result.type = result::equipment;
-
-            user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-                update_log.equipment_num += 1;
-                update_log.gacha_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_equipment_inventory += _inventory_count;
-            });
-        }
-        else if (_gacha_type == 4)
-        {
-            result.type = result::item;
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_item_inventory += _inventory_count;
-                
-            });
+            log_gacha_num += 1;
+            log_equip_num += 1;
+            equipment_add_inventory += 1;
         }
 
         user_gacha_results user_gacha_result_table(_self, _self.value);
@@ -1321,49 +1310,28 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
         }
     }
 
-    else if (_gold_type == 2) //UTG
+    else if (_gold_type == 2) //UTG 가차
     {
-        gold_logs gold_logs_table(_self, _self.value);
-        auto gold_logs_iter = gold_logs_table.find(_user.value);
-        eosio_assert(gold_logs_iter != gold_logs_table.end(), "Write log : Gold Log Table Empty / Not yet signup");
         if (_gacha_type == 2)
         {
             result.type = result::monster;
-
-            gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-                new_data.gold_gacha_num += 1;
-                new_data.monster_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_monster_inventory += _inventory_count;
-            });
+            log_gacha_num += 1;
+            log_monster_num +=1;
+            monster_add_inventory += 1;
         }
         else if (_gacha_type == 3)
         {
             result.type = result::equipment;
-
-            gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-                new_data.gold_gacha_num += 1;
-                new_data.equipment_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_equipment_inventory += _inventory_count;
-            });
+            log_gacha_num += 1;
+            log_equip_num +=1;
+            equipment_add_inventory += 1;
         }
         else if (_gacha_type == 4)
         {
             result.type = result::item;
-
-            gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-                new_data.gold_gacha_num += 1;
-                new_data.item_num += 1;
-            });
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_item_inventory += _inventory_count;
-            });
+            log_gacha_num += 1;
+            log_item_num += 1;
+            item_add_inventory += _inventory_count;
         }
 
         gold_gacha_results gold_gacha_result_table(_self, _self.value);
@@ -1383,7 +1351,6 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
                 new_result.result = result;
             });
         }
-
         auto gold_gacha_total_iter = gold_gacha_total_table.find(_user.value);
         if (gold_gacha_total_iter == gold_gacha_total_table.end())
         {
@@ -1399,78 +1366,76 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
             });
         }
     }
-    else if (_gold_type == 3) //ETC
+    else if (_gold_type == 3) // 패키지
     {
         if (_gacha_type == 1)
         {
-            result.type = result::servant;
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_servant_inventory += _inventory_count;
-            });
+            log_servant_num += 1;
         }
         else if (_gacha_type == 2)
         {
-            result.type = result::monster;
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_monster_inventory += _inventory_count;
-            });
+            log_monster_num += 1;
         }
         else if (_gacha_type == 3)
         {
-            result.type = result::equipment;
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_equipment_inventory += _inventory_count;
-            });
+            log_equip_num += 1;
         }
         else if (_gacha_type == 4)
         {
-            result.type = result::item;
-
-            auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-                update_auth_user.current_item_inventory += _inventory_count;
-            });
+            log_item_num += 1;
         }
-
-        user_gacha_results user_gacha_result_table(_self, _self.value);
-        user_gacha_totals user_gacha_total_table(_self, _self.value);
-
-        auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
-        if (user_gacha_result_iter == user_gacha_result_table.end())
-        {
-            user_gacha_result_table.emplace(_self, [&](auto &new_result) {
-                new_result.user = _user;
-                new_result.result = result;
-            });
-        }
-        else
-        {
-            user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
-                new_result.result = result;
-            });
-        }
-
-        auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
-        if (user_gacha_total_iter == user_gacha_total_table.end())
-        {
-            user_gacha_total_table.emplace(_self, [&](auto &new_result) {
-                new_result.user = _user;
-                new_result.result_list.push_back(result);
-            });
-        }
-        else
-        {
-            user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
-                new_result.result_list.push_back(result);
-            });
-        }
-       
+        log_mail_count += 1;
     }
+    else if (_gold_type == 4) //배틀
+    {
+        if (_gacha_type == 1)
+        {
+            servant_add_inventory += 1;
+            log_servant_num +=1;
+        }
+        else if (_gacha_type == 2)
+        {
+            monster_add_inventory += 1;
+            log_monster_num +=1;
+        }
+        else if (_gacha_type == 3)
+        {
+            equipment_add_inventory += 1;
+            log_equip_num +=1;
+        }
+        else if (_gacha_type == 4)
+        {
+            item_add_inventory += _inventory_count;
+        }
+    }
+    else //이벤트
+    {
+        log_mail_count += 1;
+    }
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.servant_num += log_servant_num;
+        update_log.monster_num += log_monster_num;
+        update_log.equipment_num += log_equip_num;
+        update_log.gacha_num += log_gacha_num;
+        update_log.mail += log_mail_count;
+    });
+
+    gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
+        new_data.gold_gacha_num += log_gacha_num;
+        new_data.monster_num += log_monster_num;
+        new_data.equipment_num += log_equip_num;
+        new_data.item_num += log_item_num;
+    });
+
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+        update_auth_user.current_servant_inventory += servant_add_inventory;
+        update_auth_user.current_monster_inventory += monster_add_inventory;
+        update_auth_user.current_equipment_inventory += equipment_add_inventory;
+        update_auth_user.current_item_inventory += item_add_inventory;
+    });
 }
-
-
+/*
 void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type)
 {
     servant_job_db servant_job_table(_self, _self.value);
@@ -1546,8 +1511,7 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _j
     });
             write_log(_user, _gold_type, 1, result.index, 1);
    
-}
-
+} */
 uint8_t battletest::gacha_servant_head(uint64_t _seed, uint32_t _count)
 {
     head_db head_db_table(_self, _self.value);
@@ -1588,7 +1552,7 @@ uint32_t battletest::change_monster_status(uint32_t _grade, uint32_t _status_gra
     eosio_assert(a != 0, "change_monster_status : Not Exist Status Monster 1");
     return 0;
 }
-
+/*
 void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type)
 {
     uint32_t random_monster_id = 0;
@@ -1682,7 +1646,7 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
     write_log(_user, _gold_type, result::monster, result.index, 1);
 
 }
-
+*/
 uint32_t battletest::change_equipment_statue(uint32_t _grade, uint32_t _status_grade)
 {
     equipment_lv_status_db equipment_lv_status_db_table(_self, _self.value);
@@ -1721,7 +1685,7 @@ void battletest::set_tier_status(uint32_t &_value, uint32_t _tier)
     }
 
 }
-
+/*
 void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type)
 {
     uint32_t random_item_id = 0;
@@ -1989,7 +1953,7 @@ void battletest::get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _co
         update_auth_user.current_item_inventory += add_inventory;
     });
 }
-
+*/
 
 uint64_t battletest::get_user_seed_value(uint64_t _user)
 {
@@ -2030,15 +1994,18 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eo
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
    if (l_gacha_result_type < 333)
    {
-        gacha_servant_id(_user, l_seed, 0, 0, 0, 1);
+       // gacha_servant_id(_user, l_seed, 0, 0, 0, 1);
+		get_servant(_user, 0, 0, 0, 1, l_seed);
    }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
-        gacha_monster_id(_user, l_seed, 0, 0, 1);
+       // gacha_monster_id(_user, l_seed, 0, 0, 1);
+		get_monster(_user, 0, 0, 0, 1, l_seed);
     }
     else
     {
-        gacha_equipment_id(_user, l_seed, 0, 0, 1);
+       // gacha_equipment_id(_user, l_seed, 0, 0, 1);
+		get_equip(_user, 0, 0, 0, 1, l_seed);
     }
 
     servant_random_count = 0;
@@ -2087,15 +2054,18 @@ void battletest::gacha_get_object(eosio::name _user, uint64_t _seed, uint32_t _g
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
         if (l_gacha_result_type < 333)
         {
-            servant_data servant = get_reward_servant(_user, 0, l_seed, 2);
+            //servant_data servant = get_reward_servant(_user, 0, l_seed, 2);
+			get_servant(_user, 0, 0, 0, 3, l_seed);
         }
         else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
-            monster_data monster = get_reward_monster(_user, 0, 0, l_seed, 2);
+           // monster_data monster = get_reward_monster(_user, 0, 0, l_seed, 2);
+			get_monster(_user, 0, 0, 0, 3, l_seed);
         }
         else
         {
-            equip_data equipment = get_reward_equip(_user, 0, 0, l_seed, 2);
+            //equip_data equipment = get_reward_equip(_user, 0, 0, l_seed, 2);
+			get_equip(_user, 0, 0, 0, 3, l_seed);
         }
     }
     else
@@ -2103,11 +2073,13 @@ void battletest::gacha_get_object(eosio::name _user, uint64_t _seed, uint32_t _g
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
         if (l_gacha_result_type > 500)
         {
-            monster_data monster = get_reward_monster(_user, 0, _grade, l_seed, 2);
+            //monster_data monster = get_reward_monster(_user, 0, _grade, l_seed, 2);
+			get_monster(_user, 0, _grade, 0, 3, l_seed);
         }
         else
         {
-            equip_data equipment = get_reward_equip(_user, 0, _grade, l_seed, 2);
+            //equip_data equipment = get_reward_equip(_user, 0, _grade, l_seed, 2);
+			get_equip(_user, 0, _grade, 0, 3, l_seed);
         }
     }
     
@@ -2213,19 +2185,22 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
     if (l_gacha_result_type < 333)
     {
-        gacha_monster_id(_user, l_seed, 0, 3, 2);
+       // gacha_monster_id(_user, l_seed, 0, 3, 2);
+	   get_monster(_user, 0,0,3,2,l_seed);
     }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
-        gacha_equipment_id(_user, l_seed, 0, 3, 2);
+       // gacha_equipment_id(_user, l_seed, 0, 3, 2);
+		 get_equip(_user, 0, 0, 3, 2, l_seed);
     }
     else
     {
-        gold_gacha_item_id(_user, l_seed);
+       // gold_gacha_item_id(_user, l_seed);
+	    get_item(_user, 0, 1, 2, l_seed);
     }
 }
  
-
+/*
 void battletest::gold_gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 1);
@@ -2309,7 +2284,7 @@ void battletest::gold_gacha_item_id(eosio::name _user, uint64_t _seed)
         update_log.gold_gacha_num += 1;
     });
 }
-
+*/
 
 
 bool battletest::check_inventory(eosio::name _user, uint32_t _count)
@@ -4952,56 +4927,593 @@ void battletest::get_reward_utg(eosio::name _user, uint32_t _count)
 }
 
 
-battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type)
+// battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type)
+// {
+//     servant_job_db servant_job_table(_self, _self.value);
+//     uint32_t random_job;
+ 
+//     if(_job ==0)
+//     {
+//         random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, 1);
+//     }
+//     else
+//     {
+//         random_job = _job;
+//     }   
+
+//     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Get Reward Servant : Empty Servant Job / Wrong Servant Job");
+
+//     uint32_t random_body = gacha_servant_body(_seed, 1);
+
+//     gender_db gender_table(_self, _self.value);
+//     uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, 2);
+//     const auto &gender_db_iter = gender_table.get(random_gender, "Get Reward Servant : Empty Servant Gender / Wrong Servant Gender");
+
+//     uint32_t random_head = gacha_servant_head(_seed, 3);
+//     uint32_t random_hair = gacha_servant_hair(_seed, 4);
+
+//     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
+//     // servant_db servant_id_table(_self, _self.value);
+    
+//     // const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Get Reward Servant : Empty Servant ID / Wrong Servnat ID");
+//     auto servant_id_db_iter = get_servant_db(servant_index);
+
+//     serstat_db servant_base_table(_self, _self.value);
+//     uint32_t servant_job_base = (servant_id_db_iter->job * 1000) + (servant_id_db_iter->grade * 100) + 1;
+//     const auto &ser_iter = servant_base_table.get(servant_job_base, "Get Reward Servant : Empty Servant Stat");
+
+//     user_logs user_log_table(_self, _self.value);
+//     auto user_log_iter = user_log_table.find(_user.value);
+
+//     std::string body_data;
+    
+//     servant_data new_data;
+//     user_servants user_servant_table(_self, _user.value);
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     user_mail user_mail_table(_self, _user.value);
+    
+//     servant_info new_servant = get_servant_random_state(servant_id_db_iter->id, _seed, random_job, ser_iter.base_str, ser_iter.base_dex, ser_iter.base_int);
+
+//     if (_type == 1) //일반 보상
+//     {
+//         user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
+//             uint32_t first_index = user_servant_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 update_user_servant_list.index = 1;
+//             }
+//             else
+//             {
+//                 update_user_servant_list.index = user_servant_table.available_primary_key();
+//             }
+//             update_user_servant_list.party_number = EMPTY_PARTY;
+//             update_user_servant_list.servant = new_servant;
+
+//             new_data.index = update_user_servant_list.index;
+//             new_data.party_number = update_user_servant_list.party_number;
+//             new_data.servant = new_servant;
+//         });
+
+//         user_auths auth_user_table(_self, _self.value);
+//         auto auth_user_iter = auth_user_table.find(_user.value);
+
+//         auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+//             update_auth_user.current_servant_inventory += 1;
+//         });
+//     }
+
+//     else if (_type == 2) //메일 보상
+//     {
+//         std::string body_data;
+//         uint32_t mail_reward_first_index = 0;
+//         uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+//         mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+//             if (new_first_index == 0)
+//             {
+//                 update_reward.index = 1;
+//             }
+//             else
+//             {
+//                 update_reward.index = mail_reward_list_table.available_primary_key();
+//             }
+//             update_reward.type = 1;
+            
+//             new_data.index = update_reward.index;
+//             new_data.party_number = EMPTY_PARTY;
+//             new_data.servant = new_servant;
+
+//             body_data += to_string(new_servant.id) + ":",
+//                 body_data += to_string(new_servant.status.basic_str) + ":",
+//                 body_data += to_string(new_servant.status.basic_dex) + ":",
+//                 body_data += to_string(new_servant.status.basic_int) + ":",
+//                 body_data += to_string(new_servant.passive_skill[0]) + ":",
+//                 body_data += to_string(new_servant.active_skill[0]);
+//             update_reward.body = body_data;
+//         });
+
+//         user_mail user_mail_table(_self, _user.value);
+//         user_mail_table.emplace(_self, [&](auto &move_mail) {
+//             uint32_t first_index = user_mail_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 move_mail.mail_index = 1;
+//             }
+//             else
+//             {
+//                 move_mail.mail_index = user_mail_table.available_primary_key();
+//             }
+//             move_mail.mail_type = 8;
+//             move_mail.type_index = new_data.index;
+//             move_mail.count = 1;
+//             move_mail.icon_id = servant_id_db_iter->id;
+//             move_mail.get_time = now();
+//         });
+       
+//     }
+//     user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
+//         add_log.servant_num += 1;
+//         add_log.mail +=1;
+//     });
+//     return new_data;
+
+// }
+
+// battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type)
+// {
+//     uint32_t random_monster_id = 0;
+//     uint32_t gacha_db_index = _id;
+    
+
+//     if (_id == 0)
+//     {
+//         main_gacha_db main_gacha_db_table(_self, _self.value);
+//         auto gacha_db_iter = main_gacha_db_table.find(GACHA_MONSTER_COUNT_ID); //1 ser 2 mon 3 item
+//         eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Get Reward Monster : Empty Max Count");
+//         random_monster_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+//         random_monster_id += MONSTER_GACHA_ID_START;
+
+//         auto gacha_monster_db_iter = main_gacha_db_table.find(random_monster_id);
+//         eosio_assert(gacha_monster_db_iter != main_gacha_db_table.end(), "Get Reward Monster : Empty Gacha ID");
+//         gacha_db_index = gacha_monster_db_iter->db_index;
+        
+//     }
+//     // monster_db monster_id_db_table(_self, _self.value);
+//     // const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Get Reward Monster : Empty Monster ID/ Wrong Monster ID");
+//     auto monster_id_db_iter = get_monster_db(gacha_db_index);
+       
+
+//     // tribe_db tribe_db_table(_self, _self.value);
+//     // const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter->tribe, "Gacha Reward Monster : Empty Monster Tribe");
+//     auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
+
+
+//     user_auths auth_user_table(_self, _self.value);
+//     auto auth_user_iter = auth_user_table.find(_user.value);
+
+//     user_logs user_log_table(_self, _self.value);
+//     auto user_log_iter = user_log_table.find(_user.value);
+
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     user_mail user_mail_table(_self, _user.value);
+
+//     uint64_t random_rate = 0;
+//     uint64_t random_grade = 0;
+
+//    if(_grade == 0)
+//    {
+//        random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
+//        random_grade = get_random_grade(random_rate);
+//    } 
+//    else
+//    {
+//        random_grade = _grade;
+//    }
+   
+//     monster_data new_data;
+
+//     monster_info new_monster = get_monster_random_state(monster_id_db_iter->id,
+//                                                             _seed,
+//                                                             random_grade,
+//                                                             monster_id_db_iter->tribe,
+//                                                             monster_id_db_iter->type,
+//                                                             tribe_iter->base_str,
+//                                                             tribe_iter->base_dex,
+//                                                             tribe_iter->base_int);
+
+//     user_monsters user_monster_table(_self, _user.value);
+//     if(_type ==1)   //일반 보상 
+//     {
+//     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+//         uint32_t first_index = user_monster_table.available_primary_key();
+//         if (first_index == 0)
+//         {
+//             update_user_monster_list.index = 1;
+//         }
+//         else
+//         {
+//             update_user_monster_list.index = user_monster_table.available_primary_key();
+//         }
+
+//         update_user_monster_list.party_number = EMPTY_PARTY;
+//         update_user_monster_list.monster = new_monster;
+
+//         new_data.index = update_user_monster_list.index;
+//         new_data.party_number = update_user_monster_list.party_number;
+//         new_data.monster = new_monster;
+//     });
+
+//     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+//         update_auth_user.current_monster_inventory += 1;
+//     });
+//     }
+//     else if(_type ==2)
+//     {
+//         std::string body_data;
+//         uint32_t mail_reward_first_index = 0;
+//         uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+//         mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+//             if (new_first_index == 0)
+//             {
+//                 update_reward.index = 1;
+//             }
+//             else
+//             {
+//                 update_reward.index = mail_reward_list_table.available_primary_key();
+//             }
+//             update_reward.type = 2; //몬스터 2
+
+//             new_data.index = update_reward.index;
+//             new_data.party_number = EMPTY_PARTY;
+//             new_data.monster = new_monster;
+
+//             body_data += to_string(new_monster.id) + ":",
+//                 body_data += to_string(new_monster.grade) + ":",
+//                 body_data += to_string(new_monster.status.basic_str) + ":",
+//                 body_data += to_string(new_monster.status.basic_dex) + ":",
+//                 body_data += to_string(new_monster.status.basic_int) + ":",
+//                 body_data += to_string(new_monster.passive_skill[0]) ;
+
+//             update_reward.body = body_data;
+//         });
+
+//         user_mail user_mail_table(_self, _user.value);
+//         user_mail_table.emplace(_self, [&](auto &move_mail) {
+//             uint32_t first_index = user_mail_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 move_mail.mail_index = 1;
+//             }
+//             else
+//             {
+//                 move_mail.mail_index = user_mail_table.available_primary_key();
+//             }
+//             move_mail.mail_type = 9;
+//             move_mail.type_index = new_data.index;
+//             move_mail.count = 1;
+//             move_mail.icon_id = monster_id_db_iter->id;
+//             move_mail.get_time = now();
+//         });
+
+//     }
+//     user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
+//         add_log.monster_num += 1;
+//         if(_type ==2)
+//         {
+//             add_log.mail +=1;
+//         }
+//     });
+//     return new_data;
+// }
+
+// battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type)
+// {
+
+//     uint32_t random_equipment_id = 0;
+//     uint32_t gacha_db_index = _id;
+//     equipment_db equip_item_table(_self, _self.value);
+
+//     if (_id == 0)
+//     {
+//         main_gacha_db main_gacha_db_table(_self, _self.value);
+//         auto gacha_db_iter = main_gacha_db_table.find(GACHA_EQUIPMENT_COUNT_ID); //1 ser 2 mon 3 item
+//         eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Get Reward Equipment : Empty Max Count");
+//         random_equipment_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+//         random_equipment_id += EQUIP_GACHA_ID_START;
+
+//         auto gacha_equipment_db_iter = main_gacha_db_table.find(random_equipment_id);
+//         eosio_assert(gacha_equipment_db_iter != main_gacha_db_table.end(), "Get Reward Equipment : Empty Gacha ID");
+//         gacha_db_index = gacha_equipment_db_iter->db_index;
+//     }
+//        const auto &equip_item_iter = equip_item_table.get(gacha_db_index, "Get Reward Equipment : Empty Equipment ID / Wrong Equipment ID");
+
+//     user_auths auth_user_table(_self, _self.value);
+//     auto auth_user_iter = auth_user_table.find(_user.value);
+
+//     user_logs user_log_table(_self, _self.value);
+//     auto user_log_iter = user_log_table.find(_user.value);
+    
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     user_mail user_mail_table(_self, _user.value);
+
+//     uint64_t random_rate = 0;
+//     uint64_t random_grade = 0;
+
+//    if(_grade == 0)
+//    {
+//        random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
+//        random_grade = get_random_grade(random_rate);
+//    } 
+//    else
+//    {
+//        random_grade = _grade;
+//    }
+
+//     equip_data new_data;
+//     equipment_info new_item = get_equip_random_state(equip_item_iter.item_id,
+//                                                      _seed,
+//                                                      equip_item_iter.type,
+//                                                      equip_item_iter.tier,
+//                                                      equip_item_iter.job,
+//                                                      random_grade);
+
+//     user_equip_items user_item_table(_self, _user.value);
+//     if (_type == 1)
+//     {
+//         user_item_table.emplace(_self, [&](auto &update_user_item_list) {
+//             uint32_t first_index = user_item_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 update_user_item_list.index = 1;
+//             }
+//             else
+//             {
+//                 update_user_item_list.index = user_item_table.available_primary_key();
+//             }
+
+//             update_user_item_list.equipment = new_item;
+
+//             new_data.index = update_user_item_list.index;
+//             new_data.equipment = new_item;
+//         });       
+
+//         auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+//             update_auth_user.current_equipment_inventory += 1;
+//         });
+//     }
+//     else if (_type == 2)
+//     {
+//         std::string body_data;
+//         uint32_t mail_reward_first_index = 0;
+//         uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+//         mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+//             if (new_first_index == 0)
+//             {
+//                 update_reward.index = 1;
+//             }
+//             else
+//             {
+//                 update_reward.index = mail_reward_list_table.available_primary_key();
+//             }
+//             update_reward.type = 3; //장비 3
+
+//             new_data.index = update_reward.index;
+//             new_data.equipment = new_item;
+
+//             body_data += to_string(new_item.id) + ":",
+//             body_data += to_string(new_item.grade) + ":",
+//             body_data += to_string(new_item.value);
+
+//             update_reward.body = body_data;
+//         });
+
+//         user_mail user_mail_table(_self, _user.value);
+//         user_mail_table.emplace(_self, [&](auto &move_mail) {
+//             uint32_t first_index = user_mail_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 move_mail.mail_index = 1;
+//             }
+//             else
+//             {
+//                 move_mail.mail_index = user_mail_table.available_primary_key();
+//             }
+//             move_mail.mail_type = 10;
+//             move_mail.type_index = new_data.index;
+//             move_mail.count = 1;
+//             move_mail.icon_id = equip_item_iter.item_id;
+//             move_mail.get_time = now();
+//         });
+//     }
+//     user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
+//         add_log.equipment_num += 1;
+//         if(_type ==2)
+//         {
+//             add_log.mail +=1;
+//         }
+//     });
+//     return new_data;
+// }
+
+// battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _type)
+// {
+//     // allitem_db allitem_db_table(_self, _self.value);
+//     // auto allitem_db_iter = allitem_db_table.find(_id);
+//     // eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
+//     auto allitem_db_iter = get_allitem_db(_id);
+
+//     user_logs user_log_table(_self, _self.value);
+//     auto user_log_iter = user_log_table.find(_user.value);
+
+//     mail_reward_list mail_reward_list_table(_self, _user.value);
+//     user_mail user_mail_table(_self, _user.value);
+
+//     item_data new_item;
+//     new_item.id = allitem_db_iter->id;
+//     new_item.type = allitem_db_iter->type;
+
+//     uint32_t add_inventory = 0;
+//     if (_type == 1)
+//     {
+//         user_items user_items_table(_self, _user.value);
+//         auto user_items_iter = user_items_table.find(allitem_db_iter->id);
+//         if (user_items_iter == user_items_table.end())
+//         {
+//             user_items_table.emplace(_self, [&](auto &change_consumable) {
+//                 change_consumable.id = allitem_db_iter->id;
+//                 change_consumable.type = allitem_db_iter->type;
+
+//                 item_info get_item_info;
+//                 get_item_info.index = 0;
+//                 get_item_info.count = _count;
+
+//                 change_consumable.item_list.push_back(get_item_info);
+//                 add_inventory = 1;
+
+//                 new_item.item_list = change_consumable.item_list;
+//             });
+//         }
+//         else
+//         {
+//             user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+//                 uint64_t size_count = change_consumable.item_list.size();
+
+//                 for (uint64_t i = 0; i < size_count; i++)
+//                 {
+//                     if (change_consumable.item_list[i].count < 99)
+//                     {
+//                         if (change_consumable.item_list[i].count + _count > 99)
+//                         {
+//                             uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+//                             change_consumable.item_list[i].count = 99;
+
+//                             item_info get_item_info;
+//                             get_item_info.index = size_count;
+//                             get_item_info.count = new_count;
+//                             change_consumable.item_list.push_back(get_item_info);
+//                             add_inventory = 1;
+//                         }
+//                         else
+//                         {
+//                             change_consumable.item_list[i].count += _count;
+//                         }
+//                     }
+//                     else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+//                     {
+//                         item_info get_item_info;
+//                         get_item_info.index = size_count;
+//                         get_item_info.count = _count;
+//                         change_consumable.item_list.push_back(get_item_info);
+//                         add_inventory = 1;
+//                     }
+//                 }
+
+//                 new_item.item_list = change_consumable.item_list;
+//             });
+//         }
+
+//         user_auths user_auth_table(_self, _self.value);
+//         auto user_auth_iter = user_auth_table.find(_user.value);
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+//             add_auth.current_item_inventory += add_inventory;
+//         });
+//     }
+//     else if (_type == 2)
+//     {
+//        std::string body_data;
+//         uint32_t mail_reward_first_index = 0;
+//         uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+//         mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+//             if (new_first_index == 0)
+//             {
+//                 update_reward.index = 1;
+//             }
+//             else
+//             {
+//                 update_reward.index = mail_reward_list_table.available_primary_key();
+//             }
+//             update_reward.type = 4;  
+//             mail_reward_first_index = update_reward.index;
+//             body_data += to_string(_id) + ":",
+//             body_data += to_string(_count);
+
+//             update_reward.body = body_data;
+//         });
+
+//         user_mail user_mail_table(_self, _user.value);
+//         user_mail_table.emplace(_self, [&](auto &move_mail) {
+//             uint32_t first_index = user_mail_table.available_primary_key();
+//             if (first_index == 0)
+//             {
+//                 move_mail.mail_index = 1;
+//             }
+//             else
+//             {
+//                 move_mail.mail_index = user_mail_table.available_primary_key();
+//             }
+            
+//             move_mail.mail_type = 11;
+//             move_mail.type_index = mail_reward_first_index;
+//             move_mail.count = _count;
+//             move_mail.icon_id = _id;
+//             move_mail.get_time = now();
+//         });
+
+//         user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+//             update_log.mail += 1;
+//         });
+//     }
+//     return new_item;
+// }
+
+battletest::servant_data battletest::get_servant(eosio::name _user, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
     uint32_t random_job;
+    uint32_t gacha_result_index = 0;
  
-    if(_job ==0)
+    //직업값 0이면 랜덤, 숫자면 고정 
+    if(_job !=0)
+    {
+        random_job = _job;
+    }
+    else if(_job == 0 && _min ==0 && _max == 0)
     {
         random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, 1);
     }
-    else
+    else    //직업값이 0이 아니면, min과 max에서 나오는 범위 고정 
     {
-        random_job = _job;
-    }   
+           random_job = safeseed::get_random_value(_seed, _max +1, _min, 1);        //1,2,3 중에 하나 나오려면 _max = 3, _min = 1 
+    }
 
-    const auto &servant_job_db_iter = servant_job_table.get(random_job, "Get Reward Servant : Empty Servant Job / Wrong Servant Job");
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "Get Servant : Empty Servant Job / Wrong Servant Job");
 
     uint32_t random_body = gacha_servant_body(_seed, 1);
 
     gender_db gender_table(_self, _self.value);
     uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, 2);
-    const auto &gender_db_iter = gender_table.get(random_gender, "Get Reward Servant : Empty Servant Gender / Wrong Servant Gender");
+    const auto &gender_db_iter = gender_table.get(random_gender, "Get Servant : Empty Servant Gender / Wrong Servant Gender");
 
     uint32_t random_head = gacha_servant_head(_seed, 3);
     uint32_t random_hair = gacha_servant_hair(_seed, 4);
 
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-    // servant_db servant_id_table(_self, _self.value);
-    
-    // const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Get Reward Servant : Empty Servant ID / Wrong Servnat ID");
+
     auto servant_id_db_iter = get_servant_db(servant_index);
 
     serstat_db servant_base_table(_self, _self.value);
     uint32_t servant_job_base = (servant_id_db_iter->job * 1000) + (servant_id_db_iter->grade * 100) + 1;
-    const auto &ser_iter = servant_base_table.get(servant_job_base, "Get Reward Servant : Empty Servant Stat");
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
+    const auto &ser_iter = servant_base_table.get(servant_job_base, "Get Servant : Empty Servant Stat");
 
     std::string body_data;
     
     servant_data new_data;
     user_servants user_servant_table(_self, _user.value);
-    mail_reward_list mail_reward_list_table(_self, _user.value);
-    user_mail user_mail_table(_self, _user.value);
     
     servant_info new_servant = get_servant_random_state(servant_id_db_iter->id, _seed, random_job, ser_iter.base_str, ser_iter.base_dex, ser_iter.base_int);
 
-    if (_type == 1) //일반 보상
+    if(_gold_type == use_money_type::EOS_GACHA || _gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE)
     {
-        user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
+            user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
             uint32_t first_index = user_servant_table.available_primary_key();
             if (first_index == 0)
             {
@@ -5014,128 +5526,134 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
             update_user_servant_list.party_number = EMPTY_PARTY;
             update_user_servant_list.servant = new_servant;
 
-            new_data.index = update_user_servant_list.index;
-            new_data.party_number = update_user_servant_list.party_number;
-            new_data.servant = new_servant;
-        });
-
-        user_auths auth_user_table(_self, _self.value);
-        auto auth_user_iter = auth_user_table.find(_user.value);
-
-        auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-            update_auth_user.current_servant_inventory += 1;
-        });
+            // result.index = update_user_servant_list.index;
+            // result.type = result::servant;
+            if (_gold_type == use_money_type::BATTLE) 
+            {
+                new_data.index = update_user_servant_list.index;
+                new_data.party_number = update_user_servant_list.party_number;
+                new_data.servant = new_servant;
+                gacha_result_index = update_user_servant_list.index;
+            }      
+            });      
     }
-
-    else if (_type == 2) //메일 보상
+    else if(_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)   //메일 
     {
-        std::string body_data;
-        uint32_t mail_reward_first_index = 0;
-        uint32_t new_first_index = mail_reward_list_table.available_primary_key();
-        mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
-            if (new_first_index == 0)
-            {
-                update_reward.index = 1;
-            }
-            else
-            {
-                update_reward.index = mail_reward_list_table.available_primary_key();
-            }
-            update_reward.type = 1;
-            
-            new_data.index = update_reward.index;
-            new_data.party_number = EMPTY_PARTY;
-            new_data.servant = new_servant;
+            mail_reward_list mail_reward_list_table(_self, _user.value);
+            user_mail user_mail_table(_self, _user.value);
+            std::string body_data;
+            uint32_t mail_reward_first_index = 0;
+            uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+            mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+                if (new_first_index == 0)
+                {
+                    update_reward.index = 1;
+                }
+                else
+                {
+                    update_reward.index = mail_reward_list_table.available_primary_key();
+                }
+                update_reward.type = 1;
 
-            body_data += to_string(new_servant.id) + ":",
-                body_data += to_string(new_servant.status.basic_str) + ":",
-                body_data += to_string(new_servant.status.basic_dex) + ":",
-                body_data += to_string(new_servant.status.basic_int) + ":",
-                body_data += to_string(new_servant.passive_skill[0]) + ":",
-                body_data += to_string(new_servant.active_skill[0]);
-            update_reward.body = body_data;
-        });
+                new_data.index = update_reward.index;
+                new_data.party_number = EMPTY_PARTY;
+                new_data.servant = new_servant;
+                gacha_result_index = update_reward.index;
 
-        user_mail user_mail_table(_self, _user.value);
-        user_mail_table.emplace(_self, [&](auto &move_mail) {
-            uint32_t first_index = user_mail_table.available_primary_key();
-            if (first_index == 0)
-            {
-                move_mail.mail_index = 1;
-            }
-            else
-            {
-                move_mail.mail_index = user_mail_table.available_primary_key();
-            }
-            move_mail.mail_type = 8;
-            move_mail.type_index = new_data.index;
-            move_mail.count = 1;
-            move_mail.icon_id = servant_id_db_iter->id;
-            move_mail.get_time = now();
-        });
-       
+                // result.index = update_reward.index;
+                // result.type = result::servant;
+
+                body_data += to_string(new_servant.id) + ":",
+                    body_data += to_string(new_servant.status.basic_str) + ":",
+                    body_data += to_string(new_servant.status.basic_dex) + ":",
+                    body_data += to_string(new_servant.status.basic_int) + ":",
+                    body_data += to_string(new_servant.passive_skill[0]) + ":",
+                    body_data += to_string(new_servant.active_skill[0]);
+                update_reward.body = body_data;
+            });
+
+            user_mail_table.emplace(_self, [&](auto &move_mail) {
+                uint32_t first_index = user_mail_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    move_mail.mail_index = 1;
+                }
+                else
+                {
+                    move_mail.mail_index = user_mail_table.available_primary_key();
+                }
+                move_mail.mail_type = 8;
+                move_mail.type_index = new_data.index;
+                move_mail.count = 1;
+                move_mail.icon_id = servant_id_db_iter->id;
+                move_mail.get_time = now();
+            });         
+
     }
-    user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
-        add_log.servant_num += 1;
-        add_log.mail +=1;
-    });
+    write_log(_user, _gold_type, 1, gacha_result_index, 1); 
     return new_data;
-
 }
 
-battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type)
-{
+battletest::monster_data battletest::get_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed)
+{                         
     uint32_t random_monster_id = 0;
     uint32_t gacha_db_index = _id;
-    
-
-    if (_id == 0)
-    {
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto gacha_db_iter = main_gacha_db_table.find(GACHA_MONSTER_COUNT_ID); //1 ser 2 mon 3 item
-        eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Get Reward Monster : Empty Max Count");
-        random_monster_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
-        random_monster_id += MONSTER_GACHA_ID_START;
-
-        auto gacha_monster_db_iter = main_gacha_db_table.find(random_monster_id);
-        eosio_assert(gacha_monster_db_iter != main_gacha_db_table.end(), "Get Reward Monster : Empty Gacha ID");
-        gacha_db_index = gacha_monster_db_iter->db_index;
-        
-    }
-    // monster_db monster_id_db_table(_self, _self.value);
-    // const auto &monster_id_db_iter = monster_id_db_table.get(gacha_db_index, "Get Reward Monster : Empty Monster ID/ Wrong Monster ID");
-    auto monster_id_db_iter = get_monster_db(gacha_db_index);
-       
-
-    // tribe_db tribe_db_table(_self, _self.value);
-    // const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter->tribe, "Gacha Reward Monster : Empty Monster Tribe");
-    auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
-
-
-    user_auths auth_user_table(_self, _self.value);
-    auto auth_user_iter = auth_user_table.find(_user.value);
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-
-    mail_reward_list mail_reward_list_table(_self, _user.value);
-    user_mail user_mail_table(_self, _user.value);
 
     uint64_t random_rate = 0;
     uint64_t random_grade = 0;
 
-   if(_grade == 0)
+    uint32_t gacha_result_index =0;
+
+    if (_id == 0)
+    {
+        if (_gold_type == 1 || _gold_type == 3 || _gold_type == 4 || _gold_type == 5) //EOS 가차
+        {
+            main_gacha_db main_gacha_db_table(_self, _self.value);
+            auto gacha_db_iter = main_gacha_db_table.find(GACHA_MONSTER_COUNT_ID); //1 ser 2 mon 3 item
+            eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Gacha Monster : Empty Max Count");
+            random_monster_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+            random_monster_id += MONSTER_GACHA_ID_START;
+
+            auto gacha_monster_db_iter = main_gacha_db_table.find(random_monster_id);
+            eosio_assert(gacha_monster_db_iter != main_gacha_db_table.end(), "Gacha Monster : Empty Gacha ID");
+            gacha_db_index = gacha_monster_db_iter->db_index;
+        }
+        else if (_gold_type == 2) //UTG 가차
+        {
+            gold_gacha_db gold_gacha_db_table(_self, _self.value);
+            auto gacha_db_iter = gold_gacha_db_table.find(GACHA_MONSTER_COUNT_ID); //2 mon 3 equip 6 item
+            eosio_assert(gacha_db_iter != gold_gacha_db_table.end(), "Gold Gacha Monster : Empty Max Count");
+            random_monster_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+            random_monster_id += MONSTER_GACHA_ID_START;
+
+            auto gacha_monster_db_iter = gold_gacha_db_table.find(random_monster_id);
+            eosio_assert(gacha_monster_db_iter != gold_gacha_db_table.end(), "Gold Gacha Monster : Empty Gacha ID");
+            gacha_db_index = gacha_monster_db_iter->db_index;
+        }
+    }
+    auto monster_id_db_iter = get_monster_db(gacha_db_index);
+    auto tribe_iter = get_tribe_db(monster_id_db_iter->tribe);
+
+   if(_max == 0 && _grade == 0)
    {
        random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
        random_grade = get_random_grade(random_rate);
    } 
-   else
+   else if(_max != 0 && _grade == 0)
+   {
+       random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
+       random_grade = get_random_grade(random_rate);
+       if(random_grade < _max) //등급은 1,2 나올 수 있으니까 
+       {
+           random_grade = 5;
+       }
+   }
+   else if( _max ==0 && _grade != 0)
    {
        random_grade = _grade;
    }
-   
-    monster_data new_data;
 
+    monster_data new_data;
     monster_info new_monster = get_monster_random_state(monster_id_db_iter->id,
                                                             _seed,
                                                             random_grade,
@@ -5146,35 +5664,34 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
                                                             tribe_iter->base_int);
 
     user_monsters user_monster_table(_self, _user.value);
-    if(_type ==1)   //일반 보상 
+    if(_gold_type == use_money_type::EOS_GACHA || _gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE)
     {
-    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
-        uint32_t first_index = user_monster_table.available_primary_key();
-        if (first_index == 0)
-        {
-            update_user_monster_list.index = 1;
-        }
-        else
-        {
-            update_user_monster_list.index = user_monster_table.available_primary_key();
-        }
+        user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+            uint32_t first_index = user_monster_table.available_primary_key();
+            if (first_index == 0)
+            {
+                update_user_monster_list.index = 1;
+            }
+            else
+            {
+                update_user_monster_list.index = user_monster_table.available_primary_key();
+            }
 
-        update_user_monster_list.party_number = EMPTY_PARTY;
-        update_user_monster_list.monster = new_monster;
+            update_user_monster_list.party_number = EMPTY_PARTY;
+            update_user_monster_list.monster = new_monster;
 
-        new_data.index = update_user_monster_list.index;
-        new_data.party_number = update_user_monster_list.party_number;
-        new_data.monster = new_monster;
-    });
-
-    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-        update_auth_user.current_monster_inventory += 1;
-    });
+            new_data.index = update_user_monster_list.index;
+            new_data.party_number = update_user_monster_list.party_number;
+            new_data.monster = new_monster;
+            gacha_result_index = update_user_monster_list.index;
+        });
     }
-    else if(_type ==2)
+
+    else if (_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)
     {
         std::string body_data;
         uint32_t mail_reward_first_index = 0;
+        mail_reward_list mail_reward_list_table(_self, _user.value);
         uint32_t new_first_index = mail_reward_list_table.available_primary_key();
         mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
             if (new_first_index == 0)
@@ -5185,12 +5702,13 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
             {
                 update_reward.index = mail_reward_list_table.available_primary_key();
             }
-            update_reward.type = 2; //몬스터 2
+            update_reward.type = 2;  
 
             new_data.index = update_reward.index;
             new_data.party_number = EMPTY_PARTY;
             new_data.monster = new_monster;
-
+            gacha_result_index = update_reward.index;
+            
             body_data += to_string(new_monster.id) + ":",
                 body_data += to_string(new_monster.grade) + ":",
                 body_data += to_string(new_monster.status.basic_str) + ":",
@@ -5218,60 +5736,71 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
             move_mail.icon_id = monster_id_db_iter->id;
             move_mail.get_time = now();
         });
-
-    }
-    user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
-        add_log.monster_num += 1;
-        if(_type ==2)
-        {
-            add_log.mail +=1;
-        }
-    });
+    }    
+    write_log(_user, _gold_type, 2, gacha_result_index, 1);
     return new_data;
 }
 
-battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type)
+battletest::equip_data battletest::get_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed)
 {
-
     uint32_t random_equipment_id = 0;
     uint32_t gacha_db_index = _id;
+    uint64_t random_rate = 0;
+    uint64_t random_grade = 0;
+
+    uint32_t gacha_result_index = 0;
+
     equipment_db equip_item_table(_self, _self.value);
 
     if (_id == 0)
     {
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto gacha_db_iter = main_gacha_db_table.find(GACHA_EQUIPMENT_COUNT_ID); //1 ser 2 mon 3 item
-        eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Get Reward Equipment : Empty Max Count");
-        random_equipment_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
-        random_equipment_id += EQUIP_GACHA_ID_START;
+        if (_gold_type == 2)
+        {
+            gold_gacha_db gold_gacha_db_table(_self, _self.value);
+            auto gacha_db_iter = gold_gacha_db_table.find(GACHA_EQUIPMENT_COUNT_ID); //2 mon 3 equip 6 item
+            eosio_assert(gacha_db_iter != gold_gacha_db_table.end(), "Gold Gacha Equipment : Empty Max Count / Not Set Count");
+            random_equipment_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+            random_equipment_id += EQUIP_GACHA_ID_START;
+            auto gacha_id_db_iter = gold_gacha_db_table.find(random_equipment_id);
+            eosio_assert(gacha_id_db_iter != gold_gacha_db_table.end(), "Gold Gacha Equipment : Empty Gacha ID / Not Set Gacha ID");
+            gacha_db_index = gacha_id_db_iter->db_index;
+        }
 
-        auto gacha_equipment_db_iter = main_gacha_db_table.find(random_equipment_id);
-        eosio_assert(gacha_equipment_db_iter != main_gacha_db_table.end(), "Get Reward Equipment : Empty Gacha ID");
-        gacha_db_index = gacha_equipment_db_iter->db_index;
+        else
+        {
+            main_gacha_db main_gacha_db_table(_self, _self.value);
+            auto gacha_db_iter = main_gacha_db_table.find(GACHA_EQUIPMENT_COUNT_ID); //1 ser 2 mon 3 item
+            eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Gacha Equipment : Empty Max Count / Not Set Count");
+            random_equipment_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index + 1, DEFAULT_MIN_DB, 1);
+            random_equipment_id += EQUIP_GACHA_ID_START;
+            auto gacha_equipment_db_iter = main_gacha_db_table.find(random_equipment_id);
+            eosio_assert(gacha_equipment_db_iter != main_gacha_db_table.end(), "Gacha Equipment : Empty Gacha ID / Not Set Gacha ID");
+            gacha_db_index = gacha_equipment_db_iter->db_index;
+        }
     }
-       const auto &equip_item_iter = equip_item_table.get(gacha_db_index, "Get Reward Equipment : Empty Equipment ID / Wrong Equipment ID");
+    const auto &equip_item_iter = equip_item_table.get(gacha_db_index, "Get Reward Equipment : Empty Equipment ID / Wrong Equipment ID");
 
-    user_auths auth_user_table(_self, _self.value);
-    auto auth_user_iter = auth_user_table.find(_user.value);
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    
     mail_reward_list mail_reward_list_table(_self, _user.value);
     user_mail user_mail_table(_self, _user.value);
 
-    uint64_t random_rate = 0;
-    uint64_t random_grade = 0;
-
-   if(_grade == 0)
-   {
-       random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
-       random_grade = get_random_grade(random_rate);
-   } 
-   else
-   {
-       random_grade = _grade;
-   }
+    if (_max != 0 && _grade == 0)
+    {
+        random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
+        random_grade = get_random_grade(random_rate);
+        if (random_grade <= _max)
+        {
+            random_grade = 5;
+        }
+    }
+    else if (_max == 0 && _grade != 0)
+    {
+        random_grade = _grade;
+    }
+    else
+    {
+        random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 2);
+        random_grade = get_random_grade(random_rate);
+    }
 
     equip_data new_data;
     equipment_info new_item = get_equip_random_state(equip_item_iter.item_id,
@@ -5282,7 +5811,7 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
                                                      random_grade);
 
     user_equip_items user_item_table(_self, _user.value);
-    if (_type == 1)
+    if (_gold_type == use_money_type::EOS_GACHA || _gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE)
     {
         user_item_table.emplace(_self, [&](auto &update_user_item_list) {
             uint32_t first_index = user_item_table.available_primary_key();
@@ -5299,13 +5828,10 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
 
             new_data.index = update_user_item_list.index;
             new_data.equipment = new_item;
-        });       
-
-        auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-            update_auth_user.current_equipment_inventory += 1;
+            gacha_result_index = update_user_item_list.index;
         });
     }
-    else if (_type == 2)
+    else if (_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)
     {
         std::string body_data;
         uint32_t mail_reward_first_index = 0;
@@ -5319,14 +5845,15 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
             {
                 update_reward.index = mail_reward_list_table.available_primary_key();
             }
-            update_reward.type = 3; //장비 3
+            update_reward.type = 3;  
 
             new_data.index = update_reward.index;
             new_data.equipment = new_item;
+            gacha_result_index = update_reward.index;
 
             body_data += to_string(new_item.id) + ":",
-            body_data += to_string(new_item.grade) + ":",
-            body_data += to_string(new_item.value);
+                body_data += to_string(new_item.grade) + ":",
+                body_data += to_string(new_item.value);
 
             update_reward.body = body_data;
         });
@@ -5349,100 +5876,66 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
             move_mail.get_time = now();
         });
     }
-    user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
-        add_log.equipment_num += 1;
-        if(_type ==2)
-        {
-            add_log.mail +=1;
-        }
-    });
+    write_log(_user, _gold_type, 3, gacha_result_index, 1);
     return new_data;
 }
 
-battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _type)
+battletest::item_data battletest::get_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _gold_type, uint64_t _seed)
 {
-    // allitem_db allitem_db_table(_self, _self.value);
-    // auto allitem_db_iter = allitem_db_table.find(_id);
-    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
-    auto allitem_db_iter = get_allitem_db(_id);
+    uint32_t add_inventory = 0;
+    uint32_t gacha_result_index = 0;
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
+    uint32_t random_item_id = 0;
+    uint32_t gacha_db_index = _id;
+    
+    if(_id == 0)//골드 가차 
+    {
+        uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 1);
+        uint64_t random_grade = get_random_grade(random_rate);
+        random_item_id = ITEM_GACHA_ID_START;
 
+        if (random_grade < 2)
+        {
+            random_item_id += 7;
+        }
+        else if (random_grade < 3)
+        {
+            uint64_t grade_seed = safeseed::get_seed_value(2, _seed);
+            random_item_id += safeseed::get_random_value(grade_seed, 7, 5, 2);
+        }
+        else if (random_grade >= 3 && random_grade <= 5)
+        {
+            uint64_t grade_seed = safeseed::get_seed_value(3, _seed);
+            random_item_id += safeseed::get_random_value(grade_seed, 5, 1, 2);
+        }
+
+        gold_gacha_db gold_gacha_db_table(_self, _self.value);
+        auto gacha_id_db_iter = gold_gacha_db_table.find(random_item_id);
+        eosio_assert(gacha_id_db_iter != gold_gacha_db_table.end(), "Gold Gacha Item : Empty Gacha ID / Not Set Gacha ID");
+
+        gold_logs gold_logs_table(_self, _self.value);
+        auto gold_logs_iter = gold_logs_table.find(_user.value);
+        eosio_assert(gold_logs_iter != gold_logs_table.end(), "Gold gacha Item : Not Exist Gold_logs");
+        gacha_db_index = gacha_id_db_iter->db_index;
+      
+    }
+     auto allitem_db_iter = get_allitem_db(gacha_db_index);
+    
+   
     mail_reward_list mail_reward_list_table(_self, _user.value);
     user_mail user_mail_table(_self, _user.value);
 
     item_data new_item;
     new_item.id = allitem_db_iter->id;
     new_item.type = allitem_db_iter->type;
+    gacha_result_index = allitem_db_iter->id;
 
-    uint32_t add_inventory = 0;
-    if (_type == 1)
+    user_items user_items_table(_self, _user.value);
+    if (_gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE)
     {
-        user_items user_items_table(_self, _user.value);
-        auto user_items_iter = user_items_table.find(allitem_db_iter->id);
-        if (user_items_iter == user_items_table.end())
-        {
-            user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = allitem_db_iter->id;
-                change_consumable.type = allitem_db_iter->type;
-
-                item_info get_item_info;
-                get_item_info.index = 0;
-                get_item_info.count = _count;
-
-                change_consumable.item_list.push_back(get_item_info);
-                add_inventory = 1;
-
-                new_item.item_list = change_consumable.item_list;
-            });
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-                uint64_t size_count = change_consumable.item_list.size();
-
-                for (uint64_t i = 0; i < size_count; i++)
-                {
-                    if (change_consumable.item_list[i].count < 99)
-                    {
-                        if (change_consumable.item_list[i].count + _count > 99)
-                        {
-                            uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
-                            change_consumable.item_list[i].count = 99;
-
-                            item_info get_item_info;
-                            get_item_info.index = size_count;
-                            get_item_info.count = new_count;
-                            change_consumable.item_list.push_back(get_item_info);
-                            add_inventory = 1;
-                        }
-                        else
-                        {
-                            change_consumable.item_list[i].count += _count;
-                        }
-                    }
-                    else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                    {
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = _count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                    }
-                }
-
-                new_item.item_list = change_consumable.item_list;
-            });
-        }
-
-        user_auths user_auth_table(_self, _self.value);
-        auto user_auth_iter = user_auth_table.find(_user.value);
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            add_auth.current_item_inventory += add_inventory;
-        });
+         add_inventory = sum_item_check(_user, allitem_db_iter->id, 1);       
     }
-    else if (_type == 2)
+    else if (_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)
     {
        std::string body_data;
         uint32_t mail_reward_first_index = 0;
@@ -5458,7 +5951,7 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
             }
             update_reward.type = 4;  
             mail_reward_first_index = update_reward.index;
-            body_data += to_string(_id) + ":",
+            body_data += to_string(gacha_db_index) + ":",
             body_data += to_string(_count);
 
             update_reward.body = body_data;
@@ -5479,17 +5972,14 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
             move_mail.mail_type = 11;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = _count;
-            move_mail.icon_id = _id;
+            move_mail.icon_id = gacha_db_index;
             move_mail.get_time = now();
         });
-
-        user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-            update_log.mail += 1;
-        });
     }
+    write_log(_user, _gold_type, 4, gacha_result_index, add_inventory);
     return new_item;
-}
 
+}
 void battletest::fail_reward(eosio::name _user, uint64_t _stage_number)
 {
     stageinfo_db stage_db_table(_self, _self.value);
@@ -6721,7 +7211,8 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
             uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
             l_seed = l_seed >> 2;
            // gacha_servant_id(_user, l_seed, 0, 1, 4, 3); //job = 0 , min =1, max= 3
-            servant_data servant = get_reward_servant(_user, 0, l_seed, 2);
+            //servant_data servant = get_reward_servant(_user, 0, l_seed, 2);
+			get_servant(_user,0,0,0,3,l_seed);
 
         }
     }
@@ -6914,6 +7405,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
 {
     system_check(_user);
 
+    asset package_result(0, symbol(symbol_code("UTG"), 4));
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
@@ -6963,7 +7455,6 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
        // new_data.use_eos += (package_shop_iter->price_count);
     });
 
-    asset package_result(0, symbol(symbol_code("UTG"), 4));
 
     if (package_shop_iter->id == 1001)
     {
@@ -6980,10 +7471,15 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
         // get_new_item(_user, 500210, 10);
         // get_new_item(_user, 500220, 10);
         // get_new_item(_user, 500230, 10);
-        get_reward_item(_user, 500200, 10, 2);
-        get_reward_item(_user, 500210, 10, 2);
-        get_reward_item(_user, 500220, 10, 2);
-        get_reward_item(_user, 500230, 10, 2);
+        //get_reward_item(_user, 500200, 10, 2);
+        //get_reward_item(_user, 500210, 10, 2);
+        //get_reward_item(_user, 500220, 10, 2);
+        //get_reward_item(_user, 500230, 10, 2);
+		        get_item(_user, 500200, 10, 3, 0);
+        get_item(_user, 500210, 10, 3, 0);
+        get_item(_user, 500220, 10, 3, 0);
+        get_item(_user, 500230, 10, 3, 0);
+		
     }
     else if (package_shop_iter->id == 1011)
     {
@@ -7001,7 +7497,8 @@ void battletest::start_package(eosio::name _user)
     {
         uint32_t _seed = safeseed::get_seed_value(_user.value+i, now());        
         //gacha_servant_id(_user, _seed, i,0,0,1);
-        servant_data servant = get_reward_servant(_user, i, _seed, 2);
+        //servant_data servant = get_reward_servant(_user, i, _seed, 2);
+		get_servant(_user, i, 0,0, 3, _seed);
     }  
 }
 
@@ -8532,7 +9029,8 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
                 random_grade = 5;
             }
             uint64_t random_monster = safeseed::get_random_value((seed >> 1), _reward_monster_id.size(), 0, 0);
-            monster_data new_monster = get_reward_monster(_user, _reward_monster_id[random_monster], random_grade, seed,1);
+            //monster_data new_monster = get_reward_monster(_user, _reward_monster_id[random_monster], random_grade, seed,1);
+            monster_data new_monster = get_monster(_user, _reward_monster_id[random_monster],random_grade,0,4,seed);
             monster_list.push_back(new_monster);
         }
         else
@@ -8615,7 +9113,8 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
                         {
                             random_grade = 5;
                         }
-                        equip_data new_equipment = get_reward_equip(_user, tier_iter->item_id, random_grade, seed,1);
+                        //equip_data new_equipment = get_reward_equip(_user, tier_iter->item_id, random_grade, seed,1);
+                        equip_data new_equipment = get_equip(_user, tier_iter->item_id, random_grade, 0, 4, seed);
                         equipment_list.push_back(new_equipment);
                         break;
                     }
@@ -8629,7 +9128,8 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
                     reward_rate += reward_iter->reward_list[reward].per;
                     if(random_rate < reward_rate)
                     {
-                        item_data new_item = get_reward_item(_user, reward_iter->reward_list[reward].id, reward_iter->reward_list[reward].count,1);
+                       // item_data new_item = get_reward_item(_user, reward_iter->reward_list[reward].id, reward_iter->reward_list[reward].count,1);
+                        item_data new_item = get_item(_user, reward_iter->reward_list[reward].id, reward_iter->reward_list[reward].count, 4,0);
                         item_list.push_back(new_item);
                         break;
                     }
@@ -9181,7 +9681,7 @@ battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
 {
     allitem_db my_table(_self, _self.value);
     auto iter = my_table.find(_id);
-    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    eosio_assert(iter != my_table.end(), "all item DB : Empty All Item ID");
     return iter;
 }
 
