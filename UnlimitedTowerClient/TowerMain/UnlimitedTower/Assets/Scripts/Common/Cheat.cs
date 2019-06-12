@@ -229,6 +229,11 @@ public class Cheat : MonoSingleton<Cheat>
             {
                 continue;
             }
+            buffEffectInfo newBuffInfo = new buffEffectInfo();
+            newBuffInfo.damage = 10;
+            newBuffInfo.type = 1;
+            newBuffInfo.position = i;
+            battleactiondata.character_buff_list.Add(newBuffInfo);
 
             if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
             {
@@ -348,6 +353,13 @@ public class Cheat : MonoSingleton<Cheat>
                 tempHpSum = 0;
                 continue;
             }
+
+            buffEffectInfo newBuffInfo = new buffEffectInfo();
+            newBuffInfo.damage = 10;
+            newBuffInfo.type = 2;
+            newBuffInfo.position = i;
+            battleactiondata.character_buff_list.Add(newBuffInfo);
+
 
             actionInfo action = new actionInfo();
             do
