@@ -1704,7 +1704,8 @@ allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
 ACTION deletetemp();
 ACTION recorduser(uint32_t _start_count);
-ACTION slotchange(eosio::name _user);
+ACTION recorduser2(uint32_t _start_count);
+//ACTION slotchange(eosio::name _user);
 TABLE ttemp
 {
     eosio::name user;

@@ -9765,40 +9765,96 @@ ACTION battletest::recorduser(uint32_t _start_count)
         }
         else
         {
-            // for (auto servant = user_servants_table.begin(); servant != user_servants_table.end();)
-            // {
-            //     auto servant_iter = user_servants_table.find(servant->primary_key());
+            for (auto servant = user_servants_table.begin(); servant != user_servants_table.end();)
+            {
+                auto servant_iter = user_servants_table.find(servant->primary_key());
 
-            //     for (uint32_t i = 0; i < 3; i++)
-            //     {
-            //         if (servant_iter->servant.equip_slot[i] == 0)
-            //         {
-           //             servant++;
-            //             continue;
-            //         }
-            //         else
-            //         {
-            //             auto equipment_iter = user_equip_items_table.find(servant_iter->servant.equip_slot[i]);
-            //             if (equipment_iter == user_equip_items_table.end())
-            //             {
-            //                 user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-            //                     new_data.servant.equip_slot[i] = 0;
-            //                 });
-            //             }
-            //             else if (equipment_iter != user_equip_items_table.end())
-            //             {
-            //                 if (equipment_iter->equipment.equipservantindex != servant_iter->index)
-            //                 {
+                for (uint32_t i = 0; i < 3; i++)
+                {
+                    if (servant_iter->servant.equip_slot[i] == 0)
+                    {
+                       servant++;
+                        continue;
+                    }
+                    else
+                    {
+                        auto equipment_iter = user_equip_items_table.find(servant_iter->servant.equip_slot[i]);
+                        if (equipment_iter == user_equip_items_table.end())
+                        {
+                            user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
+                                new_data.servant.equip_slot[i] = 0;
+                            });
+                        }
+                        else if (equipment_iter != user_equip_items_table.end())
+                        {
+                            if (equipment_iter->equipment.equipservantindex != servant_iter->index)
+                            {
 
-            //                     user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-            //                         new_data.servant.equip_slot[i] = 0;
-            //                     });
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     servant++;
-            // }
+                                user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
+                                    new_data.servant.equip_slot[i] = 0;
+                                });
+                            }
+                        }
+                    }
+                }
+                servant++;
+            }
+       
+            cur_total_item_count += count;
+            cur_count += 1;
+            iter++;
+        }
+    }
+
+}
+
+
+ACTION battletest::recorduser2(uint32_t _start_count)
+{
+    require_auth(_self);
+
+    uint64_t limit_count = 500;
+    uint64_t cur_total_item_count = 0;
+
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+    user_auths user_auth_table(_self, _self.value);
+    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    {
+        if (iter_start < _start_count)
+        {
+            iter_start++;
+            iter++;
+            continue;
+        }
+        auto user = user_auth_table.find(iter->primary_key());
+        user_servants user_servants_table(_self, user->user.value);
+        user_equip_items user_equip_items_table(_self, user->user.value);
+        uint64_t count = 0;
+
+        for (auto mail = user_equip_items_table.begin(); mail != user_equip_items_table.end();)
+        {
+            mail++;
+            count++;
+        }
+        for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
+        {
+            ser++;
+            count++;
+        }
+
+        if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
+        {
+            global_count global_count_table(_self, _self.value);
+            auto g_iter = global_count_table.find(_self.value);
+            global_count_table.emplace(_self, [&](auto &new_data) {
+                new_data.count = cur_count;
+            });
+            break;
+        }
+        else
+        {
             for (auto equipment = user_equip_items_table.begin(); equipment != user_equip_items_table.end();)
             {
                 auto equipment_iter = user_equip_items_table.find(equipment->primary_key());
@@ -9875,7 +9931,7 @@ ACTION battletest::recorduser(uint32_t _start_count)
 EOSIO_DISPATCH(battletest,
                 //(dbinsert)
               //admin
-			             (recorduser)(deletetemp)
+              (recorduser)(recorduser2)(deletetemp)
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //event
