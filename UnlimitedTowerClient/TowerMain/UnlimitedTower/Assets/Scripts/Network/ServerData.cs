@@ -275,12 +275,21 @@ public class actionInfo
 }
 
 [Serializable]
+public class buffEffectInfo
+{
+    public int type; //0 none, 1 up 2 down 3 per_up 4 per_down
+    public int position;
+    public int damage;
+}
+
+[Serializable]
 public class characterActionData
 {
     public int my_position;
     public int action_type;         //2 공격 , 3 스킬
 
     public List<actionInfo> action_info_list = new List<actionInfo>();
+    
 }
 
 [Serializable]
@@ -289,6 +298,7 @@ public class battleActionData
     public string user;
     public int turn;
     public List<characterActionData> character_action_list = new List<characterActionData>();
+    public List<buffEffectInfo> character_buff_list = new List<buffEffectInfo>();
 }
 
 [Serializable]
@@ -296,6 +306,8 @@ public class buffInfo
 {
     public int id;      //1 defense
     public int turn;
+    public int overlap_count;
+    public int effect_value;
 }
 
 [Serializable]

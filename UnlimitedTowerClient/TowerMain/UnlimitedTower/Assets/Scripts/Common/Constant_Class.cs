@@ -598,7 +598,7 @@ public class UserCharacterStateData
     public int tribeType;
     public int elementType;
 
-    public int state;       //0 살있음, 1 죽어있음 
+    public int state;       //0 살있음, 1 죽어있음 11 스턴, 12 도발
     public List<buffInfo> buffList = new List<buffInfo>();
     public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
     public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();
