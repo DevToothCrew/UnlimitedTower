@@ -831,7 +831,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         DebugLog.Log(false, "Request DailyCheck");
 
-        Request("Daiylcheck",
+        Request<dailycheckData>("Daiylcheck",
             onSuccess: ResponseDailyCheck,
             onFailed: msg => {
                 DebugLog.Log(false, $"[Failed Requesting DailyCheck] {msg}");
