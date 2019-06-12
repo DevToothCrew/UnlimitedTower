@@ -5909,7 +5909,17 @@ battletest::item_data battletest::get_item(eosio::name _user, uint32_t _id, uint
 
         gold_logs gold_logs_table(_self, _self.value);
         auto gold_logs_iter = gold_logs_table.find(_user.value);
-        eosio_assert(gold_logs_iter != gold_logs_table.end(), "Gold gacha Item : Not Exist Gold_logs");
+        if (gold_logs_iter == gold_logs_table.end())
+        {
+            gold_logs_table.emplace(_self, [&](auto &new_user) {
+                new_user.user = _user;
+                new_user.monster_num = 0;
+                new_user.equipment_num = 0;
+                new_user.item_num = 0;
+                new_user.gold_gacha_num = 0;
+                new_user.use_utg = 0;
+            });
+    }
         gacha_db_index = gacha_id_db_iter->db_index;
       
     }
@@ -9494,7 +9504,7 @@ void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint6
              get_item(_user,500210,5,5,0);
             break;
         }
-        case 26:    500 UTG
+        case 26:    //500 UTG
         {
             get_reward_utg(_user, 5000000);
             break;
