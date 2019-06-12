@@ -47,7 +47,7 @@ public class DamageManager : MonoSingleton<DamageManager>
         camera_ = Camera.main;
     }
 
-    public void DamageShow(actionInfo attackInfo, bool isHeal, ELEMENT_TYPE type) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬, 힐 여부
+    public void DamageShow(actionInfo attackInfo, bool isHeal, ELEMENT_TYPE type, bool isCamera = true) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬, 힐 여부
     {
         var damageText = textPool.ObjectSpawn();
 
@@ -129,7 +129,7 @@ public class DamageManager : MonoSingleton<DamageManager>
         if (BattleManager.Inst.status[attackInfo.target_position].NowHp < 0)
             BattleManager.Inst.status[attackInfo.target_position].NowHp = 0;
 
-        if (!isHeal)
+        if (!isHeal && isCamera)
         {
             if (!attackInfo.critical)
                 StartCoroutine(NotCriticalAttackEffect());

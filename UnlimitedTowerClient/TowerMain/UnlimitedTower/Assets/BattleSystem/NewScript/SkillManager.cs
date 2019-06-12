@@ -141,8 +141,6 @@ public class SkillManager : MonoSingleton<SkillManager>
     // 멀티 샷 ( 랜덤한 적 2인에게 각각 물리 공격력의 125%의 물리 피해를 줍니다 )
     public void Skill_200007(characterActionData battleInfo)
     {
-        // 아직 엄슴
-        //skillText.text = "아직 안만듬";
         StartCoroutine(Skill_200007_Co(battleInfo));
     }
 
@@ -360,6 +358,146 @@ public class SkillManager : MonoSingleton<SkillManager>
         Instantiate(effect["200016"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
            Quaternion.identity);
+    }
+    #endregion
+
+    #region Skill 200017
+    // 블레스 오브 엔젤
+    public void Skill_200017(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200017_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200017_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isHeal");
+
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < battleInfo.action_info_list.Count; i++)
+        {
+            DamageManager.Inst.DamageShow(battleInfo.action_info_list[i], true, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
+            Instantiate(effect["Heal"], BattleManager.Inst.character[battleInfo.action_info_list[i].target_position].transform.position +
+                new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[i].target_position].Height * 0.5f, 0),
+                Quaternion.identity);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        BattleManager.Inst.isAfterDelay = true;
+    }
+    #endregion
+
+    #region Skill 200019
+    // 메테오 스트라이크
+    public void Skill_200019(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200019_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200019_Co(characterActionData battleInfo)
+    {
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
+        for (int i = 0; i < battleInfo.action_info_list.Count; i++)
+        {
+            DamageManager.Inst.DamageShow(battleInfo.action_info_list[i], false, ELEMENT_TYPE.Fire);
+            Instantiate(effect["200009"], BattleManager.Inst.character[battleInfo.action_info_list[i].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[i].target_position].Height * 0.5f, 0),
+            Quaternion.identity);
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        BattleManager.Inst.isAfterDelay = true;
+    }
+    #endregion
+
+    #region Skill 200020
+    // 마운트
+    public void Skill_200020(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200020_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200020_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isDefence");
+        yield return new WaitForSeconds(0.3f);
+
+        effect["Defence"].transform.position = BattleManager.Inst.character[battleInfo.my_position].transform.position;
+        effect["Defence"].GetComponent<DefenceEffect>().EffectAction();
+
+        yield return new WaitForSeconds(3.0f);
+
+        BattleManager.Inst.isAfterDelay = true;
+    }
+    #endregion
+
+    #region Skill 200021
+    // 스터너
+    public void Skill_200021(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200021_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200021_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+    }
+    #endregion
+
+    #region Skill 200022
+    // 포이즌 대거
+    public void Skill_200022(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200022_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200022_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+    }
+    #endregion
+
+    #region Skill 200023
+    // 백스텝
+    public void Skill_200023(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200023_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200023_Co(characterActionData battleInfo)
+    {
+
+        yield return new WaitForSeconds(0.3f);
+
+        effect["Defence"].transform.position = BattleManager.Inst.character[battleInfo.my_position].transform.position;
+        effect["Defence"].GetComponent<DefenceEffect>().EffectAction();
+
+        yield return new WaitForSeconds(3.0f);
+
+        BattleManager.Inst.isAfterDelay = true;
+    }
+    #endregion
+
+    #region Skill 200024
+    // 피어싱 샷
+    public void Skill_200024(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200024_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200024_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+        DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, ELEMENT_TYPE.Fire);
+        TestSkillEffect(battleInfo.action_info_list[1].target_position);
     }
     #endregion
 

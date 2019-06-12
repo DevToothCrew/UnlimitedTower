@@ -9,6 +9,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public GameObject[] grid = new GameObject[20];
     public BattleStatus[] status = new BattleStatus[20];
     public CharInfo[] charInfo = new CharInfo[20];
+    public List<buffInfo>[] buffInfo = new List<buffInfo>[20];
     public Animator[] animator = new Animator[20];
     public bool isAfterDelay;
     public int turnIndex = 1;
@@ -89,6 +90,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
 
                 SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
+                
             }
 
             if (i + 1 != stageActionInfo.character_action_list.Count && (
@@ -102,6 +104,21 @@ public class BattleManager : MonoSingleton<BattleManager>
                 yield return new WaitForSeconds(3.0f);
             }
             isAfterDelay = false;
+        }
+
+        yield return new WaitForSeconds(3.0f);
+
+        for (int i = 0; i < stageActionInfo.character_buff_list.Count; i++)
+        {
+            actionInfo tump = new actionInfo();
+            tump.damage = stageActionInfo.character_buff_list[i].damage;
+            tump.target_position = stageActionInfo.character_buff_list[i].position;
+            if (stageActionInfo.character_buff_list[i].type == 1 || stageActionInfo.character_buff_list[i].type == 3)
+                DamageManager.Inst.DamageShow(tump, true, ELEMENT_TYPE.None, false);
+            else if (stageActionInfo.character_buff_list[i].type == 2 || stageActionInfo.character_buff_list[i].type == 4)
+                DamageManager.Inst.DamageShow(tump, false, ELEMENT_TYPE.None, false);
+
+            yield return new WaitForSeconds(0.1f);
         }
 
         isBattleStart = false;
