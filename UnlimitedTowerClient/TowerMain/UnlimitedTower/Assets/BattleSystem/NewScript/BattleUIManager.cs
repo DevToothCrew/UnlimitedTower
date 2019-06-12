@@ -306,15 +306,15 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
 
 #if UNITY_EDITOR
+        // UserDataManager.Inst.stageState = new UserStageStateData();
+        UserDataManager.Inst.stageActionInfo = new battleActionData();
+        UserDataManager.Inst.stageReward = new stageRewardData();
         Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult, 1);
-        UserDataManager.Inst.stageState = new UserStageStateData();
-        UserDataManager.Inst.stageActionInfo = new battleActionData();
-        UserDataManager.Inst.stageReward = new stageRewardData();
 #else
-        PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult,1);
-        UserDataManager.Inst.stageState = new UserStageStateData();
+        // UserDataManager.Inst.stageState = new UserStageStateData();
         UserDataManager.Inst.stageActionInfo = new battleActionData();
         UserDataManager.Inst.stageReward = new stageRewardData();
+        PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult,1);
 #endif
         Time.timeScale = 2;
         BattleManager.Inst.battleFail?.SetActive(false);
