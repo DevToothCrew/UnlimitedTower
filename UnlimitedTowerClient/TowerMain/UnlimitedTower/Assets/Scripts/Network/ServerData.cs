@@ -456,6 +456,11 @@ public class errorCode
     public string message;        
 };
 
+[Serializable]
+public class dailycheckData
+{
+    public int check_day;
+}
 #endregion
 
 #region RequestJsonData

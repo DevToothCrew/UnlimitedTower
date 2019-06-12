@@ -827,6 +827,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
             });
     }
 
+    public void RequestDailyCheck()
+    {
+        DebugLog.Log(false, "Request DailyCheck");
+
+        Request("Daiylcheck",
+            onSuccess: ResponseDailyCheck,
+            onFailed: msg => {
+                DebugLog.Log(false, $"[Failed Requesting DailyCheck] {msg}");
+            });
+    }
     #endregion
 
     #region Response
@@ -1798,6 +1808,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         ShopInfoPage.Inst.SetShopInfo(productInfoList);
     }
 
+    public void ResponseDailyCheck(dailycheckData getDailyCheck)        
+    {
+        DebugLog.Log(false, getDailyCheck.ToString());
+
+    }
     #endregion
 
     #region Function
