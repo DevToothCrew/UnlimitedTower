@@ -827,6 +827,17 @@ CONTRACT battletest : public contract
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
     uint32_t item_random_count;
+
+    enum use_money_type
+    {
+        EOS_GACHA = 1,
+        UTG_GACHA = 2,
+        PACKAGE = 3,
+        BATTLE = 4,
+        EVENT = 5,
+    };
+
+
 #pragma endregion
 
   public:
@@ -836,7 +847,7 @@ CONTRACT battletest : public contract
     uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
     uint32_t get_passive_skill(uint32_t _type, uint32_t _job_or_tribe, uint64_t _seed);
 
-    void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type);
+    //void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type);
 
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
@@ -845,10 +856,10 @@ CONTRACT battletest : public contract
     uint32_t change_monster_status(uint32_t _grade, uint32_t _status_grade);
     uint32_t change_equipment_statue(uint32_t _grade, uint32_t _status_grade);
 
-    void gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
+    //void gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
     void set_tier_status(uint32_t &_value, uint32_t _tier);
-    void gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
-    void get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _count);
+   // void gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
+   // void get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _count);
 
     uint64_t get_user_seed_value(uint64_t _user);
 
@@ -859,7 +870,7 @@ CONTRACT battletest : public contract
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
     
-    void gold_gacha_item_id(eosio::name _user, uint64_t _seed);
+    //void gold_gacha_item_id(eosio::name _user, uint64_t _seed);
 
     void write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gacha_type, uint32_t _gacha_index, uint32_t _inventory_count);
 
@@ -1378,10 +1389,10 @@ CONTRACT battletest : public contract
     uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp);
     uint32_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
 
-    servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type);
-    monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type);
-    equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type);
-    item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _type);
+    // servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type);
+    // monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type);
+    // equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type);
+    // item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _type);
     void get_reward_utg(eosio::name _user, uint32_t _count);
     void fail_reward(eosio::name _user, uint64_t _stage_number);
 
@@ -1390,6 +1401,10 @@ CONTRACT battletest : public contract
     ACTION stageexit(eosio::name _user);
 
 
+    servant_data get_servant(eosio::name _user, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
+    monster_data get_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
+    equip_data get_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
+    item_data get_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _gold_type, uint64_t _seed);
 #pragma endregion
 
 #pragma region tower_system
@@ -1651,20 +1666,20 @@ ACTION systemact(std::string _function, eosio::name _user, std::string _type);
 //--------------------------daily_check_table-----------------------------//
 //------------------------------------------------------------------------//
 
-//#pragma region dailycheck
+#pragma region dailycheck
 
-//TABLE tdaily
-//{
-//    eosio::name user;
-//    uint64_t total_day;
-//    uint64_t check_time;
-//    uint64_t primary_key() const { return user.value; }
-//};
-//typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
+TABLE tdaily
+{
+    eosio::name user;
+    uint64_t total_day;
+    uint64_t check_time;
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
 
-//ACTION dailycheck(eosio::name _user, string _seed);
-//bool timecheck(uint64_t user_checktime);
-//void daily_check_reward(eosio::name _user, uint64_t totalday, uint64_t _seed);
+ACTION dailycheck(eosio::name _user, string _seed);
+bool timecheck(uint64_t user_checktime);
+void daily_check_reward(eosio::name _user, uint64_t totalday, uint64_t _seed);
 //ACTION resetdaily(eosio::name _user);
 
 servant_info get_servant_random_state(uint32_t _id, uint64_t _seed, uint32_t _job, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
@@ -1686,6 +1701,23 @@ passive_db::const_iterator get_passive_db(uint64_t _id);
 shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
+
+ACTION deletetemp();
+ACTION recorduser(uint32_t _start_count);
+ACTION recorduser2(uint32_t _start_count);
+//ACTION slotchange(eosio::name _user);
+TABLE ttemp
+{
+    eosio::name user;
+    uint64_t primary_key() const { return user.value; }
 };
+typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
 
-
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+//end
+};
