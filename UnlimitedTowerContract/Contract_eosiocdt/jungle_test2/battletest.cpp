@@ -9418,7 +9418,7 @@ void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint6
         }
         case 2:     //언커먼 티켓
         {
-            get_item(_user,500210,5,5,0);
+            get_item(_user,500200,5,5,0);
             break;
         }        
         case 3:     //75UTG
@@ -9429,7 +9429,7 @@ void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint6
         }
         case 4:     //레어티켓
         {
-            get_item(_user,500220,2,5,0);
+            get_item(_user,500210,2,5,0);
             break;
         }
         case 5:     //100UTG
@@ -9441,7 +9441,7 @@ void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint6
         }
         case 6: // 유니크 티켓
         {
-            get_item(_user,500230,1,5,0);
+            get_item(_user,500220,1,5,0);
             break;
         }
         case 7:      //서번트 소환 티켓
@@ -9464,6 +9464,7 @@ void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint6
         case 12:    //125UTG
         {
              get_reward_utg(_user,1250000);
+             break;
         }
         case 13: //악세 강화
         {
