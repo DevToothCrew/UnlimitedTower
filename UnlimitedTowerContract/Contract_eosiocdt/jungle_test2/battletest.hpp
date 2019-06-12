@@ -1702,5 +1702,21 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
+ACTION deletetemp();
+ACTION recorduser(uint32_t _start_count);
+ACTION slotchange(eosio::name _user);
+TABLE ttemp
+{
+    eosio::name user;
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
+
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 //end
 };
