@@ -10,6 +10,7 @@ public class LoginRewardUnit : MonoBehaviour {
     public Image imageReward;
     public Text textReward;
     public Image imageStamp;
+    public Button buttonReward;
     public GameObject objSpecialReward;
 
     public void updateUnit(int index)
@@ -47,6 +48,15 @@ public class LoginRewardUnit : MonoBehaviour {
             imageStamp.enabled = false;
         }
 
+        Debug.Log("index/daycount : " + index + " / " + UserDataManager.Inst.dayCount);
+        if (index == UserDataManager.Inst.dayCount)
+        {
+            buttonReward.enabled = true;
+        }
+        else
+        {
+            buttonReward.enabled = false;
+        }
     }
 
     //출석체크 요청 날리기 (Index날릴 필요 없을 듯 : 1씩 증가)

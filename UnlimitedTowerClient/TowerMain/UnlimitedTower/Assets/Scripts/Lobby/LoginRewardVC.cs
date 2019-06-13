@@ -10,20 +10,32 @@ public class LoginRewardVC : MonoSingleton<LoginRewardVC> {
 
     private const int MaxLoginRewardDay = 28;
 
+    private List<LoginRewardUnit> loginRewardUnits = new List<LoginRewardUnit>();
+
     //임시 데이터 
 
 	void Start () {
-        updateView();
+        initUnits();
+    }
+
+    void initUnits()
+    {
+        loginRewardUnits.Clear();
+        for (int i = 0; i < MaxLoginRewardDay; i++)
+        {
+            Transform transformPrefab = Instantiate(prefabLoginRewardUnit.transform);
+            transformPrefab.SetParent(frameUnits);
+            loginRewardUnits.Add(transformPrefab.GetComponent<LoginRewardUnit>());
+            loginRewardUnits[i].updateUnit(i);
+        }
     }
 
     public void updateView()
     {
-        for (int i=0; i< MaxLoginRewardDay; i++)
+        for (int i = 0; i < MaxLoginRewardDay; i++)
         {
-            Transform transformPrefab = Instantiate(prefabLoginRewardUnit.transform);
-            transformPrefab.SetParent(frameUnits);
-            transformPrefab.GetComponent<LoginRewardUnit>().updateUnit(i);
-       }
+            loginRewardUnits[i].updateUnit(i);
+        }
     }
 
     public void OnClickOK()
