@@ -1763,6 +1763,7 @@ void set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect_stat, battl
 void reset_battle_status(battle_status_info _pre_status, battle_status_info &_reset_status);
 int get_back_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
 int get_front_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
+uint32_t get_buff_effect_damage(buff_db::const_iterator _buff, battle_status_info _status, uint32_t _attack);
 
 ACTION testskill(eosio::name _user, uint32_t _job, uint32_t _skill_id);
 ACTION deletetemp();

@@ -3404,10 +3404,6 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             {
             case passive_effect_id::p_atk:
             {
-                if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                {
-                    _status.p_atk += (_status.buff_list[buff].effect_value * buff_iter->value) / 100;
-                }
                 break;
             }
             case passive_effect_id::m_atk:
@@ -3416,6 +3412,17 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             }
             case passive_effect_id::p_dfs:
             {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::per_up)
+                    {
+                        _status.p_dfs += (_status.p_dfs * buff_iter->value) / 100;
+                    }
+                    else if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    {
+                        _status.p_dfs -= (_status.p_dfs * buff_iter->value) / 100;
+                    }
+                }
                 break;
             }
             case passive_effect_id::m_dfs:
@@ -3444,10 +3451,28 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             }
             case passive_effect_id::avoid:
             {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::up)
+                    {
+                        _status.avoid += buff_iter->value;
+                    }
+                }
                 break;
             }
             case passive_effect_id::cri_per:
             {
+                break;
+            }
+            case passive_effect_id::cri_dmg:
+            {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::up)
+                    {
+                        _status.cri_dmg_per += buff_iter->value;
+                    }
+                }
                 break;
             }
             }
@@ -9335,7 +9360,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.emplace(_user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day = 1;
-            check_result.check_time = ( now() + 32400 )/86400 ; 
+            check_result.check_time = ( now() )/86400 ; 
             daily_check_reward(_user,1,seed_check_result);
         });
     }
@@ -9346,7 +9371,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day += 1;
-            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            check_result.check_time = ( now() )/ 86400 ;    
             daily_check_reward(_user,check_result.total_day,seed_check_result);
         });
     }   
@@ -9356,7 +9381,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
 bool battletest::timecheck(uint64_t user_checktime)
 {    
     uint64_t server_standard_time = now();    
-    uint64_t server_check_time = ( server_standard_time + 32400) / 86400 ;           
+    uint64_t server_check_time = ( server_standard_time) / 86400 ;           
 
     if(user_checktime == server_check_time)
     {
@@ -9942,12 +9967,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.p_atk = new_buff_effect_status.p_atk;
-            _enemy_status.p_atk += (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_atk += (_enemy_status.p_atk * _buff->value) / 100;
         }
         else if(_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.p_atk = new_buff_effect_status.p_atk;
-            _enemy_status.p_atk -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_atk -= (_enemy_status.p_atk * _buff->value) / 100;
         }
         break;
     }
@@ -9957,12 +9982,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.m_atk = new_buff_effect_status.m_atk;
-            _enemy_status.m_atk += (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_atk += (_enemy_status.m_atk * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.m_atk = new_buff_effect_status.m_atk;
-            _enemy_status.m_atk -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_atk -= (_enemy_status.m_atk * _buff->value) / 100;
         }
         break;
     }
@@ -9972,12 +9997,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.p_dfs = new_buff_effect_status.p_dfs;
-            _enemy_status.p_dfs += (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_dfs += (_enemy_status.p_dfs * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.p_dfs = new_buff_effect_status.p_dfs;
-            _enemy_status.p_dfs -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_dfs -= (_enemy_status.p_dfs * _buff->value) / 100;
         }
         break;
     }
@@ -9987,12 +10012,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.m_dfs = new_buff_effect_status.m_dfs;
-            _enemy_status.m_dfs += (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_dfs += (_enemy_status.m_dfs * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.m_dfs = new_buff_effect_status.m_dfs;
-            _enemy_status.m_dfs -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_dfs -= (_enemy_status.m_dfs * _buff->value) / 100;
         }
         break;
     }
@@ -10001,6 +10026,7 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         reset_battle_status(_enemy_status, new_buff_effect_status);
         if (_buff->effect_type == passive_effect_type_id::up)
         {
+            _enemy_status.avoid = new_buff_effect_status.avoid;
             _enemy_status.avoid += _buff->value;
         }
         break;
@@ -10010,6 +10036,7 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         reset_battle_status(_enemy_status, new_buff_effect_status);
         if (_buff->effect_type == passive_effect_type_id::up)
         {
+            _enemy_status.cri_dmg_per = new_buff_effect_status.cri_dmg_per;
             _enemy_status.cri_dmg_per += _buff->value;
         }
         break;
@@ -10018,13 +10045,21 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
 }
 void battletest::set_buff_value(uint32_t &_value, buff_db::const_iterator _buff, battle_status_info &_my_status , battle_status_info &_enemy_status)
 {
-    if(_buff->effect_stat_give == passive_effect_id::p_atk)
+    if (_buff->effect_stat_give == passive_effect_id::p_atk)
     {
         _value = _my_status.p_atk;
     }
-    else if(_buff->effect_stat_give == passive_effect_id::m_atk)
+    else if (_buff->effect_stat_give == passive_effect_id::m_atk)
     {
         _value = _my_status.m_atk;
+    }
+    else if (_buff->effect_stat_give == passive_effect_id::p_dfs)
+    {
+        _value = _my_status.p_dfs;
+    }
+    else if (_buff->effect_stat_give == passive_effect_id::m_dfs)
+    {
+        _value = _my_status.m_dfs;
     }
 }
 
@@ -10040,6 +10075,23 @@ int battletest::check_same_buff(std::vector<buff_info> _buff_list, uint32_t _id)
     }
     return index;
 }   
+uint32_t battletest::get_buff_effect_damage(buff_db::const_iterator _buff, battle_status_info _status, uint32_t _attack)
+{
+    uint32_t damage = 0;
+    uint32_t defense = 0;
+    if(_buff->dmg_type == dmg_type::physical_dfs)
+    {
+        defense = _status.p_dfs;
+    }
+    else if(_buff->dmg_type == dmg_type::magic_dfs)
+    {
+        defense = _status.m_dfs;
+    }
+
+    damage = get_damage(_attack, defense);
+
+    return damage;
+}
 
 void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_list,
                        std::vector<battle_status_info> & _enemy_status_list,
@@ -10057,32 +10109,15 @@ void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_
             {
                 if (buff_iter->effect_stat_take == passive_effect_id::hp)
                 {
-                    if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    if(buff_iter->effect_type == passive_effect_type_id::down)
                     {
                         buff_effect_info new_buff_info;
                         new_buff_info.type = buff_iter->effect_type;
                         new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
 
-                        check_hp(1, new_buff_info.damage, _my_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
-
-                        check_hp(1, new_buff_info.damage, _my_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if(buff_iter->effect_type == passive_effect_type_id::down)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
+                        uint32_t attack = 0;
+                        attack  = (_my_status_list[i].buff_list[buff].effect_value * (buff_iter->value * _my_status_list[i].buff_list[buff].overlap_count)) / 100;
+                        new_buff_info.damage = get_buff_effect_damage(buff_iter, _my_status_list[i], attack);
 
                         check_hp(1, new_buff_info.damage, _my_status_list[i]);
                         _character_buff_list.push_back(new_buff_info);
@@ -10102,32 +10137,15 @@ void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_
             {
                 if (buff_iter->effect_stat_take == passive_effect_id::hp)
                 {
-                    if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    if (buff_iter->effect_type == passive_effect_type_id::down)
                     {
                         buff_effect_info new_buff_info;
                         new_buff_info.type = buff_iter->effect_type;
                         new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
 
-                        check_hp(1, new_buff_info.damage, _enemy_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
-
-                        check_hp(2, new_buff_info.damage, _enemy_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::down)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
+                        uint32_t attack = 0 ;
+                        attack = (_enemy_status_list[i].buff_list[buff].effect_value * (buff_iter->value * _enemy_status_list[i].buff_list[buff].overlap_count)) / 100;
+                        new_buff_info.damage = get_buff_effect_damage(buff_iter, _enemy_status_list[i], attack);
 
                         check_hp(1, new_buff_info.damage, _enemy_status_list[i]);
                         _character_buff_list.push_back(new_buff_info);
@@ -10251,6 +10269,25 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //                   atoi(value_list[17].c_str()),
     //                   atoi(value_list[18].c_str()));
     // }
+    if (_table == "dbgachapool")
+    {
+        substr_value(_value, value_list, size_list, 2);
+        main_gacha_db main_gacha_db_table(_self, _self.value);
+        auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
+        if (main_gacha_db_iter == main_gacha_db_table.end())
+        {
+            main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
+                new_gacha.gacha_id = atoll(value_list[0].c_str());
+                new_gacha.db_index = atoi(value_list[1].c_str());
+            });
+        }
+        else
+        {
+            main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
+                new_gacha.db_index = atoi(value_list[1].c_str());
+            });
+        }
+    }
     if (_table == "dbbuffs")
     {
         substr_value(_value, value_list, size_list, 13);
