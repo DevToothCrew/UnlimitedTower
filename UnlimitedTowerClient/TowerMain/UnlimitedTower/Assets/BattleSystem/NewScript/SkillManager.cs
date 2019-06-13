@@ -36,7 +36,6 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200001_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isDefence");
-        //skillText.text = "디펜스";
         yield return new WaitForSeconds(0.3f);
 
         effect["Defence"].transform.position = BattleManager.Inst.character[battleInfo.my_position].transform.position;

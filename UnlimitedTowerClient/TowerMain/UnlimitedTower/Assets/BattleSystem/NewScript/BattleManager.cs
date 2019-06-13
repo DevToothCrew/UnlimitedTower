@@ -94,7 +94,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             
             if (i + 1 != stageActionInfo.character_action_list.Count &&
-                stageActionInfo.character_action_list[i + 1].action_info_list.Count != 0 &&
+                stageActionInfo.character_action_list[i].action_info_list.Count != 0 &&
                 stageActionInfo.character_action_list[i + 1].action_info_list[0].target_position == stageActionInfo.character_action_list[i].my_position &&
                 stageActionInfo.character_action_list[i + 1].my_position == stageActionInfo.character_action_list[i].action_info_list[0].target_position
                 )
