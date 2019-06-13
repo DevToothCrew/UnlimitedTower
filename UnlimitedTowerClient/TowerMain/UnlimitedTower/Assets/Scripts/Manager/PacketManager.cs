@@ -1811,7 +1811,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseDailyCheck(dailycheckData getDailyCheck)        
     {
         DebugLog.Log(false, getDailyCheck.ToString());
-
+        UserDataManager.Inst.dayCount = getDailyCheck.check_day;
     }
     #endregion
 
