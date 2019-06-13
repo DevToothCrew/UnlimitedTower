@@ -9,7 +9,7 @@
 //preregist_log_table, user_log_table
 //컨트랙트 계정용
 //owner_system
-static const eosio::name NFT_CONTRACT = "nftbaymain11"_n;
+static const eosio::name NFT_CONTRACT = "sangwootest3"_n;
 
 CONTRACT battletest : public contract
 {
@@ -26,16 +26,6 @@ CONTRACT battletest : public contract
         owner_auth.permission = "owner"_n;
     }
 #pragma endregion
-    enum grade_list
-    {
-        ser = 0,
-        legenary = 1,
-        unique,
-        rare,
-        uncommon,
-        common = 5,
-    };
-
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
     std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
 
@@ -232,7 +222,10 @@ CONTRACT battletest : public contract
         self = 1,
         enemy,
         myteam,
-        enemies,
+        enemies,    //무작의 적들
+        allally,    
+        allenemy,
+        enemyback = 11,
     };
 
     enum atk_type
@@ -278,6 +271,7 @@ CONTRACT battletest : public contract
         type_attack,    //2
         type_heal,      //3
         type_attack_debuff, //4
+        type_debuff,
     };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1154,11 +1148,15 @@ CONTRACT battletest : public contract
     {
         uint32_t id = 0;   //4
         uint32_t turn = 0; //4
+        uint32_t overlap_count = 0;
+        uint32_t effect_value = 0;
     };
 
     struct battle_status_info
     {
+        eosio::name owner;
         uint32_t type = 0; //servant 1 //monster 2
+        uint32_t grade = 5;
         uint32_t upgrade = 0;
         uint32_t max_hp = 0;
         uint32_t p_atk = 0;
@@ -1173,6 +1171,7 @@ CONTRACT battletest : public contract
         uint32_t position = 0;
         uint64_t second_speed = 0;
         uint32_t action = 0;
+        status_info basic_status;
         status_info status;
         uint32_t id = 0;
         uint32_t index = 0;
@@ -1222,6 +1221,9 @@ CONTRACT battletest : public contract
     {
         live = 0,
         dead,
+        stun = 11,
+        provocation = 12,
+
     };
 
     enum action_type
@@ -1238,6 +1240,13 @@ CONTRACT battletest : public contract
         uint32_t damage = 0;
     };
 
+    struct buff_effect_info
+    {
+        uint32_t type = 0;  //0 none, 1 up 2 down 3 per_up 4 per_down,
+        uint32_t position = 0;
+        uint32_t damage = 0;
+    };
+
     struct character_action_data
     {
         uint32_t my_position = 0;
@@ -1250,6 +1259,7 @@ CONTRACT battletest : public contract
         eosio::name user;
         uint32_t turn;
         std::vector<character_action_data> character_action_list;
+        std::vector<buff_effect_info> character_buff_list;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
@@ -1326,7 +1336,7 @@ CONTRACT battletest : public contract
     bool possible_start(eosio::name _user, uint32_t _party_number);
     ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _floor, uint32_t _type, uint32_t _difficult);
 
-    void init_buff_turn_self(battle_status_info & _status);
+    void check_buff_second_status(battle_status_info & _status);
     bool check_activate_skill(uint32_t _skill, uint64_t _rate);
     uint32_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
@@ -1335,7 +1345,7 @@ CONTRACT battletest : public contract
     static bool new_sort_compare(const battle_status_info &a, const battle_status_info &b);
     static bool new_sort_heal_compare(const heal_compare &a, const heal_compare &b);
 
-    void set_equipment_basic_status(eosio::name _from,
+    void set_battle_status(eosio::name _from,
                                     eosio::name _to,
                                     std::vector<uint64_t> & _second_seed_list,
                                     std::vector<battle_status_info> & _my_status_list,
@@ -1364,7 +1374,6 @@ CONTRACT battletest : public contract
                                     std::vector<battle_status_info> &_enemy_status_list,
                                     uint64_t _my_key, uint32_t _enemy_key);
     void set_random_damage(action_info &_action, uint64_t _seed);
-    void result_buff(action_info &_action, battle_status_info &_status);
     void result_type_damage(eosio::name _user, action_info & _action, std::vector<battle_status_info> & _my_status_list,
                             std::vector<battle_status_info> & _enemy_status_list,
                             uint64_t _my_key, uint32_t _enemy_key);
@@ -1702,9 +1711,6 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
-ACTION deletetemp();
-ACTION recorduser(uint32_t _start_count);
-ACTION recorduser2(uint32_t _start_count);
 //ACTION slotchange(eosio::name _user);
 TABLE ttemp
 {
@@ -1719,5 +1725,50 @@ TABLE tcount
     uint64_t primary_key() const { return count; }
 };
 typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+
+
+
+TABLE dbbuff
+{
+    uint64_t id;
+    uint32_t option_check;
+    uint32_t buff_debuff_check;
+    uint32_t target;
+    uint32_t overlapping_check;
+    uint32_t effect_type;
+    uint32_t state;
+    uint32_t condition_check;
+    uint32_t effect_stat_give;
+    uint32_t effect_stat_take;
+    uint32_t dmg_type;
+    uint32_t value;
+    uint32_t turn_count;
+    uint64_t primary_key() const {return id;}
+};
+typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
+
+void set_equipment_basic_status(eosio::name _user, battle_status_info _battle_info, status_info &_status);
+void set_equipment_second_status(eosio::name _user, battle_status_info &_status);
+void set_avoid_speed(uint32_t _type, battle_status_info &_status);
+
+void condition_check(buff_db::const_iterator _buff, battle_status_info &_status);
+void set_buff(active_db::const_iterator _active,battle_status_info &_my_status, battle_status_info &_enemy_status);
+int check_same_buff(std::vector<buff_info> _buff_list, uint32_t _id);
+void check_buff_effect(std::vector<battle_status_info> & _my_status_list,
+                       std::vector<battle_status_info> & _enemy_status_list,
+                       std::vector<buff_effect_info> & _character_buff_list);
+void check_hp(uint8_t _type, uint32_t _damage,  battle_status_info &_status);
+void set_buff_value(uint32_t &_value, buff_db::const_iterator _buff, battle_status_info &_my_status, battle_status_info &_enemy_status);
+void set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect_stat, battle_status_info &_enemy_status);
+void reset_battle_status(battle_status_info _pre_status, battle_status_info &_reset_status);
+int get_back_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
+int get_front_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
+
+ACTION testskill(eosio::name _user, uint32_t _job, uint32_t _skill_id);
+ACTION deletetemp();
+ACTION dbinsert(std::string _table, std::string _value);
+void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
+                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
 //end
 };
