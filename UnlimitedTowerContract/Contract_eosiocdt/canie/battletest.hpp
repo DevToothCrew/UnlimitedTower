@@ -1764,7 +1764,8 @@ void check_hp(uint8_t _type, uint32_t _damage,  battle_status_info &_status);
 void set_buff_value(uint32_t &_value, buff_db::const_iterator _buff, battle_status_info &_my_status, battle_status_info &_enemy_status);
 void set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect_stat, battle_status_info &_enemy_status);
 void reset_battle_status(battle_status_info _pre_status, battle_status_info &_reset_status);
-int get_back_position(const std::vector<battle_status_info> _enemy_state_list, uint32_t _pos);
+int get_back_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
+int get_front_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos);
 
 ACTION testskill(eosio::name _user, uint32_t _job, uint32_t _skill_id);
 ACTION dbinsert(std::string _table, std::string _value);

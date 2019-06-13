@@ -3262,9 +3262,24 @@ int battletest::get_heal_target(const std::vector<battle_status_info> &_enemy_st
    }
    return target_key;
 }
-int battletest::get_back_position(const std::vector<battle_status_info> _enemy_state_list, uint32_t _pos)
+int battletest::get_back_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos)
 {
     int target_key = -1;
+    for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
+    {
+        if (_enemy_state_list[i].position == _pos - 5)
+        {
+            if (_enemy_state_list[i].state != battle_member_state::dead)
+            {
+                return i;
+            }
+        }
+    }
+    return target_key;
+}
+int battletest::get_front_position(const std::vector<battle_status_info> &_enemy_state_list, uint32_t _pos)
+{
+    int target_key = - 1;
     for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
     {
         if (_enemy_state_list[i].position == _pos + 5)
@@ -3646,8 +3661,7 @@ bool battletest::set_action(eosio::name _user,
                 }
             }
             else if (active_iter->target_type == active_target_type::enemies ||
-                     active_iter->target_type == active_target_type::enemy ||
-                     active_iter->target_type == active_target_type::enemyback)
+                     active_iter->target_type == active_target_type::enemy)
             {
                 for (uint32_t i = 0; i < active_iter->target_count; ++i)
                 {
@@ -3657,6 +3671,7 @@ bool battletest::set_action(eosio::name _user,
                     {
                         return false;
                     }
+
                     new_seed = new_seed >> (i + 2);
 
                     action_info new_action;
@@ -3668,22 +3683,51 @@ bool battletest::set_action(eosio::name _user,
                     set_buff(active_iter, _my_status_list[_my_key] ,_enemy_status_list[enemy_key]);
 
                     _action_info.action_info_list.push_back(new_action);
-
-                    if(active_iter->target_type == active_target_type::enemyback)
+                }
+            }
+            else if(active_iter->target_type == active_target_type::enemyback)
+            {
+                for (uint32_t i = 0; i < active_iter->target_count; ++i)
+                {
+                    uint64_t new_seed = safeseed::get_seed_value(now(), _seed);
+                    int enemy_key = get_random_target(_enemy_status_list, new_seed, _enemy_status_list.size(), 0);
+                    if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                     {
-                        int back_enemy_key = get_back_position(_enemy_status_list, _enemy_status_list[enemy_key].position);
-                        if (back_enemy_key != -1)
+                        return false;
+                    }
+                    else
+                    {
+                        int check_front = get_front_position(_enemy_status_list, _enemy_status_list[enemy_key].position);
+                        if (check_front != -1)
                         {
-                            action_info add_action;
-                            add_action = get_target_action(_action, _seed, _my_key, back_enemy_key, _my_status_list, _enemy_status_list);
-
-                            set_random_damage(add_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
-                            result_type_skill(_user, add_action, _my_status_list, _enemy_status_list, _my_key, back_enemy_key); //스킬의 속성 추뎀 체크                                    //버프 스킬 체크
-                            check_hp(1, add_action.damage, _enemy_status_list[back_enemy_key]);
-                            set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[back_enemy_key]);
-
-                            _action_info.action_info_list.push_back(add_action);
+                            enemy_key = check_front;
                         }
+                    }
+
+                    new_seed = new_seed >> (i + 2);
+
+                    action_info new_action;
+                    new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+
+                    set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
+                    result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
+                    check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
+                    set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy_key]);
+
+                    _action_info.action_info_list.push_back(new_action);
+
+                    int back_enemy_key = get_back_position(_enemy_status_list, _enemy_status_list[enemy_key].position);
+                    if (back_enemy_key != -1)
+                    {
+                        action_info add_action;
+                        add_action = get_target_action(_action, _seed, _my_key, back_enemy_key, _my_status_list, _enemy_status_list);
+
+                        set_random_damage(add_action, _seed);                                                               //90~110% 사이의 랜덤 데미지
+                        result_type_skill(_user, add_action, _my_status_list, _enemy_status_list, _my_key, back_enemy_key); //스킬의 속성 추뎀 체크                                    //버프 스킬 체크
+                        check_hp(1, add_action.damage, _enemy_status_list[back_enemy_key]);
+                        set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[back_enemy_key]);
+
+                        _action_info.action_info_list.push_back(add_action);
                     }
                 }
             }
