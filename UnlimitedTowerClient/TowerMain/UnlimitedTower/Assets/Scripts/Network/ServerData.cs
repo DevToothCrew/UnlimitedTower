@@ -461,6 +461,7 @@ public class errorCode
 public class dailycheckData
 {
     public int check_day;
+    public ulong check_time;
 }
 #endregion
 

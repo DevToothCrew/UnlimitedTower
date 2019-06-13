@@ -32,7 +32,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public int currentDayCount = 0;
     public int dayCount = 0;
-    public int currentDayTime = 0;
+    public ulong currentDayTime = 0;
 
     public int usingPartyNum = 1;
 
