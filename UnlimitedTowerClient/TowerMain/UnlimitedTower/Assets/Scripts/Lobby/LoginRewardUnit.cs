@@ -52,6 +52,6 @@ public class LoginRewardUnit : MonoBehaviour {
     //출석체크 요청 날리기 (Index날릴 필요 없을 듯 : 1씩 증가)
     public void OnClickReward()
     {
-        
+        PacketManager.Inst.RequestDailyCheck();
     }
 }

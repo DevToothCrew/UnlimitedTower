@@ -1812,6 +1812,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         DebugLog.Log(false, getDailyCheck.ToString());
         UserDataManager.Inst.dayCount = getDailyCheck.check_day;
+        LoginRewardVC.Inst.updateView();
     }
     #endregion
 

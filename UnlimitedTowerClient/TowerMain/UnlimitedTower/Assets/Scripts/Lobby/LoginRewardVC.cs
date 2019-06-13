@@ -15,8 +15,8 @@ public class LoginRewardVC : MonoSingleton<LoginRewardVC> {
 	void Start () {
         updateView();
     }
-	
-    void updateView()
+
+    public void updateView()
     {
         for (int i=0; i< MaxLoginRewardDay; i++)
         {
