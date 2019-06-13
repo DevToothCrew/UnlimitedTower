@@ -8,6 +8,11 @@ public class LoginRewardVC : MonoSingleton<LoginRewardVC> {
     public Transform frameUnits;
     public GameObject prefabLoginRewardUnit;
 
+    public Sprite spriteFrameGotReward;
+    public Sprite spriteFrameReward;
+    public Sprite spriteGotDay;
+    public Sprite spriteDay;
+
     private const int MaxLoginRewardDay = 28;
 
     private List<LoginRewardUnit> loginRewardUnits = new List<LoginRewardUnit>();

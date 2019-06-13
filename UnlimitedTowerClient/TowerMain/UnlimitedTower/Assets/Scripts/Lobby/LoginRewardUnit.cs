@@ -12,10 +12,11 @@ public class LoginRewardUnit : MonoBehaviour {
     public Image imageStamp;
     public Button buttonReward;
     public GameObject objSpecialReward;
+    public Image imageCurrentReward;
 
     public void updateUnit(int index)
     {
-
+        LoginRewardVC loginRewardVC = LoginRewardVC.Inst;
         //csv data 완성 전까지 리턴 처리 
 
         if ((index+1)%7 == 0)
@@ -37,18 +38,26 @@ public class LoginRewardUnit : MonoBehaviour {
 
         if (index < UserDataManager.Inst.dayCount)
         {
-            //imageFrame.sprite = 
-            //imageDay.sprite =
+            imageCurrentReward.enabled = false;
+            imageFrame.sprite = loginRewardVC.spriteFrameGotReward;
+            imageDay.sprite = loginRewardVC.spriteGotDay;
             imageStamp.enabled = true;
         }
-        else
+        else 
         {
-            //imageFrame.sprite = 
-            //imageDay.sprite =
-            imageStamp.enabled = false;
+            if (index == UserDataManager.Inst.dayCount)
+            {
+                imageCurrentReward.enabled = true;
+            }
+            else
+            {
+                imageCurrentReward.enabled = false;
+            }
+            imageFrame.sprite = loginRewardVC.spriteFrameReward;
+            imageDay.sprite = loginRewardVC.spriteDay;
+            imageStamp.enabled = true;
         }
 
-        Debug.Log("index/daycount : " + index + " / " + UserDataManager.Inst.dayCount);
         if (index == UserDataManager.Inst.dayCount)
         {
             buttonReward.enabled = true;
@@ -62,6 +71,9 @@ public class LoginRewardUnit : MonoBehaviour {
     //출석체크 요청 날리기 (Index날릴 필요 없을 듯 : 1씩 증가)
     public void OnClickReward()
     {
-        PacketManager.Inst.RequestDailyCheck();
+        if (UserDataManager.Inst.currentDayCount < UserDataManager.Inst.dayCount)
+        {
+            PacketManager.Inst.RequestDailyCheck();
+        }
     }
 }

@@ -1434,6 +1434,11 @@ MonoBehaviour:
   frameUnits: {fileID: 224235749000058536}
   prefabLoginRewardUnit: {fileID: 1931309547938364, guid: c7a3b9bf4aa2d43369fa16af2891d31f,
     type: 2}
+  spriteFrameGotReward: {fileID: 21300000, guid: 349b964c21328426aa53ab2449c942a0,
+    type: 3}
+  spriteFrameReward: {fileID: 21300000, guid: bb8ddf47907e44fc5882053b7762d0e1, type: 3}
+  spriteGotDay: {fileID: 21300000, guid: a0b4bcae73cff4765873a060abd03f34, type: 3}
+  spriteDay: {fileID: 21300000, guid: 93b10d10ec45f4be78eb6c0f693f1369, type: 3}
 --- !u!114 &114826449278394906
 MonoBehaviour:
   m_ObjectHideFlags: 1

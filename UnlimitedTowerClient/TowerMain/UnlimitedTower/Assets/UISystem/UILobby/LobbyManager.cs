@@ -51,10 +51,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         LobbySound.SetActive(true);
         GachaSound.SetActive(false);
 
-        if (!LoginRewardVC.checkInst())
+        //로그인 보상을 안 받았을 때만 자동으로 뜸 
+        if (UserDataManager.Inst.currentDayCount < UserDataManager.Inst.dayCount)
         {
-            TopUIManager.Inst.ShowLoginReward();
+            if (!LoginRewardVC.checkInst())
+            {
+                TopUIManager.Inst.ShowLoginReward();
+            }
         }
+            
     }
 
     public void ChangeSceneState(SCENE_STATE state)
