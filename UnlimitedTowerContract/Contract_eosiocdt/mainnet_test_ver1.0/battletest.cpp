@@ -3740,10 +3740,10 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
         if (false == check_critical(_my_status_list[_my_key].cri_per, seed))
         {
             cur_damage = get_damage(cur_attack, target_defense);
-            if(_active_id == action_type::attack)
-            {
-                cur_damage += get_damage(_my_status_list[_my_key].m_atk, _enemy_status_list[_target_key].m_dfs);
-            }
+            // if(_active_id == action_type::attack)
+            // {
+            //     cur_damage += get_damage(_my_status_list[_my_key].m_atk, _enemy_status_list[_target_key].m_dfs);
+            // }
             new_action.target_position = _enemy_status_list[_target_key].position;
             new_action.avoid = 0;
             new_action.critical = 0;
@@ -3752,11 +3752,11 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
         else
         {
             cur_damage = get_damage(cur_cirtical_dmg, target_defense);
-            if (_active_id == action_type::attack)
-            {
-                cur_damage += get_damage( (_my_status_list[_my_key].m_atk * _my_status_list[_my_key].cri_dmg_per) / 100,
-                                             _enemy_status_list[_target_key].m_dfs);
-            }
+            // if (_active_id == action_type::attack)
+            // {
+            //     cur_damage += get_damage( (_my_status_list[_my_key].m_atk * _my_status_list[_my_key].cri_dmg_per) / 100,
+            //                                  _enemy_status_list[_target_key].m_dfs);
+            // }
             new_action.target_position = _enemy_status_list[_target_key].position;
             new_action.avoid = 0;
             new_action.critical = 1;
@@ -9764,6 +9764,25 @@ void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tr
     }
 }
 
+ACTION battletest::deletebattle()
+{
+    require_auth(_self);
+    new_battle_state_list a(_self, _self.value);
+    for(auto iter = a.begin(); iter != a.end();)
+    {
+        auto battle = a.find(iter->primary_key());
+        iter++;
+        a.erase(battle);
+    }
+    battle_actions b(_self, _self.value);
+    for (auto iter = b.begin(); iter != b.end();)
+    {
+        auto battle = b.find(iter->primary_key());
+        iter++;
+        b.erase(battle);
+    }
+}
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -9791,7 +9810,7 @@ void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tr
 //(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
 
 EOSIO_DISPATCH(battletest,
-                (dbinsert)
+                (dbinsert)(deletebattle)
               //admin
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //

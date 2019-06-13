@@ -1250,8 +1250,8 @@ CONTRACT battletest : public contract
     TABLE tbattleact
     {
         eosio::name user;
-        uint32_t turn;
         std::vector<character_action_data> character_action_list;
+        uint32_t turn;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
@@ -1639,11 +1639,11 @@ TABLE stagestateinfo
     uint8_t type;
     uint8_t difficult;
     uint8_t floor;
-    uint64_t turn = 0;
     std::vector<character_state_data> my_state_list;
     std::vector<character_state_data> enemy_state_list;
     std::vector<uint32_t> my_synergy_list;
     std::vector<uint32_t> enemy_synergy_list;
+    uint64_t turn = 0;
 
     uint64_t primary_key() const { return user.value; }
 };
@@ -1721,6 +1721,8 @@ TABLE dbbuff
     uint64_t primary_key() const {return id;}
 };
 typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
+
+ACTION deletebattle();
 
 ACTION dbinsert(std::string _table, std::string _value);
 void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
