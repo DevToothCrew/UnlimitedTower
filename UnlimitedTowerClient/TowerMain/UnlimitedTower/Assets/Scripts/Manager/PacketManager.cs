@@ -902,6 +902,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DebugLog.Log(false, "invalid ParsePartyList info");
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
+        UserDataManager.Inst.currentDayCount = userLoginData.current_day_check_count;
 
         if (userInfo.sceneState == SCENE_STATE.StageBattle || userInfo.sceneState == SCENE_STATE.PVP || userInfo.sceneState == SCENE_STATE.TowerBattle)
         {

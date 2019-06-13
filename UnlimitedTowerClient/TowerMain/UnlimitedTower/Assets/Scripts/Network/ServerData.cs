@@ -109,6 +109,7 @@ public class UserLoginData
     public userData user_data = new userData();
     public string eos;
     public string utg;
+    public int current_day_check_count;
 }
 
 [Serializable]
