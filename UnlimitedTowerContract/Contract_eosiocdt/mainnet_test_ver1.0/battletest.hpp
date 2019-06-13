@@ -1702,22 +1702,29 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
-ACTION deletetemp();
-ACTION recorduser(uint32_t _start_count);
-ACTION recorduser2(uint32_t _start_count);
-//ACTION slotchange(eosio::name _user);
-TABLE ttemp
-{
-    eosio::name user;
-    uint64_t primary_key() const { return user.value; }
-};
-typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
 
-TABLE tcount
+TABLE dbbuff
 {
-    uint64_t count;
-    uint64_t primary_key() const { return count; }
+    uint64_t id;
+    uint32_t option_check;
+    uint32_t buff_debuff_check;
+    uint32_t target;
+    uint32_t overlapping_check;
+    uint32_t effect_type;
+    uint32_t state;
+    uint32_t condition_check;
+    uint32_t effect_stat_give;
+    uint32_t effect_stat_take;
+    uint32_t dmg_type;
+    uint32_t value;
+    uint32_t turn_count;
+    uint64_t primary_key() const {return id;}
 };
-typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
+
+ACTION dbinsert(std::string _table, std::string _value);
+void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
+                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
 //end
 };

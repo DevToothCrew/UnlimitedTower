@@ -9582,199 +9582,185 @@ battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
     auto iter = my_table.find(_id);
     eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
     return iter;
-ACTION battletest::deletetemp()
-{
-    require_auth(_self);
-   
-    global_count global_count_table(_self, _self.value);
-    for(auto global = global_count_table.begin(); global != global_count_table.end();)
-    {
-        auto g_iter = global_count_table.find(global->primary_key());
-        global++;
-        global_count_table.erase(g_iter);
-    }
 }
 
-
-ACTION battletest::recorduser(uint32_t _start_count)
+ACTION battletest::dbinsert(std::string _table, std::string _value)
 {
-    require_auth(_self);
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
 
-    uint64_t limit_count = 500;
-    uint64_t cur_total_item_count = 0;
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
 
-    uint32_t iter_start = 1;
-    uint32_t cur_count = _start_count;
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
 
-    user_auths user_auth_table(_self, _self.value);
-    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    std::vector<size_t> size_list;
+    std::vector<std::string> value_list;
+    uint32_t value;
+    if (_table == "dbactive")
     {
-        if (iter_start < _start_count)
+        substr_value(_value, value_list, size_list, 19);
+        insert_active(atoll(value_list[0].c_str()),
+                      atoi(value_list[1].c_str()),
+                      atoi(value_list[2].c_str()),
+                      atoi(value_list[3].c_str()),
+                      atoi(value_list[4].c_str()),
+                      atoi(value_list[5].c_str()),
+                      atoi(value_list[6].c_str()),
+                      atoi(value_list[7].c_str()),
+                      atoi(value_list[8].c_str()),
+                      atoi(value_list[9].c_str()),
+                      atoi(value_list[10].c_str()),
+                      atoi(value_list[11].c_str()),
+                      atoi(value_list[12].c_str()),
+                      atoi(value_list[13].c_str()),
+                      atoi(value_list[14].c_str()),
+                      atoi(value_list[15].c_str()),
+                      atoi(value_list[16].c_str()),
+                      atoi(value_list[17].c_str()),
+                      atoi(value_list[18].c_str()));
+    }
+    if (_table == "dbgachapool")
+    {
+        substr_value(_value, value_list, size_list, 2);
+        main_gacha_db main_gacha_db_table(_self, _self.value);
+        auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
+        if (main_gacha_db_iter == main_gacha_db_table.end())
         {
-            iter_start++;
-            iter++;
-            continue;
-        }
-        auto user = user_auth_table.find(iter->primary_key());
-        user_servants user_servants_table(_self, user->user.value);
-        user_equip_items user_equip_items_table(_self, user->user.value);
-        uint64_t count = 0;
-
-        for (auto mail = user_equip_items_table.begin(); mail != user_equip_items_table.end();)
-        {
-            mail++;
-            count++;
-        }
-        for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
-        {
-            ser++;
-            count++;
-        }
-
-        if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
-        {
-            global_count global_count_table(_self, _self.value);
-            auto g_iter = global_count_table.find(_self.value);
-            global_count_table.emplace(_self, [&](auto &new_data) {
-                new_data.count = cur_count;
+            main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
+                new_gacha.gacha_id = atoll(value_list[0].c_str());
+                new_gacha.db_index = atoi(value_list[1].c_str());
             });
-            break;
         }
         else
         {
-            for (auto servant = user_servants_table.begin(); servant != user_servants_table.end();)
+            main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
+                new_gacha.db_index = atoi(value_list[1].c_str());
+            });
+        }
+    }
+    if (_table == "dbbuffs")
+    {
+        substr_value(_value, value_list, size_list, 13);
+        buff_db my_table(_self, _self.value);
+        auto iter = my_table.find( atoll(value_list[0].c_str()));
+        if(iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.option_check = atoi(value_list[1].c_str());
+                new_data.buff_debuff_check = atoi(value_list[2].c_str());
+                new_data.target = atoi(value_list[3].c_str());
+                new_data.overlapping_check = atoi(value_list[4].c_str());
+                new_data.effect_type = atoi(value_list[5].c_str());
+                new_data.state = atoi(value_list[6].c_str());
+                new_data.condition_check = atoi(value_list[7].c_str());
+                new_data.effect_stat_give = atoi(value_list[8].c_str());
+                new_data.effect_stat_take = atoi(value_list[9].c_str());
+                new_data.dmg_type = atoi(value_list[10].c_str());
+                new_data.value = atoi(value_list[11].c_str());
+                new_data.turn_count = atoi(value_list[12].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.option_check = atoi(value_list[1].c_str());
+                new_data.buff_debuff_check = atoi(value_list[2].c_str());
+                new_data.target = atoi(value_list[3].c_str());
+                new_data.overlapping_check = atoi(value_list[4].c_str());
+                new_data.effect_type = atoi(value_list[5].c_str());
+                new_data.state = atoi(value_list[6].c_str());
+                new_data.condition_check = atoi(value_list[7].c_str());
+                new_data.effect_stat_give = atoi(value_list[8].c_str());
+                new_data.effect_stat_take = atoi(value_list[9].c_str());
+                new_data.dmg_type = atoi(value_list[10].c_str());
+                new_data.value = atoi(value_list[11].c_str());
+                new_data.turn_count = atoi(value_list[12].c_str());
+            });
+        }
+    }
+    if (_table == "dbactive_buff_list")
+    {
+        substr_value(_value, value_list, size_list, 3);
+        active_db active_db_table(_self, _self.value);
+        auto active_db_iter = active_db_table.find(atoll(value_list[0].c_str()));
+
+        active_db_table.modify(active_db_iter, _self, [&](auto &new_data) {
+            if (new_data.buff_id_list.size() == 0)
             {
-                auto servant_iter = user_servants_table.find(servant->primary_key());
-
-                for (uint32_t i = 0; i < 3; i++)
+                new_data.buff_id_list.push_back(atoi(value_list[1].c_str()));
+                if (atoi(value_list[2].c_str()) != 0)
                 {
-                    if (servant_iter->servant.equip_slot[i] == 0)
-                    {
-                       servant++;
-                        continue;
-                    }
-                    else
-                    {
-                        auto equipment_iter = user_equip_items_table.find(servant_iter->servant.equip_slot[i]);
-                        if (equipment_iter == user_equip_items_table.end())
-                        {
-                            user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-                                new_data.servant.equip_slot[i] = 0;
-                            });
-                        }
-                        else if (equipment_iter != user_equip_items_table.end())
-                        {
-                            if (equipment_iter->equipment.equipservantindex != servant_iter->index)
-                            {
-
-                                user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-                                    new_data.servant.equip_slot[i] = 0;
-                                });
-                            }
-                        }
-                    }
+                    new_data.buff_id_list.push_back(atoi(value_list[2].c_str()));
                 }
-                servant++;
             }
-       
-            cur_total_item_count += count;
-            cur_count += 1;
-            iter++;
-        }
+            else
+            {
+                new_data.buff_id_list[0] = atoi(value_list[1].c_str());
+                if (atoi(value_list[2].c_str()) != 0)
+                {
+                    new_data.buff_id_list[1] = (atoi(value_list[2].c_str()));
+                }
+            }
+        });
     }
-
 }
 
-
-ACTION battletest::recorduser2(uint32_t _start_count)
+void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
+                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id)
 {
-    require_auth(_self);
-
-    uint64_t limit_count = 500;
-    uint64_t cur_total_item_count = 0;
-
-    uint32_t iter_start = 1;
-    uint32_t cur_count = _start_count;
-
-    user_auths user_auth_table(_self, _self.value);
-    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    active_db active_db_table(_self, _self.value);
+    auto active_db_iter = active_db_table.find(_active_id);
+    if (active_db_iter == active_db_table.end())
     {
-        if (iter_start < _start_count)
-        {
-            iter_start++;
-            iter++;
-            continue;
-        }
-        auto user = user_auth_table.find(iter->primary_key());
-        user_servants user_servants_table(_self, user->user.value);
-        user_equip_items user_equip_items_table(_self, user->user.value);
-        uint64_t count = 0;
-
-        for (auto mail = user_equip_items_table.begin(); mail != user_equip_items_table.end();)
-        {
-            mail++;
-            count++;
-        }
-        for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
-        {
-            ser++;
-            count++;
-        }
-
-        if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
-        {
-            global_count global_count_table(_self, _self.value);
-            auto g_iter = global_count_table.find(_self.value);
-            global_count_table.emplace(_self, [&](auto &new_data) {
-                new_data.count = cur_count;
-            });
-            break;
-        }
-        else
-        {
-            for (auto equipment = user_equip_items_table.begin(); equipment != user_equip_items_table.end();)
-            {
-                auto equipment_iter = user_equip_items_table.find(equipment->primary_key());
-
-                if (equipment_iter->equipment.equipservantindex == 0)
-                {
-                    equipment++;
-                    continue;
-                }
-                else
-                {
-                    auto servant_iter = user_servants_table.find(equipment_iter->equipment.equipservantindex);
-                    if (servant_iter == user_servants_table.end())
-                    {
-                        user_equip_items_table.modify(equipment_iter, _self, [&](auto &new_data) {
-                            new_data.equipment.equipservantindex = 0;
-                        });
-                    }
-                    else if (servant_iter != user_servants_table.end())
-                    {                        
-                        if (servant_iter->servant.equip_slot[equipment_iter->equipment.type] == 0)
-                        {                            
-                            user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-                                new_data.servant.equip_slot[equipment_iter->equipment.type] = equipment_iter->index;
-                            });
-                        }
-                        else if(servant_iter->servant.equip_slot[equipment_iter->equipment.type] != equipment_iter->index)
-                        {
-                            user_equip_items_table.modify(equipment_iter, _self, [&](auto &new_data) {
-                                new_data.equipment.equipservantindex = 0;
-                                new_data.equipment.state = 1;
-                            });
-                        }
-                        
-                    }
-                equipment++;
-                }
-
-           }
-            cur_total_item_count += count;
-            cur_count += 1;
-            iter++;
-        }
+        active_db_table.emplace(_self, [&](auto &new_active) {
+            new_active.active_id = _active_id;
+            new_active.job = _job;
+            new_active.tribe = _tribe;
+            new_active.active_per = _active_per;
+            new_active.skill_type = _skill_type;
+            new_active.attack_type = _attack_type;
+            new_active.dmg_type = _dmg_type;
+            new_active.elemental_type = _elemental_type;
+            new_active.target_type = _target;
+            new_active.target_count = _target_count;
+            new_active.active_turn = _active_turn;
+            new_active.hit_count = _hit_count;
+            new_active.atk_per_1 = _atk_per;
+            new_active.atk_per_add_1 = _atk_per_add;
+            new_active.atk_per_2 = _atk_per_2;
+            new_active.atk_per_add_2 = _atk_per_add_2;
+            new_active.heal_per = _heal_per;
+            new_active.heal_per_add = _heal_per_add;
+            new_active.option_id = _option_id;
+        });
+    }
+    else
+    {
+        active_db_table.modify(active_db_iter, _self, [&](auto &new_active) {
+            new_active.job = _job;
+            new_active.tribe = _tribe;
+            new_active.active_per = _active_per;
+            new_active.skill_type = _skill_type;
+            new_active.attack_type = _attack_type;
+            new_active.dmg_type = _dmg_type;
+            new_active.elemental_type = _elemental_type;
+            new_active.target_type = _target;
+            new_active.target_count = _target_count;
+            new_active.active_turn = _active_turn;
+            new_active.hit_count = _hit_count;
+            new_active.atk_per_1 = _atk_per;
+            new_active.atk_per_add_1 = _atk_per_add;
+            new_active.atk_per_2 = _atk_per_2;
+            new_active.atk_per_add_2= _atk_per_add_2;
+            new_active.heal_per = _heal_per;
+            new_active.heal_per_add = _heal_per_add;
+            new_active.option_id = _option_id;
+        });
     }
 }
 
@@ -9802,11 +9788,11 @@ ACTION battletest::recorduser2(uint32_t _start_count)
         }                                                                                      \
     }
 
-//(dbinsert)(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
+//(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
 
 EOSIO_DISPATCH(battletest,
+                (dbinsert)
               //admin
-              (recorduser)(recorduser2)(deletetemp)
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //event
