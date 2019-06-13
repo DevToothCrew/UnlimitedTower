@@ -271,6 +271,7 @@ CONTRACT battletest : public contract
         type_attack,    //2
         type_heal,      //3
         type_attack_debuff, //4
+        type_debuff,
     };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1258,7 +1259,7 @@ CONTRACT battletest : public contract
         eosio::name user;
         uint32_t turn;
         std::vector<character_action_data> character_action_list;
-        std::vector<buff_effect_info> character_buff_effect_list;
+        std::vector<buff_effect_info> character_buff_list;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
@@ -1710,6 +1711,23 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
+ACTION deletetemp();
+ACTION recorduser(uint32_t _start_count);
+ACTION recorduser2(uint32_t _start_count);
+//ACTION slotchange(eosio::name _user);
+TABLE ttemp
+{
+    eosio::name user;
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
+
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 
 
 
@@ -1722,6 +1740,7 @@ TABLE dbbuff
     uint32_t overlapping_check;
     uint32_t effect_type;
     uint32_t state;
+    uint32_t condition_check;
     uint32_t effect_stat_give;
     uint32_t effect_stat_take;
     uint32_t dmg_type;
@@ -1729,23 +1748,28 @@ TABLE dbbuff
     uint32_t turn_count;
     uint64_t primary_key() const {return id;}
 };
-typedef eosio::multi_index<"dbbuff"_n, dbbuff> buff_db;
+typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 
 void set_equipment_basic_status(eosio::name _user, battle_status_info _battle_info, status_info &_status);
 void set_equipment_second_status(eosio::name _user, battle_status_info &_status);
 void set_avoid_speed(uint32_t _type, battle_status_info &_status);
 
+void condition_check(buff_db::const_iterator _buff, battle_status_info &_status);
 void set_buff(active_db::const_iterator _active,battle_status_info &_my_status, battle_status_info &_enemy_status);
 int check_same_buff(std::vector<buff_info> _buff_list, uint32_t _id);
 void check_buff_effect(std::vector<battle_status_info> & _my_status_list,
                        std::vector<battle_status_info> & _enemy_status_list,
                        std::vector<buff_effect_info> & _character_buff_list);
 void check_hp(uint8_t _type, uint32_t _damage,  battle_status_info &_status);
-void check_end_buff_turn(std::vector<battle_status_info> & _my_status_list,
-                       std::vector<battle_status_info> & _enemy_status_list);
 void set_buff_value(uint32_t &_value, buff_db::const_iterator _buff, battle_status_info &_my_status, battle_status_info &_enemy_status);
 void set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect_stat, battle_status_info &_enemy_status);
 void reset_battle_status(battle_status_info _pre_status, battle_status_info &_reset_status);
-void change_member_state(buff_db::const_iterator _buff, battle_status_info &_status);
 int get_back_position(const std::vector<battle_status_info> _enemy_state_list, uint32_t _pos);
+
+ACTION testskill(eosio::name _user, uint32_t _job, uint32_t _skill_id);
+ACTION dbinsert(std::string _table, std::string _value);
+void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
+                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
+//end
 };
