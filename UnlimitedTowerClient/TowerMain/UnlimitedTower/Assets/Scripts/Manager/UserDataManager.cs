@@ -30,7 +30,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public battleActionData stageActionInfo = new battleActionData();
     public stageRewardData stageReward = new stageRewardData();
 
-    public int dayCount = new dailycheckData();
+    public int dayCount = -1;
 
     public int usingPartyNum = 1;
 
