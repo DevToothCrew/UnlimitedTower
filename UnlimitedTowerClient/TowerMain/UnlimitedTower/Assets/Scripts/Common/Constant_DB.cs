@@ -380,4 +380,16 @@ public class DBEquipmentUpgradeStatData
     public Dictionary<GRADE_TYPE, float> upStatDic = new Dictionary<GRADE_TYPE, float>();
 }
 
+
+//출석 보상용 임시데이터
+[Serializable]
+public class DBLoginRewardData
+{
+    public int id;          //보상 날짜 
+    public int rewardType;  //보상 종류
+    public int rewardCount; //보상 갯수
+    public string resourceIcon;
+    public Sprite imageReward; //보상 이미지 파일 
+}
+
 #endregion

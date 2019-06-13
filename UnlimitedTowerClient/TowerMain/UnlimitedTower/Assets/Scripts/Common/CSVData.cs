@@ -40,6 +40,9 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
+    // 출석 보상 관련 데이터
+    public Dictionary<int, DBLoginRewardData> DBLoginRewardDataDic = new Dictionary<int, DBLoginRewardData>();
+
     public void Awake()
     {
         SetCSVData();
@@ -1431,6 +1434,31 @@ public class CSVData : MonoSingleton<CSVData>
         return true;
     }
 
+    //로그인 보상 CSV DATA 임시로 만들어 둠 
+    public bool SetLoginRewardData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_login_reward");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //DebugLog.Log(false, "index " + (i).ToString()
+            //    + " : " + data[i]["day"]
+            //    + " " + data[i]["reward_type"]
+            //    + " " + data[i]["reward_count"]
+            //    );
+
+            DBLoginRewardData loginRewardData = new DBLoginRewardData();
+            loginRewardData.id = Convert.ToInt32(data[i]["v"]);
+            loginRewardData.rewardType= Convert.ToInt32(data[i]["reward_type"]);
+            loginRewardData.rewardCount = Convert.ToInt32(data[i]["reward_count"]);
+            loginRewardData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            loginRewardData.imageReward = Resources.Load<Sprite>("UI/LoginRewordIcon/" + loginRewardData.resourceIcon);
+
+            DBLoginRewardDataDic.Add(loginRewardData.id, loginRewardData);
+        }
+
+        return true;
+    }
+
     #endregion
 
     #region GetFunction
@@ -1939,6 +1967,18 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBPackageDataDic[id];
+    }
+
+    //로그인 보상 get
+    public DBLoginRewardData GetLoginRewardData(int id)
+    {
+        if (DBLoginRewardDataDic.ContainsKey(id) == false)
+        {
+            DebugLog.Log(true, "Invalid LoginReward ID");
+            return null;
+        }
+
+        return DBLoginRewardDataDic[id];
     }
 
     #endregion

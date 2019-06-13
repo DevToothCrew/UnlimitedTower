@@ -50,6 +50,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         LobbySound.SetActive(true);
         GachaSound.SetActive(false);
+
+        if (!LoginRewardVC.checkInst())
+        {
+            TopUIManager.Inst.ShowLoginReward();
+        }
     }
 
     public void ChangeSceneState(SCENE_STATE state)

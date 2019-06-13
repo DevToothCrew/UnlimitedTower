@@ -41,4 +41,12 @@ public class TopUIManager : MonoSingleton<TopUIManager> {
         objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         objSubView.GetComponent<PopupManager>().SetPopupMasseage(popup_type, msg_idx);
     }
+
+    public void ShowLoginReward()
+    {
+        GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/LoginRewardVC")) as GameObject;
+        objSubView.transform.SetParent(objUpperUI);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+    }
 }
