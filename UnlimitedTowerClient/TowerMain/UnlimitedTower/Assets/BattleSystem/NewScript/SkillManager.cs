@@ -496,8 +496,11 @@ public class SkillManager : MonoSingleton<SkillManager>
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
-        DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, ELEMENT_TYPE.Fire);
-        TestSkillEffect(battleInfo.action_info_list[1].target_position);
+        if (battleInfo.action_info_list.Count == 2)
+        {
+            DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, ELEMENT_TYPE.Fire);
+            TestSkillEffect(battleInfo.action_info_list[1].target_position);
+        }
     }
     #endregion
 
