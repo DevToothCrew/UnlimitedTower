@@ -2177,8 +2177,8 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
 
-    // gold_logs gold_logs_table(_self, _self.value);
-    // auto gold_logs_iter = gold_logs_table.find(_user.value);
+    gold_logs gold_logs_table(_self, _self.value);
+    auto gold_logs_iter = gold_logs_table.find(_user.value);
 
     eosio_assert(users_auth_iter != user_auth_table.end(), "Gold gacha : Empty Auth Table / Not Yet Signup");
     eosio_assert(users_auth_iter->state == user_state::lobby, "Gold gacha :  It Is Possible Lobby");
@@ -2190,10 +2190,20 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
         new_data.use_utg += 10000;
     });
 
-    gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-        // new_data.use_utg += 10000000;
-        new_data.use_utg += 10000;
-    });
+    if (gold_logs_iter == gold_logs_table.end())
+    {
+        gold_logs_table.emplace(_self, [&](auto &new_data) {
+            // new_data.use_utg += 10000000;
+            new_data.use_utg += 10000;
+        });
+    }
+    else
+    {
+        gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
+            // new_data.use_utg += 10000000;
+            new_data.use_utg += 10000;
+        });
+    }
 
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t seed = safeseed::get_seed_value(l_user, _seed);
@@ -9270,10 +9280,10 @@ ACTION battletest::dailycheck(name _user, string _seed)
     
     if(user_daily_check_iter == daily_check_table.end())
     {
-        daily_check_table.emplace(_user, [&](auto &check_result){
+        daily_check_table.emplace(_self, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day = 1;
-            check_result.check_time = ( now() )/ 86400 ; 
+            check_result.check_time = ( now() / 86400); 
             daily_check_reward(_user,1,seed_check_result);
         });
     }
@@ -9281,10 +9291,9 @@ ACTION battletest::dailycheck(name _user, string _seed)
     {       
         auto iter = *user_daily_check_iter;
        // eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
-        daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
-            check_result.user = _user;
+        daily_check_table.modify(user_daily_check_iter, _self, [&](auto &check_result){
             check_result.total_day += 1;
-            check_result.check_time = ( now() )/ 86400 ;    
+            check_result.check_time = ( now() / 86400);    
             daily_check_reward(_user,check_result.total_day,seed_check_result);
         });
     }   
@@ -9294,7 +9303,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
 bool battletest::timecheck(uint64_t user_checktime)
 {    
     uint64_t server_standard_time = now();    
-    uint64_t server_check_time = ( server_standard_time ) / 86400 ;           
+    uint64_t server_check_time = ( server_standard_time  / 86400);           
 
     if(user_checktime == server_check_time)
     {
@@ -9819,6 +9828,8 @@ ACTION battletest::deletebattle()
 {
     require_auth(_self);
 
+
+
     new_battle_state_list a(_self, _self.value);
     for(auto iter = a.begin(); iter != a.end();)
     {
@@ -9840,6 +9851,22 @@ ACTION battletest::deletebattle()
         auto battle = b.find(iter->primary_key());
         iter++;
         b.erase(battle);
+    }
+
+    gold_logs c(_self, _self.value);
+    for (auto iter = c.begin(); iter != c.end();)
+    {
+        auto battle = c.find(iter->primary_key());
+        iter++;
+        c.erase(battle);
+    }
+
+    dailychecks d(_self, _self.value);
+    for (auto iter = d.begin(); iter != d.end();)
+    {
+        auto battle = d.find(iter->primary_key());
+        iter++;
+        d.erase(battle);
     }
 }
 
