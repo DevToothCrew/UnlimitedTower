@@ -519,7 +519,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
     pre_gacha_db pre_gacha_db_table(_self, _self.value);
     mail_reward_list mail_reward_list_table(_self, _user.value);
 
-    eosio_assert(_mail_index.size() < 9, "mailopen : Max mail open count = 8");
+    eosio_assert(_mail_index.size() < 7, "mailopen : Max mail open count = 6");
     uint32_t mail_erase_count = 0 ;    
     eosio_assert(check_inventory(_user, 1) == true, "mailopen : your inventory is full");
     asset mail_get_UTG_result(0, symbol(symbol_code("UTG"), 4));
