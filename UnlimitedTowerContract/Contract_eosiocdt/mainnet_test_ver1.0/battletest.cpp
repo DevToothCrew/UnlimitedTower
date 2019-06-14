@@ -1242,19 +1242,6 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Write log : Log Table Empty / Not yet signup");
 
-    gold_logs gold_logs_table(_self, _self.value);
-    auto gold_logs_iter = gold_logs_table.find(_user.value);
-    if (gold_logs_iter == gold_logs_table.end())
-    {
-        gold_logs_table.emplace(_self, [&](auto &new_user) {
-            new_user.user = _user;
-            new_user.monster_num = 0;
-            new_user.equipment_num = 0;
-            new_user.item_num = 0;
-            new_user.gold_gacha_num = 0;
-            new_user.use_utg = 0;
-        });
-    }
     // eosio_assert(gold_logs_iter != gold_logs_table.end(), "Write log : Gold Log Table Empty / Not yet signup");
 
     result_info result;
@@ -1443,13 +1430,28 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
         update_log.mail += log_mail_count;
     });
 
-    gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-        new_data.gold_gacha_num += log_gacha_num;
-        new_data.monster_num += log_monster_num;
-        new_data.equipment_num += log_equip_num;
-        new_data.item_num += log_item_num;
-    });
-
+    gold_logs gold_logs_table(_self, _self.value);
+    auto gold_logs_iter = gold_logs_table.find(_user.value);
+    if (gold_logs_iter == gold_logs_table.end())
+    {
+        gold_logs_table.emplace(_self, [&](auto &new_user) {
+            new_user.user = _user;
+            new_user.monster_num = log_monster_num;
+            new_user.equipment_num = log_equip_num;
+            new_user.item_num = log_item_num;
+            new_user.gold_gacha_num = log_gacha_num;
+            new_user.use_utg = 0;
+        });
+    }
+    else
+    {
+        gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
+            new_data.gold_gacha_num += log_gacha_num;
+            new_data.monster_num += log_monster_num;
+            new_data.equipment_num += log_equip_num;
+            new_data.item_num += log_item_num;
+        });
+    }
     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
         update_auth_user.current_servant_inventory += servant_add_inventory;
         update_auth_user.current_monster_inventory += monster_add_inventory;
@@ -2126,20 +2128,20 @@ ACTION battletest::goldgacha(eosio::name _user, string _memo)
     eosio_assert(gold_seed != 0, "UTG Transfer Gacha : Wrong Seed Convert");
     eosio_assert(check_inventory(_user, 1) == true, "Gold Gacha : Inventory Is Full");
 
-    gold_logs gold_logs_table(_self, _self.value);
-    auto new_user_iter = gold_logs_table.find(_user.value);
+    // gold_logs gold_logs_table(_self, _self.value);
+    // auto new_user_iter = gold_logs_table.find(_user.value);
 
-    if (new_user_iter == gold_logs_table.end())
-    {
-        gold_logs_table.emplace(_self, [&](auto &new_user) {
-            new_user.user = _user;
-            new_user.monster_num = 0;
-            new_user.equipment_num = 0;
-            new_user.item_num = 0;
-            new_user.gold_gacha_num = 0;
-            new_user.use_utg = 0;
-        });
-    }
+    // if (new_user_iter == gold_logs_table.end())
+    // {
+    //     gold_logs_table.emplace(_self, [&](auto &new_user) {
+    //         new_user.user = _user;
+    //         new_user.monster_num = 0;
+    //         new_user.equipment_num = 0;
+    //         new_user.item_num = 0;
+    //         new_user.gold_gacha_num = 0;
+    //         new_user.use_utg = 0;
+    //     });
+    // }
 
     if (action == "goldgacha")
     {
@@ -2175,8 +2177,8 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
 
-    gold_logs gold_logs_table(_self, _self.value);
-    auto gold_logs_iter = gold_logs_table.find(_user.value);
+    // gold_logs gold_logs_table(_self, _self.value);
+    // auto gold_logs_iter = gold_logs_table.find(_user.value);
 
     eosio_assert(users_auth_iter != user_auth_table.end(), "Gold gacha : Empty Auth Table / Not Yet Signup");
     eosio_assert(users_auth_iter->state == user_state::lobby, "Gold gacha :  It Is Possible Lobby");
@@ -5942,19 +5944,21 @@ battletest::item_data battletest::get_item(eosio::name _user, uint32_t _id, uint
     uint32_t gacha_result_index = 0;
     uint32_t random_item_id = 0;
     uint32_t gacha_db_index = _id;
-    gold_logs gold_logs_table(_self, _self.value);
-    auto gold_logs_iter = gold_logs_table.find(_user.value);
-    if (gold_logs_iter == gold_logs_table.end())
-    {
-        gold_logs_table.emplace(_self, [&](auto &new_user) {
-            new_user.user = _user;
-            new_user.monster_num = 0;
-            new_user.equipment_num = 0;
-            new_user.item_num = 0;
-            new_user.gold_gacha_num = 0;
-            new_user.use_utg = 0;
-        });
-    }
+
+    // gold_logs gold_logs_table(_self, _self.value);
+    // auto gold_logs_iter = gold_logs_table.find(_user.value);
+    // if (gold_logs_iter == gold_logs_table.end())
+    // {
+    //     gold_logs_table.emplace(_self, [&](auto &new_user) {
+    //         new_user.user = _user;
+    //         new_user.monster_num = 0;
+    //         new_user.equipment_num = 0;
+    //         new_user.item_num = 0;
+    //         new_user.gold_gacha_num = 0;
+    //         new_user.use_utg = 0;
+    //     });
+    // }
+
     if(_id == 0)//골드 가차 
     {
         uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 1);
