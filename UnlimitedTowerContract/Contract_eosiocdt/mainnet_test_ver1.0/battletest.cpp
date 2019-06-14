@@ -9269,7 +9269,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.emplace(_user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day = 1;
-            check_result.check_time = ( now() + 32400 )/86400 ; 
+            check_result.check_time = ( now() )/ 86400 ; 
             daily_check_reward(_user,1,seed_check_result);
         });
     }
@@ -9280,7 +9280,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day += 1;
-            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            check_result.check_time = ( now() )/ 86400 ;    
             daily_check_reward(_user,check_result.total_day,seed_check_result);
         });
     }   
@@ -9290,7 +9290,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
 bool battletest::timecheck(uint64_t user_checktime)
 {    
     uint64_t server_standard_time = now();    
-    uint64_t server_check_time = ( server_standard_time + 32400) / 86400 ;           
+    uint64_t server_check_time = ( server_standard_time ) / 86400 ;           
 
     if(user_checktime == server_check_time)
     {
@@ -9814,10 +9814,19 @@ void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tr
 ACTION battletest::deletebattle()
 {
     require_auth(_self);
+
     new_battle_state_list a(_self, _self.value);
     for(auto iter = a.begin(); iter != a.end();)
     {
         auto battle = a.find(iter->primary_key());
+
+        user_auths user_auth_table(_self, _self.value);
+        auto user_auth_iter = user_auth_table.find(battle->user.value);
+        eosio_assert(user_auth_iter != user_auth_table.end(), "Stage Exit : Empty Auth Table / Not Yet Signup");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &update_user) {
+            update_user.state = user_state::lobby;
+        });
+
         iter++;
         a.erase(battle);
     }
