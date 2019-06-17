@@ -3404,10 +3404,6 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             {
             case passive_effect_id::p_atk:
             {
-                if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                {
-                    _status.p_atk += (_status.buff_list[buff].effect_value * buff_iter->value) / 100;
-                }
                 break;
             }
             case passive_effect_id::m_atk:
@@ -3416,6 +3412,17 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             }
             case passive_effect_id::p_dfs:
             {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::per_up)
+                    {
+                        _status.p_dfs += (_status.p_dfs * buff_iter->value) / 100;
+                    }
+                    else if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    {
+                        _status.p_dfs -= (_status.p_dfs * buff_iter->value) / 100;
+                    }
+                }
                 break;
             }
             case passive_effect_id::m_dfs:
@@ -3444,10 +3451,28 @@ void battletest::check_buff_second_status(battle_status_info &_status)
             }
             case passive_effect_id::avoid:
             {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::up)
+                    {
+                        _status.avoid += buff_iter->value;
+                    }
+                }
                 break;
             }
             case passive_effect_id::cri_per:
             {
+                break;
+            }
+            case passive_effect_id::cri_dmg:
+            {
+                if (buff_iter->effect_stat_give == 0)
+                {
+                    if (buff_iter->effect_type == passive_effect_type_id::up)
+                    {
+                        _status.cri_dmg_per += buff_iter->value;
+                    }
+                }
                 break;
             }
             }
@@ -9335,7 +9360,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.emplace(_user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day = 1;
-            check_result.check_time = ( now() + 32400 )/86400 ; 
+            check_result.check_time = ( now() )/86400 ; 
             daily_check_reward(_user,1,seed_check_result);
         });
     }
@@ -9346,7 +9371,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
         daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
             check_result.user = _user;
             check_result.total_day += 1;
-            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            check_result.check_time = ( now() )/ 86400 ;    
             daily_check_reward(_user,check_result.total_day,seed_check_result);
         });
     }   
@@ -9356,7 +9381,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
 bool battletest::timecheck(uint64_t user_checktime)
 {    
     uint64_t server_standard_time = now();    
-    uint64_t server_check_time = ( server_standard_time + 32400) / 86400 ;           
+    uint64_t server_check_time = ( server_standard_time) / 86400 ;           
 
     if(user_checktime == server_check_time)
     {
@@ -9719,188 +9744,6 @@ ACTION battletest::deletetemp()
    }
 }
 
-ACTION battletest::recorduser(uint32_t _start_count)
-{
-    // require_auth(_self);
-
-    // uint64_t limit_count = 500;
-    // uint64_t cur_total_item_count = 0;
-
-    // uint32_t iter_start = 1;
-    // uint32_t cur_count = _start_count;
-
-    // user_auths user_auth_table(_self, _self.value);
-    // for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    // {
-    //     if (iter_start < _start_count)
-    //     {
-    //         iter_start++;
-    //         iter++;
-    //         continue;
-    //     }
-    //     auto user = user_auth_table.find(iter->primary_key());
-    //     user_servants user_servants_table(_self, user->user.value);
-    //     user_equip_items user_equip_items_table(_self, user->user.value);
-    //     uint64_t count = 0;
-
-    //     for (auto mail = user_equip_items_table.begin(); mail != user_equip_items_table.end();)
-    //     {
-    //         mail++;
-    //         count++;
-    //     }
-    //     for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
-    //     {
-    //         ser++;
-    //         count++;
-    //     }
-
-    //     if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
-    //     {
-    //         global_count global_count_table(_self, _self.value);
-    //         auto g_iter = global_count_table.find(_self.value);
-    //         global_count_table.emplace(_self, [&](auto &new_data) {
-    //             new_data.count = cur_count;
-    //         });
-    //         break;
-    //     }
-    //     else
-    //     {
-    //         for (auto servant = user_servants_table.begin(); servant != user_servants_table.end();)
-    //         {
-    //             auto servant_iter = user_servants_table.find(servant->primary_key());
-
-    //             for (uint32_t i = 0; i < 3; i++)
-    //             {
-    //                 if (servant_iter->servant.equip_slot[i] == 0)
-    //                 {
-    //                    servant++;
-    //                     continue;
-    //                 }
-    //                 else
-    //                 {
-    //                     auto equipment_iter = user_equip_items_table.find(servant_iter->servant.equip_slot[i]);
-    //                     if (equipment_iter == user_equip_items_table.end())
-    //                     {
-    //                         user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-    //                             new_data.servant.equip_slot[i] = 0;
-    //                         });
-    //                     }
-    //                     else if (equipment_iter != user_equip_items_table.end())
-    //                     {
-    //                         if (equipment_iter->equipment.equipservantindex != servant_iter->index)
-    //                         {
-
-    //                             user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-    //                                 new_data.servant.equip_slot[i] = 0;
-    //                             });
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //             servant++;
-    //         }
-       
-    //         cur_total_item_count += count;
-    //         cur_count += 1;
-    //         iter++;
-    //     }
-    // }
-
-}
-
-
-ACTION battletest::recorduser2(uint32_t _start_count)
-{
-    // require_auth(_self);
-
-    // uint64_t limit_count = 500;
-    // uint64_t cur_total_item_count = 0;
-
-    // uint32_t iter_start = 1;
-    // uint32_t cur_count = _start_count;
-
-    // user_auths user_auth_table(_self, _self.value);
-    // for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    // {
-    //     if (iter_start < _start_count)
-    //     {
-    //         iter_start++;
-    //         iter++;
-    //         continue;
-    //     }
-    //     auto user = user_auth_table.find(iter->primary_key());
-    //     user_servants user_servants_table(_self, user->user.value);
-    //     user_equip_items user_equip_items_table(_self, user->user.value);
-    //     uint64_t count = 0;
-
-    //     for (auto mail = user_equip_items_table.begin(); mail != user_equip_items_table.end();)
-    //     {
-    //         mail++;
-    //         count++;
-    //     }
-    //     for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
-    //     {
-    //         ser++;
-    //         count++;
-    //     }
-
-    //     if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
-    //     {
-    //         global_count global_count_table(_self, _self.value);
-    //         auto g_iter = global_count_table.find(_self.value);
-    //         global_count_table.emplace(_self, [&](auto &new_data) {
-    //             new_data.count = cur_count;
-    //         });
-    //         break;
-    //     }
-    //     else
-    //     {
-    //         for (auto equipment = user_equip_items_table.begin(); equipment != user_equip_items_table.end();)
-    //         {
-    //             auto equipment_iter = user_equip_items_table.find(equipment->primary_key());
-
-    //             if (equipment_iter->equipment.equipservantindex == 0)
-    //             {
-    //                 equipment++;
-    //                 continue;
-    //             }
-    //             else
-    //             {
-    //                 auto servant_iter = user_servants_table.find(equipment_iter->equipment.equipservantindex);
-    //                 if (servant_iter == user_servants_table.end())
-    //                 {
-    //                     user_equip_items_table.modify(equipment_iter, _self, [&](auto &new_data) {
-    //                         new_data.equipment.equipservantindex = 0;
-    //                     });
-    //                 }
-    //                 else if (servant_iter != user_servants_table.end())
-    //                 {                        
-    //                     if (servant_iter->servant.equip_slot[equipment_iter->equipment.type] == 0)
-    //                     {                            
-    //                         user_servants_table.modify(servant_iter, _self, [&](auto &new_data) {
-    //                             new_data.servant.equip_slot[equipment_iter->equipment.type] = equipment_iter->index;
-    //                         });
-    //                     }
-    //                     else if(servant_iter->servant.equip_slot[equipment_iter->equipment.type] != equipment_iter->index)
-    //                     {
-    //                         user_equip_items_table.modify(equipment_iter, _self, [&](auto &new_data) {
-    //                             new_data.equipment.equipservantindex = 0;
-    //                             new_data.equipment.state = 1;
-    //                         });
-    //                     }
-                        
-    //                 }
-    //             equipment++;
-    //             }
-
-    //        }
-    //         cur_total_item_count += count;
-    //         cur_count += 1;
-    //         iter++;
-    //     }
-    // }
-
-}
 void battletest::set_avoid_speed(uint32_t _type, battle_status_info &_status)
 {
     if(_type == character_type::t_servant)
@@ -10124,12 +9967,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.p_atk = new_buff_effect_status.p_atk;
-            _enemy_status.p_atk += (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_atk += (_enemy_status.p_atk * _buff->value) / 100;
         }
         else if(_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.p_atk = new_buff_effect_status.p_atk;
-            _enemy_status.p_atk -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_atk -= (_enemy_status.p_atk * _buff->value) / 100;
         }
         break;
     }
@@ -10139,12 +9982,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.m_atk = new_buff_effect_status.m_atk;
-            _enemy_status.m_atk += (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_atk += (_enemy_status.m_atk * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.m_atk = new_buff_effect_status.m_atk;
-            _enemy_status.m_atk -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_atk -= (_enemy_status.m_atk * _buff->value) / 100;
         }
         break;
     }
@@ -10154,12 +9997,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.p_dfs = new_buff_effect_status.p_dfs;
-            _enemy_status.p_dfs += (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_dfs += (_enemy_status.p_dfs * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.p_dfs = new_buff_effect_status.p_dfs;
-            _enemy_status.p_dfs -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.p_dfs -= (_enemy_status.p_dfs * _buff->value) / 100;
         }
         break;
     }
@@ -10169,12 +10012,12 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         if (_buff->effect_type == passive_effect_type_id::per_up)
         {
             _enemy_status.m_dfs = new_buff_effect_status.m_dfs;
-            _enemy_status.m_dfs += (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_dfs += (_enemy_status.m_dfs * _buff->value) / 100;
         }
         else if (_buff->effect_type == passive_effect_type_id::per_down)
         {
             _enemy_status.m_dfs = new_buff_effect_status.m_dfs;
-            _enemy_status.m_dfs -= (_effect_stat * _buff->value) / 100;
+            _enemy_status.m_dfs -= (_enemy_status.m_dfs * _buff->value) / 100;
         }
         break;
     }
@@ -10183,6 +10026,7 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         reset_battle_status(_enemy_status, new_buff_effect_status);
         if (_buff->effect_type == passive_effect_type_id::up)
         {
+            _enemy_status.avoid = new_buff_effect_status.avoid;
             _enemy_status.avoid += _buff->value;
         }
         break;
@@ -10192,6 +10036,7 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
         reset_battle_status(_enemy_status, new_buff_effect_status);
         if (_buff->effect_type == passive_effect_type_id::up)
         {
+            _enemy_status.cri_dmg_per = new_buff_effect_status.cri_dmg_per;
             _enemy_status.cri_dmg_per += _buff->value;
         }
         break;
@@ -10200,13 +10045,21 @@ void battletest::set_buff_effect(buff_db::const_iterator _buff, uint32_t _effect
 }
 void battletest::set_buff_value(uint32_t &_value, buff_db::const_iterator _buff, battle_status_info &_my_status , battle_status_info &_enemy_status)
 {
-    if(_buff->effect_stat_give == passive_effect_id::p_atk)
+    if (_buff->effect_stat_give == passive_effect_id::p_atk)
     {
         _value = _my_status.p_atk;
     }
-    else if(_buff->effect_stat_give == passive_effect_id::m_atk)
+    else if (_buff->effect_stat_give == passive_effect_id::m_atk)
     {
         _value = _my_status.m_atk;
+    }
+    else if (_buff->effect_stat_give == passive_effect_id::p_dfs)
+    {
+        _value = _my_status.p_dfs;
+    }
+    else if (_buff->effect_stat_give == passive_effect_id::m_dfs)
+    {
+        _value = _my_status.m_dfs;
     }
 }
 
@@ -10222,6 +10075,23 @@ int battletest::check_same_buff(std::vector<buff_info> _buff_list, uint32_t _id)
     }
     return index;
 }   
+uint32_t battletest::get_buff_effect_damage(buff_db::const_iterator _buff, battle_status_info _status, uint32_t _attack)
+{
+    uint32_t damage = 0;
+    uint32_t defense = 0;
+    if(_buff->dmg_type == dmg_type::physical_dfs)
+    {
+        defense = _status.p_dfs;
+    }
+    else if(_buff->dmg_type == dmg_type::magic_dfs)
+    {
+        defense = _status.m_dfs;
+    }
+
+    damage = get_damage(_attack, defense);
+
+    return damage;
+}
 
 void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_list,
                        std::vector<battle_status_info> & _enemy_status_list,
@@ -10239,32 +10109,15 @@ void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_
             {
                 if (buff_iter->effect_stat_take == passive_effect_id::hp)
                 {
-                    if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    if(buff_iter->effect_type == passive_effect_type_id::down)
                     {
                         buff_effect_info new_buff_info;
                         new_buff_info.type = buff_iter->effect_type;
                         new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
 
-                        check_hp(1, new_buff_info.damage, _my_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
-
-                        check_hp(1, new_buff_info.damage, _my_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if(buff_iter->effect_type == passive_effect_type_id::down)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _my_status_list[i].position;
-                        new_buff_info.damage = (_my_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
+                        uint32_t attack = 0;
+                        attack  = (_my_status_list[i].buff_list[buff].effect_value * (buff_iter->value * _my_status_list[i].buff_list[buff].overlap_count)) / 100;
+                        new_buff_info.damage = get_buff_effect_damage(buff_iter, _my_status_list[i], attack);
 
                         check_hp(1, new_buff_info.damage, _my_status_list[i]);
                         _character_buff_list.push_back(new_buff_info);
@@ -10284,32 +10137,15 @@ void battletest::check_buff_effect(std::vector<battle_status_info> & _my_status_
             {
                 if (buff_iter->effect_stat_take == passive_effect_id::hp)
                 {
-                    if (buff_iter->effect_type == passive_effect_type_id::per_down)
+                    if (buff_iter->effect_type == passive_effect_type_id::down)
                     {
                         buff_effect_info new_buff_info;
                         new_buff_info.type = buff_iter->effect_type;
                         new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
 
-                        check_hp(1, new_buff_info.damage, _enemy_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::per_up)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
-
-                        check_hp(2, new_buff_info.damage, _enemy_status_list[i]);
-                        _character_buff_list.push_back(new_buff_info);
-                    }
-                    else if (buff_iter->effect_type == passive_effect_type_id::down)
-                    {
-                        buff_effect_info new_buff_info;
-                        new_buff_info.type = buff_iter->effect_type;
-                        new_buff_info.position = _enemy_status_list[i].position;
-                        new_buff_info.damage = (_enemy_status_list[i].buff_list[buff].effect_value * buff_iter->value) / 100;
+                        uint32_t attack = 0 ;
+                        attack = (_enemy_status_list[i].buff_list[buff].effect_value * (buff_iter->value * _enemy_status_list[i].buff_list[buff].overlap_count)) / 100;
+                        new_buff_info.damage = get_buff_effect_damage(buff_iter, _enemy_status_list[i], attack);
 
                         check_hp(1, new_buff_info.damage, _enemy_status_list[i]);
                         _character_buff_list.push_back(new_buff_info);
@@ -10410,28 +10246,47 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     std::vector<size_t> size_list;
     std::vector<std::string> value_list;
     uint32_t value;
-    if (_table == "dbactive")
+    // if (_table == "dbactive")
+    // {
+    //     substr_value(_value, value_list, size_list, 19);
+    //     insert_active(atoll(value_list[0].c_str()),
+    //                   atoi(value_list[1].c_str()),
+    //                   atoi(value_list[2].c_str()),
+    //                   atoi(value_list[3].c_str()),
+    //                   atoi(value_list[4].c_str()),
+    //                   atoi(value_list[5].c_str()),
+    //                   atoi(value_list[6].c_str()),
+    //                   atoi(value_list[7].c_str()),
+    //                   atoi(value_list[8].c_str()),
+    //                   atoi(value_list[9].c_str()),
+    //                   atoi(value_list[10].c_str()),
+    //                   atoi(value_list[11].c_str()),
+    //                   atoi(value_list[12].c_str()),
+    //                   atoi(value_list[13].c_str()),
+    //                   atoi(value_list[14].c_str()),
+    //                   atoi(value_list[15].c_str()),
+    //                   atoi(value_list[16].c_str()),
+    //                   atoi(value_list[17].c_str()),
+    //                   atoi(value_list[18].c_str()));
+    // }
+    if (_table == "dbgachapool")
     {
-        substr_value(_value, value_list, size_list, 19);
-        insert_active(atoll(value_list[0].c_str()),
-                      atoi(value_list[1].c_str()),
-                      atoi(value_list[2].c_str()),
-                      atoi(value_list[3].c_str()),
-                      atoi(value_list[4].c_str()),
-                      atoi(value_list[5].c_str()),
-                      atoi(value_list[6].c_str()),
-                      atoi(value_list[7].c_str()),
-                      atoi(value_list[8].c_str()),
-                      atoi(value_list[9].c_str()),
-                      atoi(value_list[10].c_str()),
-                      atoi(value_list[11].c_str()),
-                      atoi(value_list[12].c_str()),
-                      atoi(value_list[13].c_str()),
-                      atoi(value_list[14].c_str()),
-                      atoi(value_list[15].c_str()),
-                      atoi(value_list[16].c_str()),
-                      atoi(value_list[17].c_str()),
-                      atoi(value_list[18].c_str()));
+        substr_value(_value, value_list, size_list, 2);
+        main_gacha_db main_gacha_db_table(_self, _self.value);
+        auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
+        if (main_gacha_db_iter == main_gacha_db_table.end())
+        {
+            main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
+                new_gacha.gacha_id = atoll(value_list[0].c_str());
+                new_gacha.db_index = atoi(value_list[1].c_str());
+            });
+        }
+        else
+        {
+            main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
+                new_gacha.db_index = atoi(value_list[1].c_str());
+            });
+        }
     }
     if (_table == "dbbuffs")
     {
@@ -10560,7 +10415,7 @@ void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tr
 EOSIO_DISPATCH(battletest,
                 (dbinsert)(testskill)
               //admin
-              (recorduser)(recorduser2)(deletetemp)
+              (deletetemp)
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //event

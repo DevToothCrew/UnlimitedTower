@@ -247,7 +247,3 @@ void insert_enemy_info(std::vector<uint32_t> _enemy_info);
 void insert_enemy_stat(std::vector<uint32_t> _enemy_stat);
 void insert_new_reward(std::vector<uint32_t> _reward);
 
-ACTION dbinsert(std::string _table, std::string _value);
-void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
-                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
