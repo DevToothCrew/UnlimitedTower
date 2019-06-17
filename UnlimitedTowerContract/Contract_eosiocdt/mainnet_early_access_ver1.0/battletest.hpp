@@ -1240,8 +1240,8 @@ CONTRACT battletest : public contract
     TABLE tbattleact
     {
         eosio::name user;
-        uint32_t turn;
         std::vector<character_action_data> character_action_list;
+        uint32_t turn;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
@@ -1566,12 +1566,11 @@ TABLE stagestateinfo
     uint8_t type;
     uint8_t difficult;
     uint8_t floor;
-    uint64_t turn = 0;
     std::vector<character_state_data> my_state_list;
     std::vector<character_state_data> enemy_state_list;
     std::vector<uint32_t> my_synergy_list;
     std::vector<uint32_t> enemy_synergy_list;
-
+    uint64_t turn = 0;
     uint64_t primary_key() const { return user.value; }
 };
 typedef eosio::multi_index<"tstgstates"_n, stagestateinfo> new_battle_state_list;
@@ -1623,5 +1622,5 @@ passive_db::const_iterator get_passive_db(uint64_t _id);
 shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
-ACTION deletebattle();
+
 };

@@ -2046,15 +2046,15 @@ void battletest::start_gacha_10(eosio::name _user, uint64_t _seed, uint64_t _use
     });
     if (_count == 1)
     {
-        gacha_get_object(_user, _seed, 0);
+        gacha_get_object(_user, _seed+user_log_iter->use_eos, 0);
     }
     else
     {
         for (uint32_t i = 0; i < _count - 1; i++)
         {
-            gacha_get_object(_user, _seed + i, 0);
+            gacha_get_object(_user, _seed + i+user_log_iter->use_eos, 0);
         }
-        gacha_get_object(_user, _seed,2);  //확정권 
+        gacha_get_object(_user, _seed+user_log_iter->use_eos,2);   
     }
 
     servant_random_count = 0;
@@ -6488,17 +6488,15 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 
     asset equipment_burn_result(0, symbol(symbol_code("UTG"), 4));
 
-    std::string contents_list;
     uint32_t burn_count = _list.size();
 
     for (uint32_t i = 0; i < burn_count; ++i)
     {
         auto user_equipment_iter = user_equipment_table.find(_list[i]);
-       
         eosio_assert(user_equipment_iter != user_equipment_table.end(), "equipburn : not exist equipment info");
-        eosio_assert(user_equipment_iter->equipment.state != object_state::on_equip_slot, "equipburn : this equipment is on equip");
         eosio_assert(user_equipment_iter->equipment.state == object_state::on_inventory, "equipburn : this equipment is not inventory state");
-        
+        eosio_assert(user_equipment_iter->equipment.equipservantindex == 0, "equipburn : this equipment is wearing");
+
         uint64_t get_utg = 10000;
 
         if (user_equipment_iter->equipment.grade == 1)
@@ -6554,33 +6552,42 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
 
     user_equip_items user_equip_item_table(_self, _user.value);
     auto user_equip_item_iter = user_equip_item_table.find(_item_index);
+    eosio_assert(user_equip_item_iter != user_equip_item_table.end(), "equip : not exist item info1");
+
     user_servants user_servant_table(_self, _user.value);
     auto user_servant_iter = user_servant_table.find(_servant_index);
-    auto servant_db_iter = get_servant_db(user_servant_iter->servant.id);
+    eosio_assert(user_servant_iter != user_servant_table.end(), "equip : not exist servant info");
+    //auto servant_db_iter = get_servant_db(user_servant_iter->servant.id);
+
+    servant_db servant_db_table(_self ,_self.value);
+    auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
+    eosio_assert(servant_db_iter != servant_db_table.end(), "equip : Empty Servant.id");
 
     equipment_db my_table(_self, _self.value);
     auto equipment_db_iter = my_table.find(user_equip_item_iter->equipment.id);
-    eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
-    //auto equipment_db_iter = get_equipment_db(user_equip_item_iter->equipment.id);
+    eosio_assert(equipment_db_iter != my_table.end(), "equip : Empty Equipment ID");
 
-    eosio_assert(user_servant_iter != user_servant_table.end(), "equip : not exist servant info");
-    eosio_assert(user_equip_item_iter != user_equip_item_table.end(), "equip : not exist item info1");
-
-    eosio_assert(compare_item(servant_db_iter->job, user_equip_item_iter->equipment.job), "equip : this item is not enough job equipment");  //직업 비교 
+        
+    eosio_assert(compare_item(servant_db_iter->job, user_equip_item_iter->equipment.job), "equip : this item is not enough job equipment");
 
     eosio_assert(equipment_db_iter->type == user_equip_item_iter->equipment.type, "equip : this item is not same type");
     uint32_t slot;
     slot = user_equip_item_iter->equipment.type;
 
-    if ((user_servant_iter->servant.state == object_state::on_inventory) || user_servant_iter->servant.state == object_state::on_party) // && 
+    if ((user_servant_iter->servant.state == object_state::on_inventory) || user_servant_iter->servant.state == object_state::on_party) 
     {
         if (user_servant_iter->servant.level >= ((user_equip_item_iter->equipment.tier * 10) + 1) - 10)
         {
-            if (user_servant_iter->servant.equip_slot[slot] != 0) 
+            if (user_servant_iter->servant.equip_slot[slot] != 0)
             {
-                //여기서 조건 한번 더 0이 아닌상태에서 - 장비랑 서번트 슬롯이랑 같으면 해제 
-                if(user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
+                if (user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index &&
+                    user_servant_iter->index == user_equip_item_iter->equipment.equipservantindex)
                 {
+                    //아이템 상태 체크
+                    //장비 중인 상태인지 체크
+                    eosio_assert(user_equip_item_iter->equipment.state == object_state::on_equip_slot, "unequip : Not equipment state equip_slot");
+                    eosio_assert(user_equip_item_iter->equipment.equipservantindex != 0, "unequip : This item is Not equip");
+
                     user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &unequip_item) {
                         unequip_item.equipment.state = object_state::on_inventory;
                         unequip_item.equipment.equipservantindex = 0;
@@ -6590,46 +6597,59 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
                         unequip_servant.servant.equip_slot[slot] = 0;
                     });
                 }
-                //장비랑 서번트 슬롯이랑 다르면 장비 변경 
                 else
                 {
-                    user_equip_items user_equip_item_table2(_self, _user.value);
-                    auto user_equip_item_iter2 = user_equip_item_table2.find(user_servant_iter->servant.equip_slot[slot]);
-                    user_equip_item_table2.modify(user_equip_item_iter2, _self, [&](auto &unequip_item) {
-                        unequip_item.equipment.state = object_state::on_inventory;
-                        unequip_item.equipment.equipservantindex = 0;
-                    });
+                    //갈아낄라는 애 상태가 인벤토리
+                    //기존께 끼고있는 상태
+                    user_equip_items user_unequip_item_table(_self, _user.value);
+                    auto user_unequip_item_iter = user_unequip_item_table.find(user_servant_iter->servant.equip_slot[slot]);
+                    eosio_assert(user_unequip_item_iter->equipment.state == object_state::on_equip_slot, "change equip : Not equipment state equip_slot");
+                    eosio_assert(user_unequip_item_iter->equipment.equipservantindex != 0, "change equip : This item is Not equip");
+                    eosio_assert(user_equip_item_iter->equipment.state == object_state::on_inventory, "change equip : Not equipment state inventory");
+                    eosio_assert(user_equip_item_iter->equipment.equipservantindex == 0, "change equip : This item is Not equip index 0");
 
-                    user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
-                        equip_item.equipment.state = object_state::on_equip_slot;
-                        equip_item.equipment.equipservantindex = user_servant_iter->index;
-                    });
+                     user_unequip_item_table.modify(user_unequip_item_iter, _self, [&](auto &unequip_item) {
+                         unequip_item.equipment.state = object_state::on_inventory;
+                         unequip_item.equipment.equipservantindex = 0;
+                     });
 
-                    user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-                        unequip_servant.servant.equip_slot[slot] = _item_index;
-                    });
+                     user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
+                         equip_item.equipment.state = object_state::on_equip_slot;
+                         equip_item.equipment.equipservantindex = user_servant_iter->index;
+                     });
+
+                     user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
+                         unequip_servant.servant.equip_slot[slot] = user_equip_item_iter->index;
+                     });
                 }
             }
-            else //기존 장비 장착 아닌 상황 슬롯이 0일때
+            else if(user_servant_iter->servant.equip_slot[slot] == 0)
             {
+                //낄려고 하는 아이템 상태 체크
+                eosio_assert(user_equip_item_iter->equipment.state == object_state::on_inventory, "new equip : Not equipment state inventory");
+                eosio_assert(user_equip_item_iter->equipment.equipservantindex == 0, "new equip : This item is Not 0");
                 user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
                     equip_item.equipment.state = object_state::on_equip_slot;
                     equip_item.equipment.equipservantindex = user_servant_iter->index;
                 });
 
                 user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-                    unequip_servant.servant.equip_slot[slot] = _item_index;
+                    unequip_servant.servant.equip_slot[slot] = user_equip_item_iter->index;
                 });
             }
+            else
+            {
+                eosio_assert(false, "equip:Not exsit slot state");
+            }            
         }
-        else 
+        else
         {
-            eosio_assert(0 == 1, "equip : There is not enough level.");
+            eosio_assert(false, "equip : There is not enough level.");
         }
     }
     else
     {
-        eosio_assert(1 == 0, "equip : this servant, equipment is not inventory state");
+        eosio_assert(false, "equip : this servant, equipment is not inventory state");
     }
 }
 
@@ -9290,7 +9310,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
     else
     {       
         auto iter = *user_daily_check_iter;
-       // eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
+        eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
         daily_check_table.modify(user_daily_check_iter, _self, [&](auto &check_result){
             check_result.total_day += 1;
             check_result.check_time = ( now() / 86400);    
