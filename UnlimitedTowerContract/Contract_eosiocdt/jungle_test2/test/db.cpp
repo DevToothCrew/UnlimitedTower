@@ -2733,7 +2733,6 @@ void battletest::insert_packageshop(uint64_t _id, uint64_t _get_utg, uint64_t _l
 //}
 
 
-
 void battletest::insert_stage_info(std::vector<uint32_t> _stage_info)
 {
     stageinfo_db my_table(_self, _self.value);

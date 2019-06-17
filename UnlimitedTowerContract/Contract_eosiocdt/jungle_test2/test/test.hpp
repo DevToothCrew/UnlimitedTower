@@ -1,4 +1,6 @@
-    //ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
+    //void get_mail(eosio::name _user, uint32_t _type_index);
+
+        //ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
     //ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
 	//ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
     //ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
@@ -6,14 +8,26 @@
     //ACTION contents(eosio::name _who, std::string _type, std::string _result);
     //ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
 
+     //ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
-    void add_party_list(eosio::name _user);
-
-    void deletebattle(eosio::name _user);
+         void deletebattle(eosio::name _user);
     void deleteuser(eosio::name _user);
-    // ACTION alluserdel();
-    // ACTION allbattle();
+    //ACTION alluserdel();
+    //ACTION allbattle();
 
+    #pragma region chat
+    // ACTION chat(name _user, asset _price, string _text);
+    // TABLE tchat
+    // {
+    //     name owner;
+    //     asset price;
+    //     name user;
+    //     string text;
+    //     uint64_t start_time;
+    //     uint64_t primary_key() const { return owner.value; }
+    // };
+    // typedef eosio::multi_index<"tchat"_n, tchat> chat_index;
+#pragma endregion
 
     // struct seed_info
     // {
@@ -22,23 +36,20 @@
     //     uint64_t result;
     // };
     
-// TABLE ttemp
-// {
-//     eosio::name user;
-//     uint64_t primary_key() const { return user.value; }
-// };
-// typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
+    // TABLE tcheck
+    // {
+    //     uint64_t index;
+    //     seed_info value;
+    //     uint64_t primary_key() const { return index; }
+    // };
+    // typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
 
-// TABLE tcount
-// {
-//     uint64_t count;
-//     uint64_t primary_key() const { return count; }
-// };
-// typedef eosio::multi_index<"tcount"_n, tcount> global_count;
-
-//ACTION deletetemp();
-//ACTION recorduser(uint32_t _start_count);
-//ACTION itemchange(eosio::name _user);
+    // TABLE ttemp
+    // {
+    //     uint64_t count;
+    //     uint64_t primary_key() const {return count;}
+    // };
+    // typedef eosio::multi_index<"ttemp"_n, ttemp> global_count;
 
     //void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
     //ACTION partycheat(eosio::name _user);
@@ -46,76 +57,33 @@
     //ACTION simulate(eosio::name _user, std::string _type, std::string _value);
     //ACTION lvcheat(eosio::name _user);
 
-        //ACTION deletelog();
+    //ACTION deletelog();
     //ACTION anothercheck(uint32_t _start_count);
     //ACTION anothercheck2(uint32_t _start_count);
 
-
-//치트키
+    //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
-//ACTION accountset(eosio::name _user, uint32_t _ser_lv, uint32_t _mon_lv, uint32_t _equip_up, uint32_t _monster_up);
+//ACTION accountset(eosio::name _user);
 //ACTION leveltest(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
 
 
-#pragma region new servant monster
+TABLE ttemp
+{
+    eosio::name user;
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
 
-// struct skill_info
-// {
-//     uint32_t id;
-//     uint32_t level;
-// };
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 
-// struct new_servant_info
-// {
-//     uint32_t state;   //서번트 상태
-//     uint32_t exp = 0; //서번트 경험치
-//     uint64_t id = 0;
-//     uint32_t level = 1;
-//     uint32_t grade = 5;
-//     status_info status;
-//     std::vector<uint32_t> equip_slot; //서번트 장비 리스트
-//     std::vector<skill_info> passive_skill;
-//     std::vector<skill_info> active_skill;
-// };
-
-// TABLE tservants
-// {
-//     uint64_t index;
-//     uint32_t party_number = 0;
-//     new_servant_info servant;
-//     uint64_t primary_key() const { return index; }
-// };
-// typedef eosio::multi_index<"tservants"_n, tservants> new_user_servants;
-// struct new_monster_info
-// {
-//     uint64_t id;          //몬스터 id 값
-//     uint32_t state;       //몬스터 상태값
-//     uint32_t exp = 0;     //경험치
-//     uint32_t type = 0;    //속성 타입
-//     uint32_t tribe = 0;   //몬스터의 클래스
-//     uint32_t grade;       // 등급
-//     uint32_t upgrade = 0; //강화수치
-//     uint32_t level = 1;
-//     status_info status; //기본 힘,민,지 추가 힘,민,지
-//     std::vector<skill_info> passive_skill;
-//     std::vector<skill_info> active_skill;
-// };
-
-// TABLE tmonsters
-// {
-//     uint64_t index;
-//     uint32_t party_number = 0;
-//     new_monster_info monster;
-//     uint64_t primary_key() const { return index; }
-// };
-// typedef eosio::multi_index<"tmonsters"_n, tmonsters> new_user_monsters;
-
-//ACTION movedata(uint32_t _start_count);
-
-#pragma endregion
-
+ACTION deletetemp();
 
 ACTION recorduser(uint32_t _start_count);
 ACTION recorduser2(uint32_t _start_count);
