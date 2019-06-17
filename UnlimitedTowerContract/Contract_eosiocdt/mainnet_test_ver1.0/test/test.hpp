@@ -67,3 +67,23 @@
 //ACTION accountset(eosio::name _user);
 //ACTION leveltest(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
+
+
+TABLE ttemp
+{
+    eosio::name user;
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
+
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+
+ACTION deletetemp();
+
+ACTION recorduser(uint32_t _start_count);
+ACTION recorduser2(uint32_t _start_count);

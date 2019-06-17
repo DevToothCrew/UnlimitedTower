@@ -116,6 +116,3 @@
 
 #pragma endregion
 
-
-ACTION recorduser(uint32_t _start_count);
-ACTION recorduser2(uint32_t _start_count);
