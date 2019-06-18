@@ -2147,7 +2147,7 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eo
    if (l_gacha_result_type < 333)
    {
        // gacha_servant_id(_user, l_seed, 0, 0, 0, 1);
-		get_servant(_user, 0, 0, 0, 1, l_seed);
+		get_servant(_user, 0, 0, 0, 0, 1, l_seed);
    }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
@@ -10012,7 +10012,7 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     if (_table == "dblimitpool")
     {
         substr_value(_value, value_list, size_list, 2);
-        insert_job(value_list[0], atoll(value_list[1].c_str()));
+        insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
     }
     if (_table == "limit_log")
     {
@@ -10376,14 +10376,14 @@ void battletest::insert_limit_pool(uint64_t _index, uint64_t _gacha_id)
     {
         limit_gacha_db_table.emplace(_self, [&](auto &new_data)
         {
-            new_data.index = _index
-            new_data.gacha_id = _gacha_id
+            new_data.index = _index;
+            new_data.gacha_id = _gacha_id;
         });
     }
     else
     {
         limit_gacha_db_table.modify(iter, _self, [&](auto &new_data) {
-            new_data.gacha_id = _gacha_id
+            new_data.gacha_id = _gacha_id;
         });
     }
 }
@@ -10396,7 +10396,7 @@ void battletest::insert_limit_log(uint64_t _total_count)
     if(iter == limit_log_table.end())
     {
         limit_log_table.emplace(_self, [&](auto &new_data){
-            new_data.total_count = _total_count
+            new_data.total_count = _total_count;
         });
     }
 }
