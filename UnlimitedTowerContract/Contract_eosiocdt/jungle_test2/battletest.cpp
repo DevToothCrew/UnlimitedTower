@@ -8947,7 +8947,7 @@ void battletest::new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::ve
     auto stage_db_iter = stage_db_table.find(_stage_id);
     eosio_assert(stage_db_iter != stage_db_table.end(), "Set Enemy State : Empty Stage / Wrong Stage ID");
 
-    enemyinfo_db enemyinfo_db_table(_self, stage_db_iter->type);
+    enemyinfo_db enemyinfo_db_table(_self, stage_db_iter->elemental_type);
     auto iter = enemyinfo_db_table.find(0);
     eosio_assert(iter != enemyinfo_db_table.end(), "Set Enmey State : Empty Max Count");
     uint32_t max_count = iter->id;
@@ -9917,191 +9917,265 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     std::vector<size_t> size_list;
     std::vector<std::string> value_list;
     uint32_t value;
-    if (_table == "dbactive")
+    if (_table == "dbstageinfo")
     {
-        substr_value(_value, value_list, size_list, 19);
-        insert_active(atoll(value_list[0].c_str()),
-                      atoi(value_list[1].c_str()),
-                      atoi(value_list[2].c_str()),
-                      atoi(value_list[3].c_str()),
-                      atoi(value_list[4].c_str()),
-                      atoi(value_list[5].c_str()),
-                      atoi(value_list[6].c_str()),
-                      atoi(value_list[7].c_str()),
-                      atoi(value_list[8].c_str()),
-                      atoi(value_list[9].c_str()),
-                      atoi(value_list[10].c_str()),
-                      atoi(value_list[11].c_str()),
-                      atoi(value_list[12].c_str()),
-                      atoi(value_list[13].c_str()),
-                      atoi(value_list[14].c_str()),
-                      atoi(value_list[15].c_str()),
-                      atoi(value_list[16].c_str()),
-                      atoi(value_list[17].c_str()),
-                      atoi(value_list[18].c_str()));
-    }
-    if (_table == "dbgachapool")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
-        if (main_gacha_db_iter == main_gacha_db_table.end())
-        {
-            main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
-                new_gacha.gacha_id = atoll(value_list[0].c_str());
-                new_gacha.db_index = atoi(value_list[1].c_str());
-            });
-        }
-        else
-        {
-            main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
-                new_gacha.db_index = atoi(value_list[1].c_str());
-            });
-        }
-    }
-    if (_table == "dbbuffs")
-    {
-        substr_value(_value, value_list, size_list, 13);
-        buff_db my_table(_self, _self.value);
-        auto iter = my_table.find( atoll(value_list[0].c_str()));
-        if(iter == my_table.end())
+        substr_value(_value, value_list, size_list, 10);
+        stageinfo_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
         {
             my_table.emplace(_self, [&](auto &new_data) {
                 new_data.id = atoll(value_list[0].c_str());
-                new_data.option_check = atoi(value_list[1].c_str());
-                new_data.buff_debuff_check = atoi(value_list[2].c_str());
-                new_data.target = atoi(value_list[3].c_str());
-                new_data.overlapping_check = atoi(value_list[4].c_str());
-                new_data.effect_type = atoi(value_list[5].c_str());
-                new_data.state = atoi(value_list[6].c_str());
-                new_data.condition_check = atoi(value_list[7].c_str());
-                new_data.effect_stat_give = atoi(value_list[8].c_str());
-                new_data.effect_stat_take = atoi(value_list[9].c_str());
-                new_data.dmg_type = atoi(value_list[10].c_str());
-                new_data.value = atoi(value_list[11].c_str());
-                new_data.turn_count = atoi(value_list[12].c_str());
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.floor = atoi(value_list[3].c_str());
+                new_data.difficult = atoi(value_list[4].c_str());
+                new_data.need_entrance_item_id = atoi(value_list[5].c_str());
+                new_data.need_entrance_item_count = atoi(value_list[6].c_str());
+                new_data.enemy_level_min = atoi(value_list[7].c_str());
+                new_data.enemy_level_max = atoi(value_list[8].c_str());
+                new_data.enemy_count = atoi(value_list[9].c_str());
             });
         }
         else
         {
             my_table.modify(iter, _self, [&](auto &new_data) {
-                new_data.option_check = atoi(value_list[1].c_str());
-                new_data.buff_debuff_check = atoi(value_list[2].c_str());
-                new_data.target = atoi(value_list[3].c_str());
-                new_data.overlapping_check = atoi(value_list[4].c_str());
-                new_data.effect_type = atoi(value_list[5].c_str());
-                new_data.state = atoi(value_list[6].c_str());
-                new_data.condition_check = atoi(value_list[7].c_str());
-                new_data.effect_stat_give = atoi(value_list[8].c_str());
-                new_data.effect_stat_take = atoi(value_list[9].c_str());
-                new_data.dmg_type = atoi(value_list[10].c_str());
-                new_data.value = atoi(value_list[11].c_str());
-                new_data.turn_count = atoi(value_list[12].c_str());
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.floor = atoi(value_list[3].c_str());
+                new_data.difficult = atoi(value_list[4].c_str());
+                new_data.need_entrance_item_id = atoi(value_list[5].c_str());
+                new_data.need_entrance_item_count = atoi(value_list[6].c_str());
+                new_data.enemy_level_min = atoi(value_list[7].c_str());
+                new_data.enemy_level_max = atoi(value_list[8].c_str());
+                new_data.enemy_count = atoi(value_list[9].c_str());
             });
         }
     }
-    if (_table == "dbactive_buff_list")
+    if (_table == "dbdailystage")
     {
-        substr_value(_value, value_list, size_list, 3);
-        active_db active_db_table(_self, _self.value);
-        auto active_db_iter = active_db_table.find(atoll(value_list[0].c_str()));
-
-        active_db_table.modify(active_db_iter, _self, [&](auto &new_data) {
-            if (new_data.buff_id_list.size() == 0)
-            {
-                new_data.buff_id_list.push_back(atoi(value_list[1].c_str()));
-                if (atoi(value_list[2].c_str()) != 0)
-                {
-                    new_data.buff_id_list.push_back(atoi(value_list[2].c_str()));
-                }
-            }
-            else
-            {
-                new_data.buff_id_list[0] = atoi(value_list[1].c_str());
-                if (atoi(value_list[2].c_str()) != 0)
-                {
-                    new_data.buff_id_list[1] = (atoi(value_list[2].c_str()));
-                }
-            }
-        });
+        substr_value(_value, value_list, size_list, 9);
+        daily_stage_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.difficult = atoi(value_list[3].c_str());
+                new_data.max_entrance_count = atoi(value_list[4].c_str());
+                new_data.real_max_entrance_count = atoi(value_list[5].c_str());
+                new_data.enemy_level_min = atoi(value_list[6].c_str());
+                new_data.enemy_level_max = atoi(value_list[7].c_str());
+                new_data.enemy_count = atoi(value_list[8].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.difficult = atoi(value_list[3].c_str());
+                new_data.max_entrance_count = atoi(value_list[4].c_str());
+                new_data.real_max_entrance_count = atoi(value_list[5].c_str());
+                new_data.enemy_level_min = atoi(value_list[6].c_str());
+                new_data.enemy_level_max = atoi(value_list[7].c_str());
+                new_data.enemy_count = atoi(value_list[8].c_str());
+            });
+        }
     }
-    if (_table == "dblimitpool")
+    if(_table == "dblimitbreak")
     {
-        substr_value(_value, value_list, size_list, 2);
-        insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
+        substr_value(_value, value_list, size_list, 7);
+        limit_break_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.available_level = atoi(value_list[1].c_str());
+                new_data.type = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.available_level = atoi(value_list[1].c_str());
+                new_data.type = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
     }
-    if (_table == "tlimit")
+    if(_table == "dbnewreward")
     {
-        value = atoll(_value.c_str());
-        insert_limit_log(value);
+        substr_value(_value, value_list, size_list, 7);
+        new_reward_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
     }
-    if (_table == "dbpackagshop")
-    {
-        substr_value(_value, value_list, size_list, 5);
-        insert_package(atoll(value_list[0].c_str()),
-                        atoi(value_list[1].c_str()),
-                        atoi(value_list[2].c_str()),
-                        atoi(value_list[3].c_str()),
-                        atoi(value_list[4].c_str()));
-    }
-    if (_table == "tshoplist")
+    if(_table == "dbnewreward_rewardlist")
     {
         substr_value(_value, value_list, size_list, 4);
-        insert_shoplist(atoll(value_list[0].c_str()),
-                        atoi(value_list[1].c_str()),
-                        atoi(value_list[2].c_str()),
-                        atoi(value_list[3].c_str()));
-    }
-}
+        new_reward_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
 
-
-
-void battletest::insert_package(uint64_t _id, uint64_t _GET_UTG, uint64_t _private_limit_max, uint64_t _price_id, uint64_t _price_count)
-{
-    package_shop shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_id);
-    if(shop_list_iter == shop_list_table.end())
-    {
-        shop_list_table.emplace(_self, [&](auto &new_data){
-            new_data.id = _id;
-            new_data.GET_UTG = _GET_UTG;
-            new_data.private_limit_max = _private_limit_max;
-            new_data.price_id = _price_id;
-            new_data.price_count = _price_count;
+        reward_item_info new_reward;
+        new_reward.id = atoll(value_list[1].c_str());
+        new_reward.per = atoi(value_list[2].c_str());
+        new_reward.count = atoi(value_list[3].c_str());
+        
+        my_table.modify(iter, _self, [&](auto &new_data) {
+            new_data.reward_list.push_back(new_reward);
         });
     }
-    else
-    {
-        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
-            new_data.GET_UTG = _GET_UTG;
-            new_data.private_limit_max = _private_limit_max;
-            new_data.price_id = _price_id;
-            new_data.price_count = _price_count;
-        });
-    }
-}
+    // if (_table == "dbactive")
+    // {
+    //     substr_value(_value, value_list, size_list, 19);
+    //     insert_active(atoll(value_list[0].c_str()),
+    //                   atoi(value_list[1].c_str()),
+    //                   atoi(value_list[2].c_str()),
+    //                   atoi(value_list[3].c_str()),
+    //                   atoi(value_list[4].c_str()),
+    //                   atoi(value_list[5].c_str()),
+    //                   atoi(value_list[6].c_str()),
+    //                   atoi(value_list[7].c_str()),
+    //                   atoi(value_list[8].c_str()),
+    //                   atoi(value_list[9].c_str()),
+    //                   atoi(value_list[10].c_str()),
+    //                   atoi(value_list[11].c_str()),
+    //                   atoi(value_list[12].c_str()),
+    //                   atoi(value_list[13].c_str()),
+    //                   atoi(value_list[14].c_str()),
+    //                   atoi(value_list[15].c_str()),
+    //                   atoi(value_list[16].c_str()),
+    //                   atoi(value_list[17].c_str()),
+    //                   atoi(value_list[18].c_str()));
+    // }
+    // if (_table == "dbgachapool")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     main_gacha_db main_gacha_db_table(_self, _self.value);
+    //     auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
+    //     if (main_gacha_db_iter == main_gacha_db_table.end())
+    //     {
+    //         main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
+    //             new_gacha.gacha_id = atoll(value_list[0].c_str());
+    //             new_gacha.db_index = atoi(value_list[1].c_str());
+    //         });
+    //     }
+    //     else
+    //     {
+    //         main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
+    //             new_gacha.db_index = atoi(value_list[1].c_str());
+    //         });
+    //     }
+    // }
+    // if (_table == "dbbuffs")
+    // {
+    //     substr_value(_value, value_list, size_list, 13);
+    //     buff_db my_table(_self, _self.value);
+    //     auto iter = my_table.find( atoll(value_list[0].c_str()));
+    //     if(iter == my_table.end())
+    //     {
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.id = atoll(value_list[0].c_str());
+    //             new_data.option_check = atoi(value_list[1].c_str());
+    //             new_data.buff_debuff_check = atoi(value_list[2].c_str());
+    //             new_data.target = atoi(value_list[3].c_str());
+    //             new_data.overlapping_check = atoi(value_list[4].c_str());
+    //             new_data.effect_type = atoi(value_list[5].c_str());
+    //             new_data.state = atoi(value_list[6].c_str());
+    //             new_data.condition_check = atoi(value_list[7].c_str());
+    //             new_data.effect_stat_give = atoi(value_list[8].c_str());
+    //             new_data.effect_stat_take = atoi(value_list[9].c_str());
+    //             new_data.dmg_type = atoi(value_list[10].c_str());
+    //             new_data.value = atoi(value_list[11].c_str());
+    //             new_data.turn_count = atoi(value_list[12].c_str());
+    //         });
+    //     }
+    //     else
+    //     {
+    //         my_table.modify(iter, _self, [&](auto &new_data) {
+    //             new_data.option_check = atoi(value_list[1].c_str());
+    //             new_data.buff_debuff_check = atoi(value_list[2].c_str());
+    //             new_data.target = atoi(value_list[3].c_str());
+    //             new_data.overlapping_check = atoi(value_list[4].c_str());
+    //             new_data.effect_type = atoi(value_list[5].c_str());
+    //             new_data.state = atoi(value_list[6].c_str());
+    //             new_data.condition_check = atoi(value_list[7].c_str());
+    //             new_data.effect_stat_give = atoi(value_list[8].c_str());
+    //             new_data.effect_stat_take = atoi(value_list[9].c_str());
+    //             new_data.dmg_type = atoi(value_list[10].c_str());
+    //             new_data.value = atoi(value_list[11].c_str());
+    //             new_data.turn_count = atoi(value_list[12].c_str());
+    //         });
+    //     }
+    // }
+    // if (_table == "dbactive_buff_list")
+    // {
+    //     substr_value(_value, value_list, size_list, 3);
+    //     active_db active_db_table(_self, _self.value);
+    //     auto active_db_iter = active_db_table.find(atoll(value_list[0].c_str()));
 
-void battletest::insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count)
-{
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_id);
-    if(shop_list_iter == shop_list_table.end())
-    {
-        shop_list_table.emplace(_self, [&](auto &new_data){
-            new_data.id = _id;
-            new_data.shop_type = _shop_type;
-            new_data.shop_item_id = _shop_item_id;
-            new_data.limit_count = _limit_count;
-        });
-    }
-    else
-    {
-        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
-            new_data.shop_type = _shop_type;
-            new_data.shop_item_id = _shop_item_id;
-            new_data.limit_count = _limit_count;
-        });
-    }
+    //     active_db_table.modify(active_db_iter, _self, [&](auto &new_data) {
+    //         if (new_data.buff_id_list.size() == 0)
+    //         {
+    //             new_data.buff_id_list.push_back(atoi(value_list[1].c_str()));
+    //             if (atoi(value_list[2].c_str()) != 0)
+    //             {
+    //                 new_data.buff_id_list.push_back(atoi(value_list[2].c_str()));
+    //             }
+    //         }
+    //         else
+    //         {
+    //             new_data.buff_id_list[0] = atoi(value_list[1].c_str());
+    //             if (atoi(value_list[2].c_str()) != 0)
+    //             {
+    //                 new_data.buff_id_list[1] = (atoi(value_list[2].c_str()));
+    //             }
+    //         }
+    //     });
+    // }
+    // if (_table == "dblimitpool")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
+    // }
+    // if (_table == "limit_log")
+    // {
+    //     value = atoll(_value.c_str());
+    //     insert_limit_log(value);
+    // }
 }
 
 
@@ -10489,50 +10563,6 @@ void battletest::insert_limit_log(uint64_t _total_count)
         limit_log_table.modify(iter,_self, [&](auto &new_data) {
             new_data.total_count = _total_count;
         });
-    }
-}
-
-
-ACTION battletest::dbinit(std::string _table)
-{
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
-
-    // eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
-    if (_table == "dbstageinfo")
-    {
-        stageinfo_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
-    if (_table == "tlimit")
-    {
-        limit_log my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
-    if (_table == "dbnewreward")
-    {
-        new_reward_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
     }
 }
 

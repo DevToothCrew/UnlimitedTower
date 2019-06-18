@@ -1587,7 +1587,8 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 TABLE stageinfo
 {
     uint64_t id;
-    uint32_t type;
+    uint32_t stage_type;
+    uint32_t elemental_type;
     uint32_t floor;
     uint32_t difficult;
     uint32_t need_entrance_item_id;
@@ -1727,7 +1728,7 @@ TABLE dbdailystage
 {
     uint64_t id;
     uint32_t stage_type;
-    uint32_t type;
+    uint32_t elemental_type;
     uint32_t difficult;
     uint32_t max_entrance_count;
     uint32_t real_max_entrance_count;
