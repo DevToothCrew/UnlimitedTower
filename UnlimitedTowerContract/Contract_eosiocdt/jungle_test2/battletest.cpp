@@ -1128,7 +1128,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Limit Gacha : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Limit Gacha : Seed Memo [:] Error");
-                eosio_assert(transfer_data.quantity.amount == TEST_MONEY, "Eos Transfer Limit Gacha : Limit Gacha need 1.0000 EOS"); //가격 필히 수정해야함 10000
+               // eosio_assert(transfer_data.quantity.amount == TEST_MONEY, "Eos Transfer Limit Gacha : Limit Gacha need 1.0000 EOS"); //가격 필히 수정해야함 10000
 
                 limit_log limit_log_table(_self, _self.value);
                 auto limit_log_iter = limit_log_table.find(sender.value);
@@ -7668,7 +7668,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
         //get_reward_item(_user, 500210, 10, 2);
         //get_reward_item(_user, 500220, 10, 2);
         //get_reward_item(_user, 500230, 10, 2);
-		        get_item(_user, 500200, 10, 3, 0);
+		get_item(_user, 500200, 10, 3, 0);
         get_item(_user, 500210, 10, 3, 0);
         get_item(_user, 500220, 10, 3, 0);
         get_item(_user, 500230, 10, 3, 0);
@@ -7678,7 +7678,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
     {
         start_gacha_10(_user,_seed,100000,10);
     }
-    else if(package_shop_iter->id == 1012)
+    else if(package_shop_iter->id == 1021)
     {
         inventory_buy(_user,1,1);
         inventory_buy(_user,2,1);
