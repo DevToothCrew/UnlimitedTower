@@ -1308,13 +1308,29 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
     limit_gacha_db limit_gacha_db_table(_self, _self.value);
 
     random_id = safeseed::get_random_value(_seed, limit_log_iter->total_count + 1, DEFAULT_MIN_DB, 1);
+    uint64_t id = 0;
+    uint32_t count = 0;
+    uint64_t del_index =0;
 
-    auto gacha_db_iter = limit_gacha_db_table.find(random_id); 
-    eosio_assert(gacha_db_iter != limit_gacha_db_table.end(), "Limit Gacha : Not exist gacha id");
-    auto gacha_db_id_iter = gacha_db_iter->gacha_id;        // type + id + grade
 
-    limit_type_check = gacha_db_id_iter / 10000000;
-    temp_grade_check = gacha_db_id_iter - (limit_type_check * 10000000);
+    for(auto iter = limit_gacha_db_table.begin(); iter != limit_gacha_db_table.end();)
+    {
+        if(random_id == count)
+        {
+            auto gacha_db_iter = limit_gacha_db_table.find(iter->primary_key());
+            eosio_assert(gacha_db_iter != limit_gacha_db_table.end(), "Limit Gacha : Not exist gacha id");
+            id = gacha_db_iter->gacha_id;
+            limit_gacha_db_table.erase(gacha_db_iter);
+            break;
+        }
+        //random_id -= 1;
+        iter++;
+        count++;
+    }
+ 
+
+    limit_type_check = id / 10000000;
+    temp_grade_check = id - (limit_type_check * 10000000);
     limit_grade_check = temp_grade_check % 10;
     limit_id_check = temp_grade_check / 10;
     if (limit_type_check >= 1 || limit_type_check <= 4) //서번트
@@ -1357,7 +1373,7 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
         });
     }
     //한계 가차 풀 역시 맞춰서 삭제 
-    limit_gacha_db_table.erase(gacha_db_iter);
+    
 
     servant_random_count = 0;
     monster_random_count = 0;
@@ -10014,12 +10030,80 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
         substr_value(_value, value_list, size_list, 2);
         insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
     }
-    if (_table == "limit_log")
+    if (_table == "tlimit")
     {
         value = atoll(_value.c_str());
         insert_limit_log(value);
     }
+    if (_table == "dbpackagshop")
+    {
+        substr_value(_value, value_list, size_list, 5);
+        insert_package(atoll(value_list[0].c_str()),
+                        atoi(value_list[1].c_str()),
+                        atoi(value_list[2].c_str()),
+                        atoi(value_list[3].c_str()),
+                        atoi(value_list[4].c_str()));
+    }
+    if (_table == "tshoplist")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        insert_shoplist(atoll(value_list[0].c_str()),
+                        atoi(value_list[1].c_str()),
+                        atoi(value_list[2].c_str()),
+                        atoi(value_list[3].c_str()));
+    }
 }
+
+
+
+void battletest::insert_package(uint64_t _id, uint64_t _GET_UTG, uint64_t _private_limit_max, uint64_t _price_id, uint64_t _price_count)
+{
+    package_shop shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_id);
+    if(shop_list_iter == shop_list_table.end())
+    {
+        shop_list_table.emplace(_self, [&](auto &new_data){
+            new_data.id = _id;
+            new_data.GET_UTG = _GET_UTG;
+            new_data.private_limit_max = _private_limit_max;
+            new_data.price_id = _price_id;
+            new_data.price_count = _price_count;
+        });
+    }
+    else
+    {
+        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
+            new_data.GET_UTG = _GET_UTG;
+            new_data.private_limit_max = _private_limit_max;
+            new_data.price_id = _price_id;
+            new_data.price_count = _price_count;
+        });
+    }
+}
+
+void battletest::insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count)
+{
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_id);
+    if(shop_list_iter == shop_list_table.end())
+    {
+        shop_list_table.emplace(_self, [&](auto &new_data){
+            new_data.id = _id;
+            new_data.shop_type = _shop_type;
+            new_data.shop_item_id = _shop_item_id;
+            new_data.limit_count = _limit_count;
+        });
+    }
+    else
+    {
+        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
+            new_data.shop_type = _shop_type;
+            new_data.shop_item_id = _shop_item_id;
+            new_data.limit_count = _limit_count;
+        });
+    }
+}
+
 
 void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
                                uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
@@ -10212,14 +10296,14 @@ void battletest::deleteuser(eosio::name _user)
 
 ACTION battletest::alluserdel()
 {
-    require_auth(_self);
-    user_auths user_auth_table(_self, _self.value);
-    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    {
-        auto iter_2 = user_auth_table.find(iter->primary_key());
-        iter++;
-        deleteuser(iter_2->user);
-    }
+    // require_auth(_self);
+    // user_auths user_auth_table(_self, _self.value);
+    // for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    // {
+    //     auto iter_2 = user_auth_table.find(iter->primary_key());
+    //     iter++;
+    //     deleteuser(iter_2->user);
+    // }
 }
 uint64_t battletest::get_limit_id(uint64_t _level, uint64_t _type)
 {
@@ -10396,8 +10480,59 @@ void battletest::insert_limit_log(uint64_t _total_count)
     if(iter == limit_log_table.end())
     {
         limit_log_table.emplace(_self, [&](auto &new_data){
+            new_data.user = _self;
             new_data.total_count = _total_count;
         });
+    }
+    else
+    {
+        limit_log_table.modify(iter,_self, [&](auto &new_data) {
+            new_data.total_count = _total_count;
+        });
+    }
+}
+
+
+ACTION battletest::dbinit(std::string _table)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    // eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    if (_table == "dbstageinfo")
+    {
+        stageinfo_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "tlimit")
+    {
+        limit_log my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dbnewreward")
+    {
+        new_reward_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
     }
 }
 

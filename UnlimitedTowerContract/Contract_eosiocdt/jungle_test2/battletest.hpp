@@ -1796,5 +1796,6 @@ TABLE tlimit
 };
 typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
 void insert_limit_log(uint64_t _total_count);
-
+void insert_package(uint64_t _id, uint64_t _GET_UTG, uint64_t _private_limit_max, uint64_t _price_id, uint64_t _price_count);
+void insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count);
 };
