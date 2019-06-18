@@ -3291,11 +3291,10 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     eosio_assert(user != user_auth.end(), "Change User State : Empty Auth Table / Not Yet Signup");
     eosio_assert(user->state == user_state::lobby, "Change User State : Check State Not Same");
 
-    uint32_t stage_id = 0;
+    uint32_t stage_id = get_stage_id(_stage_type, _floor, _type, _difficult);
 
     if (_stage_type == 1)
     {
-        stage_id = get_stage_id(_stage_type, _floor, _type, _difficult);
         stageinfo_db stage_db_table(_self, _self.value);
         auto stage_db_iter = stage_db_table.find(stage_id);
         eosio_assert(stage_db_iter != stage_db_table.end(), "Stage Start : Empty Stage / Not Set Stage");
@@ -3308,7 +3307,6 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     }
     else if(_stage_type == 2)
     {
-        stage_id = get_stage_id(_stage_type, _floor, _type, _difficult);
         daily_stage_db daily_stage_db_table(_self, _self.value);
         auto daily_stage = daily_stage_db_table.find(stage_id);
         eosio_assert(daily_stage != daily_stage_db_table.end(), "Stage Start : Empty Daily Stage / Not Set Daily Stage");
@@ -5750,7 +5748,7 @@ battletest::servant_data battletest::get_servant(eosio::name _user, uint32_t _id
     servant_job_db servant_job_table(_self, _self.value);
     uint32_t random_job;
     uint32_t gacha_result_index = 0;
-    uint32_t servant_index = 0;
+    uint32_t servant_index;
     if (_id != 0)
     {
         servant_index = _id;

@@ -1346,7 +1346,7 @@ CONTRACT battletest : public contract
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> & _state);
     bool possible_start(eosio::name _user, uint32_t _party_number);
-    ACTION stagestart(eosio::name _user, uint32_t _stage_type, uint32_t _party_number, uint32_t _floor, uint32_t _type, uint32_t _difficult);
+    ACTION stagestart(eosio::name _user,  uint32_t _party_number, uint32_t _stage_type, uint32_t _floor, uint32_t _type, uint32_t _difficult);
 
     void init_buff_turn_self(battle_status_info & _status);
     bool check_activate_skill(uint32_t _skill, uint64_t _rate);
