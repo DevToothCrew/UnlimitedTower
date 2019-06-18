@@ -288,11 +288,13 @@ Servant.limitbreak = function (req, res) {
                         }
                         else
                         {
+                            clearInterval(timer);
                             callback("error");
                         }
                     }
                     else
                     {
+                        clearInterval(timer);
                         callback("error");
                     }
                     
