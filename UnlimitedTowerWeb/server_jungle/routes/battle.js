@@ -98,6 +98,7 @@ Battle.getBattle = function (req, res) {
 Battle.battleStart = function (req, res) {
     var func = 'battleStart';
 
+    var stage_type = req.body.stage_type;
     var user = req.body.user;
     var enter_item = req.body.enter_item;
     var key = 0;
@@ -153,59 +154,121 @@ Battle.battleStart = function (req, res) {
                         var data = {
                             battle_state : newTable.rows[0]
                         }
-                        eos.getTableRows({
-                            code: config.contract.main,
-                            scope: user,
-                            table: 'titem',
-                            lower_bound: key,
-                            limit: 1,
-                            json: true
-                        }, function(err, item_info){
-                            if(err){
-                                console.error("Fail:Get Table:" + func);
-                                res.status(200).send("Fail:Get Table:" + func);
-                            }
-                            else{
-                                var enter_item = {}
-                                if(item_info.rows.length == 0){
-                                    enter_item.id = key;
-                                    enter_item.type = 3;
-                                    enter_item.item_list = [];
-    
-                                    data.enter_item = enter_item;
+                        if (stage_type == 1) {
+                            eos.getTableRows({
+                                code: config.contract.main,
+                                scope: user,
+                                table: 'titem',
+                                lower_bound: key,
+                                limit: 1,
+                                json: true
+                            }, function (err, item_info) {
+                                if (err) {
+                                    console.error("Fail:Get Table:" + func);
+                                    res.status(200).send("Fail:Get Table:" + func);
                                 }
-                                else{
-                                    if(item_info.rows[0].id != key){
+                                else {
+                                    var enter_item = {}
+                                    if (item_info.rows.length == 0) {
                                         enter_item.id = key;
                                         enter_item.type = 3;
                                         enter_item.item_list = [];
-                                    
+
                                         data.enter_item = enter_item;
                                     }
-                                    else{
-                                        data.enter_item = item_info.rows[0];
+                                    else {
+                                        if (item_info.rows[0].id != key) {
+                                            enter_item.id = key;
+                                            enter_item.type = 3;
+                                            enter_item.item_list = [];
+
+                                            data.enter_item = enter_item;
+                                        }
+                                        else {
+                                            data.enter_item = item_info.rows[0];
+                                        }
                                     }
+
+                                    res.status(200).send(data);
+
+                                    // DB Login Count 추가
+                                    poolCluster.getConnection(function (err, connection) {
+                                        if (err) {
+                                            console.log("Fail:Connect DB:" + func);
+                                        }
+                                        else {
+                                            var sql = "INSERT INTO unt.log_user (user, battle) VALUE (?, 1) ON DUPLICATE KEY UPDATE battle=battle+1";
+                                            connection.query(sql, user, function (err) {
+                                                if (err) {
+                                                    console.log(config.color.red, 'user : ', user, ', func : ', func + " User battle update", ', time : ', new Date(new Date().toUTCString()));
+                                                }
+                                                connection.release();
+                                            });
+                                        }
+                                    });
                                 }
-    
-                                res.status(200).send(data);
-    
-                                // DB Login Count 추가
-                                poolCluster.getConnection(function (err, connection) {
-                                    if (err) {
-                                        console.log("Fail:Connect DB:" + func);
+                            })
+                        }
+                        else
+                        {
+                            eos.getTableRows({
+                                code: config.contract.main,
+                                scope: config.contract.main,
+                                table: 'tuserauth',
+                                lower_bound: user,
+                                limit: 1,
+                                json: true
+                            }, function (err, user_info) {
+                                if (err) {
+                                    console.error("Fail:Get Table:" + func);
+                                    res.status(200).send("Fail:Get Table:" + func);
+                                }
+                                else {
+                                    var day_stage = {}
+                                    if (user_info.rows.length == 0) {
+                                        count++;
+                                        if(count>=10){
+                                            clearInterval(timer);
+                                            console.error("Fail:Get Table:" + func);
+                                            res.status(200).send("Fail:Get Table:" + func);
+                                        }
                                     }
                                     else {
-                                        var sql = "INSERT INTO unt.log_user (user, battle) VALUE (?, 1) ON DUPLICATE KEY UPDATE battle=battle+1";
-                                        connection.query(sql, user, function (err) {
-                                            if (err) {
-                                                console.log(config.color.red, 'user : ', user, ', func : ', func + " User battle update", ', time : ', new Date(new Date().toUTCString()));
+                                        if (user_info.rows[0].user == user) {
+                                            day_stage.daily_enter_count = user_info.rows[0].daily_enter_count;
+                                            day_stage.daily_init_time = user_info.rows[0].daily_init_time;
+                                            data.day_stage = day_stage;
+                                        }
+                                        else {
+                                            count++;
+                                            if(count>=10){
+                                                clearInterval(timer);
+                                                console.error("Fail:Get Table:" + func);
+                                                res.status(200).send("Fail:Get Table:" + func);
                                             }
-                                            connection.release();
-                                        });
+                                        }
                                     }
-                                });
-                            }
-                        })
+
+                                    res.status(200).send(data);
+
+                                    // DB Login Count 추가
+                                    poolCluster.getConnection(function (err, connection) {
+                                        if (err) {
+                                            console.log("Fail:Connect DB:" + func);
+                                        }
+                                        else {
+                                            var sql = "INSERT INTO unt.log_user (user, battle) VALUE (?, 1) ON DUPLICATE KEY UPDATE battle=battle+1";
+                                            connection.query(sql, user, function (err) {
+                                                if (err) {
+                                                    console.log(config.color.red, 'user : ', user, ', func : ', func + " User battle update", ', time : ', new Date(new Date().toUTCString()));
+                                                }
+                                                connection.release();
+                                            });
+                                        }
+                                    });
+                                }
+                            })
+                        }
                     }
                 }
                 else{

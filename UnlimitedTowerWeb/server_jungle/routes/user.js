@@ -245,6 +245,11 @@ User.getLoginInfo = function (req, res) {
                                 user_data.daily.check_time = tableData[8].rows[0].check_time;
                             }
                         }
+
+                        user_data.day_stage = {
+                            daily_enter_count : tableData[6].rows[0].daily_enter_count,
+                            daily_init_time : tableData[6].rows[0].daily_init_time
+                        }
                         // console.log("total_day ::::"+ user_data.daily.check_day);
                         // console.log("check_time:::: "+user_data.daily.check_time )
                         user_data.signup = true;
