@@ -227,4 +227,89 @@ Servant.mainServantBurn = function(req, res){
     });
 }
 
+
+
+/**
+ * Servant LimitBreak;
+ * 
+ * @param req
+ * @param res
+ */
+Servant.limitbreak = function (req, res) {
+
+    var func = "limitBreak";
+
+    eos = Eos(config.eos);
+
+    var user = req.body.user;
+    var index = req.body.index;
+    var item_id = req.body.item_id;
+
+    async.waterfall([
+        function (callback) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: user,
+                table: 'tservant',
+                lower_bound: index,
+                limit: 1,
+                json: true
+            }, function (err, newTable) {
+                if (err) {
+                    callback("Fail:Get Table:" + func);
+                }
+                else {
+                    callback(null, newTable.rows[0]);
+                }
+            });
+        }
+    ],
+        function (err, result) {
+            if (err) {
+                console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                res.status(200).send(err);
+            }
+            else {
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: user,
+                    table: 'titem',
+                    lower_bound: item_id,
+                    iimit: 1,
+                    json: true
+                }, function (err, itemTable) {
+                    if (err) {
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send("Fail:Get Account Table:" + func);
+                    }
+                    else {
+                        var item = {}
+                        if (itemTable.rows.length == 0) {
+                            item.id = item_id;
+                            item.type = 0;
+                            item.item_list = [];
+                        }
+                        else {
+                            if (itemTable.rows[0].id != item_id) {
+                                item.id = item_id;
+                                item.type = 0;
+                                item.item_list = [];
+                            }
+                            else {
+                                item = itemTable.rows[0];
+                            }
+                        }
+                        var data = {}
+                        data.servant = result;
+                        data.item = item;
+
+                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send(data);
+                    }
+                });
+            }
+        });
+}
+
+
 module.exports = Servant;
