@@ -3,6 +3,7 @@
 #include <string>
 #include <variant>
 #include <algorithm>
+#include <math.h>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
 #include <eosiolib/asset.hpp>
