@@ -78,9 +78,10 @@ app.post('/burn', servant.burn);
 
 // Servant 관련 API
 app.post('/servantEquip', servant.equip);
-
+app.post('/servantLimitBreak',servant.limitbreak);
 // Monster 관련 API
 app.post('/monsterUpgrade', monster.upgrade);
+app.post('/monsterLimitBreak',monster.limitbreak);
 
 // Item 관련 API
 app.post('/equipUpgrade', item.upgrade);

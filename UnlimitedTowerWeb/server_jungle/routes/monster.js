@@ -180,7 +180,11 @@ Monster.limitbreak = function(req, res){
     var user = req.body.user;
     var index = req.body.index;
     var item_id = req.body.item_id;
+    var limit_break = req.body.limit_break;
 
+    var count  = 0;
+
+    var timer =  setInterval(function(){
     async.waterfall([
         function (callback) {
             eos.getTableRows({
@@ -192,10 +196,42 @@ Monster.limitbreak = function(req, res){
                 json: true
             }, function (err, newTable) {
                 if (err) {
+                    clearInterval(timer);
+                    console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
                     callback("Fail:Get Table:" + func);
                 }
                 else {
-                    callback(null, newTable.rows[0]);
+                    if(newTable.rows[0].length != 0)
+                    {
+                        if(newTable.rows[0].index == index)
+                        {
+                            if(newTable.rows[0].monster.limit_break != limit_break)
+                            {
+                                clearInterval(timer);
+                                callback(null, newTable.rows[0]);
+                            }
+                            else
+                            {
+                                if(count > 5)
+                                {
+                                    clearInterval(timer);
+                                    console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                    res.status(200).send("Fail:sync");
+                                }
+                                count++;
+                                console.log(config.color.yellow, "Waiting for sync For ", user, "'s monster Limit Break");
+                            }
+                        }
+                        else
+                        {
+                            callback("error");
+                        }
+                    }
+                    else
+                    {
+                        callback("error");
+                    }
+                    
                 }
             });
         }
@@ -244,7 +280,8 @@ Monster.limitbreak = function(req, res){
                     }
                 });
             }
-        });
+        })
+    }, 1000);
 }
 
 
