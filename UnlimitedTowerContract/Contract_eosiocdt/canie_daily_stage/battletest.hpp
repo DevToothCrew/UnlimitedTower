@@ -824,6 +824,7 @@ CONTRACT battletest : public contract
     const char *action_referral = "refer_signup";
     const char *action_exchange = "exchange";
     const char *action_shopbuyitem = "shopbuyitem";
+    const char *action_dailystage = "adddailyenter";
 
     uint32_t servant_random_count;
     uint32_t monster_random_count;
@@ -970,8 +971,9 @@ CONTRACT battletest : public contract
         uint32_t monster_inventory = 50;
         uint32_t equipment_inventory = 50;
         uint32_t item_inventory = 50;
-        uint32_t daily_stage_count = 0;
-        uint32_t limit_gacha_count = 0;
+        uint32_t daily_enter_count = 0;
+        uint32_t total_enter_count = 0;
+        uint32_t daily_init_time = 0;
 
         uint64_t primary_key() const { return user.value; }
     };
@@ -1390,7 +1392,7 @@ CONTRACT battletest : public contract
                           std::vector<character_state_data> & _my_state_list,
                           std::vector<character_state_data> & _enemy_state_list);
 
-    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp);
+    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp, uint32_t _limit_break);
     uint32_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
 
     // servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type);
@@ -1715,7 +1717,6 @@ TABLE dbdailystage
     uint32_t difficult;
     uint32_t max_entrance_count;
     uint32_t real_max_entrance_count;
-    uint64_t add_enter_price; 
     uint32_t enemy_level_min;
     uint32_t enemy_level_max;
     uint32_t enemy_count;
@@ -1723,6 +1724,8 @@ TABLE dbdailystage
     uint64_t primary_key() const { return id; }
 };
 typedef eosio::multi_index<"dbdailystage"_n, dbdailystage> daily_stage_db;
+
+void buy_add_daily_stage(eosio::name _user);
 
 TABLE dblimitbreak
 {
