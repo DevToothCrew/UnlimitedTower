@@ -10029,8 +10029,8 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
         {
             my_table.emplace(_self, [&](auto &new_data) {
                 new_data.id = atoll(value_list[0].c_str());
-                new_data.available_level = atoi(value_list[1].c_str());
-                new_data.type = atoi(value_list[2].c_str());
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
                 new_data.need_item_id = atoi(value_list[3].c_str());
                 new_data.need_item_count = atoi(value_list[4].c_str());
                 new_data.use_utg = atoi(value_list[5].c_str());
@@ -10040,8 +10040,8 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
         else
         {
             my_table.modify(iter, _self, [&](auto &new_data) {
-                new_data.available_level = atoi(value_list[1].c_str());
-                new_data.type = atoi(value_list[2].c_str());
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
                 new_data.need_item_id = atoi(value_list[3].c_str());
                 new_data.need_item_count = atoi(value_list[4].c_str());
                 new_data.use_utg = atoi(value_list[5].c_str());
