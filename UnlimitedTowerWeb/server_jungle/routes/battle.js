@@ -382,7 +382,7 @@ Battle.stageEscape = function (req, res) {
     var user = req.body.user;
     eos = Eos(config.eos);
     var count = 0;
-    var tiemr = setInterval(function () {
+    var timer = setInterval(function () {
         eos.getTableRows({
             code: config.contract.main,
             scope: config.contract.main,
