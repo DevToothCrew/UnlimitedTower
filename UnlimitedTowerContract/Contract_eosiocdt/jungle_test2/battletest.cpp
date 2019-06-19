@@ -1145,8 +1145,9 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                         new_data.total_count +=1;
                     });
                 }
-                uint64_t pow_count = 1; 
-                eosio_assert(transfer_data.quantity.amount == 1,"EOS transfer Limit Gacha : Need more EOS"); 
+
+
+                eosio_assert(transfer_data.quantity.amount == safeseed::power(2000,limit_log_iter->total_count),"EOS transfer Limit Gacha : Need more EOS"); 
                 //eosio_assert(transfer_data.quantity.amount == (1000 * (pow_count << limit_log_iter->total_count)),"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
                 //eosio_assert(transfer_data.quantity.amount == pow(2000,limit_log_iter->total_count),"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
                 eosio_assert(res.seed != 0, "Eos Transfer Limit Gacha : Wrong Seed Convert");
@@ -7690,10 +7691,10 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
     }
     else if(package_shop_iter->id == 1021)
     {
-        inventory_buy(_user,1,1);
-        inventory_buy(_user,2,1);
-        inventory_buy(_user,3,1);
-        inventory_buy(_user,4,1);
+        inventory_buy(_user,1,10);
+        inventory_buy(_user,2,10);
+        inventory_buy(_user,3,10);
+        inventory_buy(_user,4,10);
     }   
     else
     {
