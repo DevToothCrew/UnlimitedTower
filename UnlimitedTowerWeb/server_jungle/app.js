@@ -47,6 +47,7 @@ app.post('/login', user.getLoginInfo);
 app.post('/signup', user.signUp);
 app.post('/userInfo', user.getUserData);
 app.post('/newSignUp', user.newSignup);
+app.post('/buydailystage',user.buyDayStageCount);
 
 // 전투 관련 API
 app.post('/battle', battle.battleAction);
