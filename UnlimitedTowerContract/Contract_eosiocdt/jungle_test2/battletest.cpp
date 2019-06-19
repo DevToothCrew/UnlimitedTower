@@ -6357,9 +6357,21 @@ battletest::item_data battletest::get_item(eosio::name _user, uint32_t _id, uint
 
 void battletest::fail_reward(eosio::name _user, uint64_t _stage_number)
 {
-    stageinfo_db stage_db_table(_self, _self.value);
-    auto stage_db_iter = stage_db_table.find(_stage_number);
-    eosio_assert(stage_db_iter != stage_db_table.end(), "Fail Reward : Empty Stage ID / Wrong Stage ID");
+    uint32_t id = 0;
+    if (_stage_number / 10000 == 0)
+    {
+        stageinfo_db stage_db_table(_self, _self.value);
+        auto stage_db_iter = stage_db_table.find(_stage_number);
+        eosio_assert(stage_db_iter != stage_db_table.end(), "Fail Reward : Empty Stage ID / Wrong Stage ID");
+        id = stage_db_iter->id;
+    }
+    else
+    {
+        daily_stage_db stage_db_table(_self, _self.value);
+        auto stage_db_iter = stage_db_table.find(_stage_number);
+        eosio_assert(stage_db_iter != stage_db_table.end(), "Fail Reward : Empty Daily Stage ID / Wrong Daily Stage ID");
+        id = stage_db_iter->id;
+    }
 
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
@@ -6372,7 +6384,7 @@ void battletest::fail_reward(eosio::name _user, uint64_t _stage_number)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Fail Reward : Empty Log Table / Not Yet Signup");
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-        update_log.last_stage_num = stage_db_iter->id;
+        update_log.last_stage_num = id;
         update_log.battle_count += 1;
     });
 
