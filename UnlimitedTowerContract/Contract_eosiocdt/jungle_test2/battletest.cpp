@@ -9582,7 +9582,7 @@ ACTION battletest::dailycheck(name _user, string _seed)
     else
     {       
         auto iter = *user_daily_check_iter;
-        eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
+        //eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
         daily_check_table.modify(user_daily_check_iter, _self, [&](auto &check_result){
             check_result.total_day += 1;
             check_result.check_time = ( now() / 86400);    
