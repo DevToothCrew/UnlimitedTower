@@ -1788,6 +1788,7 @@ void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_
                                uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
                                uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
 //end
+ACTION dbinit(std::string _table);
 
 TABLE tlimit
 {

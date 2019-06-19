@@ -1132,8 +1132,23 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 limit_log limit_log_table(_self, _self.value);
                 auto limit_log_iter = limit_log_table.find(sender.value);
-
-                eosio_assert(transfer_data.quantity.amount == pow(2000,limit_log_iter->total_count),"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
+                if(limit_log_iter == limit_log_table.end())
+                {
+                    limit_log_table.emplace(_self, [&](auto &new_data){
+                        new_data.user = sender;
+                        new_data.total_count = 1;
+                    });
+                }
+                else
+                {
+                    limit_log_table.modify(limit_log_iter, _self, [&](auto &new_data){
+                        new_data.total_count +=1;
+                    });
+                }
+                uint64_t pow_count = 1; 
+                eosio_assert(transfer_data.quantity.amount == 1,"EOS transfer Limit Gacha : Need more EOS"); 
+                //eosio_assert(transfer_data.quantity.amount == (1000 * (pow_count << limit_log_iter->total_count)),"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
+                //eosio_assert(transfer_data.quantity.amount == pow(2000,limit_log_iter->total_count),"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
                 eosio_assert(res.seed != 0, "Eos Transfer Limit Gacha : Wrong Seed Convert");
 
                 set_eos_log(transfer_data.quantity.amount);
@@ -1286,6 +1301,7 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
     uint64_t limit_tier_check = 0;
     uint64_t limit_id_check = 0;
     uint64_t limit_pool_check =0;
+    uint64_t limit_servant_id_check = 0;
 
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1303,19 +1319,19 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
         new_data.use_eos += pow(2000,limit_log_iter2->total_count);
     });
     uint64_t l_user = get_user_seed_value(_user.value);
-    uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+    uint64_t l_seed = safeseed::get_seed_value(l_user, _seed + user_log_iter->use_eos);
 
     limit_gacha_db limit_gacha_db_table(_self, _self.value);
 
-    random_id = safeseed::get_random_value(_seed, limit_log_iter->total_count + 1, DEFAULT_MIN_DB, 1);
-    uint64_t id = 0;
+    random_id = safeseed::get_random_value(_seed+now(), limit_log_iter->total_count + 1, DEFAULT_MIN_DB, 1);
+    uint32_t id = 0;
     uint32_t count = 0;
     uint64_t del_index =0;
 
 
     for(auto iter = limit_gacha_db_table.begin(); iter != limit_gacha_db_table.end();)
     {
-        if(random_id == count)
+        if(random_id == count + 1)
         {
             auto gacha_db_iter = limit_gacha_db_table.find(iter->primary_key());
             eosio_assert(gacha_db_iter != limit_gacha_db_table.end(), "Limit Gacha : Not exist gacha id");
@@ -1327,15 +1343,18 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
         iter++;
         count++;
     }
- 
 
-    limit_type_check = id / 10000000;
+    limit_type_check = id  / 10000000;
+    limit_servant_id_check = id / 10;
     temp_grade_check = id - (limit_type_check * 10000000);
-    limit_grade_check = temp_grade_check % 10;
+
     limit_id_check = temp_grade_check / 10;
-    if (limit_type_check >= 1 || limit_type_check <= 4) //서번트
+    limit_grade_check = temp_grade_check % 10;
+
+
+    if (limit_type_check == 1 || limit_type_check == 2|| limit_type_check == 3|| limit_type_check == 4) //서번트
     {
-        get_servant(_user, temp_id_check, 0, 0, 0, 6, l_seed);
+        get_servant(_user, limit_servant_id_check, limit_type_check, 0, 0, 6, l_seed);
     }
 
     else if (limit_type_check == 7)
@@ -1346,31 +1365,22 @@ void battletest::limit_gacha(eosio::name _user, uint64_t _seed)
     {
         get_equip(_user, limit_id_check, limit_grade_check, 0, 6, l_seed);
     }
+    else
+    {
+        eosio_assert(false, "Limit Gacha : Not exsit type");
+    }
 
-    if(limit_grade_check ==1)
+    if(limit_grade_check == 1)
     {
-        limit_pool_check = 0;
-    }
-    else
-    {
-        limit_pool_check -=1;
-    }
-    //한계 가차 컨트랙트 수치 변경
     limit_log_table.modify(limit_log_iter, _self, [&](auto &new_data){
-        new_data.total_count = limit_pool_check;
+        new_data.total_count = 0;
     });
-    //한계 가차 유저 횟수 변경
-    if(limit_log_iter2 ==limit_log_table2.end())
-    {
-        limit_log_table2.emplace(_self, [&](auto &new_data){
-            new_data.total_count =1;
-        });
     }
     else
     {
-        limit_log_table2.modify(limit_log_iter2, _self, [&](auto &new_data){
-            new_data.total_count +=1;
-        });
+    limit_log_table.modify(limit_log_iter, _self, [&](auto &new_data){
+        new_data.total_count -= 1;
+    });
     }
     //한계 가차 풀 역시 맞춰서 삭제 
     
@@ -5752,6 +5762,7 @@ battletest::servant_data battletest::get_servant(eosio::name _user, uint32_t _id
     if (_id != 0)
     {
         servant_index = _id;
+        random_job = _job;
     }
     else
     {
@@ -6041,7 +6052,11 @@ battletest::equip_data battletest::get_equip(eosio::name _user, uint32_t _id, ui
 
     equipment_db equip_item_table(_self, _self.value);
 
-    if (_id == 0)
+    if(_id !=0)
+    {
+        gacha_db_index = _id;
+    }
+    else if (_id == 0)
     {
         if (_gold_type == 2)
         {
@@ -6067,10 +6082,7 @@ battletest::equip_data battletest::get_equip(eosio::name _user, uint32_t _id, ui
             gacha_db_index = gacha_equipment_db_iter->db_index;
         }
     }
-    else if(_id !=0)
-    {
-        gacha_db_index = _id;
-    }
+
     const auto &equip_item_iter = equip_item_table.get(gacha_db_index, "Get Reward Equipment : Empty Equipment ID / Wrong Equipment ID");
 
     mail_reward_list mail_reward_list_table(_self, _user.value);
@@ -6104,7 +6116,7 @@ battletest::equip_data battletest::get_equip(eosio::name _user, uint32_t _id, ui
                                                      random_grade);
 
     user_equip_items user_item_table(_self, _user.value);
-    if (_gold_type == use_money_type::EOS_GACHA || _gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE)
+    if (_gold_type == use_money_type::EOS_GACHA || _gold_type == use_money_type::UTG_GACHA || _gold_type == use_money_type::BATTLE || _gold_type == use_money_type::LIMIT)
     {
         user_item_table.emplace(_self, [&](auto &update_user_item_list) {
             uint32_t first_index = user_item_table.available_primary_key();
@@ -10564,6 +10576,60 @@ void battletest::insert_limit_log(uint64_t _total_count)
     }
 }
 
+
+ACTION battletest::dbinit(std::string _table)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    // eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    if (_table == "dbstageinfo")
+    {
+        stageinfo_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "tlimit")
+    {
+        limit_log my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dbnewreward")
+    {
+        new_reward_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dblimitpool")
+    {
+        limit_gacha_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+}
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -10591,7 +10657,7 @@ void battletest::insert_limit_log(uint64_t _total_count)
 //(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
 
 EOSIO_DISPATCH(battletest,
-                (dbinsert)(alluserdel)
+                (dbinsert)(alluserdel)(dbinit)
               //admin
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
