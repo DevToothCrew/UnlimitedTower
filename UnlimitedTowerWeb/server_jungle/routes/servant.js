@@ -321,28 +321,54 @@ Servant.limitbreak = function (req, res) {
                         res.status(200).send("Fail:Get Account Table:" + func);
                     }
                     else {
-                        var item = {}
-                        if (itemTable.rows.length == 0) {
-                            item.id = item_id;
-                            item.type = 0;
-                            item.item_list = [];
-                        }
-                        else {
-                            if (itemTable.rows[0].id != item_id) {
-                                item.id = item_id;
-                                item.type = 0;
-                                item.item_list = [];
+                        eos.getTableRows({
+                            code: config.contract.main,
+                            scope: user,
+                            table: 'accounts',
+                            json: true
+                        }, function (err, utgTable) {
+                            if (err) {
+                                console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                res.status(200).send("Fail:Get Account Table:" + func);
                             }
                             else {
-                                item = itemTable.rows[0];
-                            }
-                        }
-                        var data = {}
-                        data.servant = result;
-                        data.item = item;
+                                var item = {}
+                                if (itemTable.rows.length == 0) {
+                                    item.id = item_id;
+                                    item.type = 0;
+                                    item.item_list = [];
+                                }
+                                else {
+                                    if (itemTable.rows[0].id != item_id) {
+                                        item.id = item_id;
+                                        item.type = 0;
+                                        item.item_list = [];
+                                    }
+                                    else {
+                                        item = itemTable.rows[0];
+                                    }
+                                }
 
-                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
-                        res.status(200).send(data);
+                                var utg = '';
+                    
+                                if (utgTable.rows.length == 0) {
+                                    utg = '0';
+                                }
+                                else {
+                                    var token = utgTable.rows[0].balance.split(" ");
+                                    token = token[0].split(".");
+                                    utg = token[0] + token[1];
+                                }
+                                var data = {
+                                    servant: result,
+                                    item : item,
+                                    utg : utg,
+                                }
+    
+                                console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                res.status(200).send(data);
+                            }
+                        });
                     }
                 });
             }
