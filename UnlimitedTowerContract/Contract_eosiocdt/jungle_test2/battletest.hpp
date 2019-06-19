@@ -1587,7 +1587,6 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 TABLE stageinfo
 {
     uint64_t id;
-    uint32_t stage_type;
     uint32_t elemental_type;
     uint32_t floor;
     uint32_t difficult;
@@ -1649,6 +1648,7 @@ TABLE reward
 };
 
 typedef eosio::multi_index<"dbnewreward"_n, reward> new_reward_db;
+typedef eosio::multi_index<"dbdayreward"_n, reward> day_reward_db;
 
 void insert_new_reward(std::vector<uint32_t> _reward);
 
@@ -1759,7 +1759,7 @@ typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
 
 uint64_t get_limit_id(uint64_t _level, uint64_t _type);
 ACTION limitbreak(eosio::name _user, uint32_t _object_type, uint32_t _index, uint32_t _item_id);
-
+uint64_t get_day_type();
 
 TABLE dbbuff
 {
@@ -1783,6 +1783,7 @@ typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 void deleteuser(eosio::name _user);
 ACTION alluserdel();
 
+ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
 ACTION dbinsert(std::string _table, std::string _value);
 void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
                                uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
