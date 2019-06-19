@@ -369,6 +369,12 @@ Battle.battleReward = function (req, res) {
     }, 1500);
 }
 
+/**
+ * StageEscape
+ * 
+ * @param req
+ * @param res
+ */
 Battle.stageEscape = function (req, res) {
 
     var func = "stageEscape";
