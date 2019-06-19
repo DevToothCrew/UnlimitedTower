@@ -1745,8 +1745,8 @@ void buy_add_daily_stage(eosio::name _user);
 TABLE dblimitbreak
 {
     uint64_t id;
-    uint64_t available_level;
     uint64_t type;
+    uint64_t available_level;
     uint64_t need_item_id;
     uint64_t need_item_count;
     uint64_t use_utg;
