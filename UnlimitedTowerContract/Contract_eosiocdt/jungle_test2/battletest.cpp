@@ -9919,21 +9919,21 @@ battletest::shop_list::const_iterator battletest::get_shop_list(uint64_t _id)
 {
     shop_list my_table(_self, _self.value);
     auto iter = my_table.find(_id);
-    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    eosio_assert(iter != my_table.end(), "shop list DB : Empty Shop ID");
     return iter;
 }
 battletest::item_shop::const_iterator battletest::get_item_shop(uint64_t _id)
 {
     item_shop my_table(_self, _self.value);
     auto iter = my_table.find(_id);
-    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    eosio_assert(iter != my_table.end(), "shop item shop DB : Empty Shop ID");
     return iter; 
 }
 battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
 {
     allitem_db my_table(_self, _self.value);
     auto iter = my_table.find(_id);
-    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    eosio_assert(iter != my_table.end(), "all item DB : Empty Shop ID");
     return iter;
 }
 
