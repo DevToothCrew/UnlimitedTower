@@ -1036,4 +1036,128 @@ User.newSignup = function (req, res) {
     })
 }
 
+
+/**
+ * User Buy Day Stage Enter Count;
+ * 
+ * @param req
+ * @param res
+ */
+User.buyDayStageCount = function(req, res){
+
+    var func = "buyDayStageCount";
+
+    eos = Eos(config.eos);
+
+    var user = req.body.user;
+    var dayStageEnterCount = req.body.daily_enter_count;
+
+    var count  = 0;
+
+    var timer =  setInterval(function(){
+    async.waterfall([
+        function (callback) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: config.contract.main,
+                table: 'tuserauth',
+                lower_bound: user,
+                limit: 1,
+                json: true
+            }, function (err, newTable) {
+                if (err) {
+                    clearInterval(timer);
+                    console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                    callback("Fail:Get Table:" + func);
+                }
+                else {
+                    if(newTable.rows[0].length != 0)
+                    {
+                        if(newTable.rows[0].user == user)
+                        {
+                            if(newTable.rows[0].daily_enter_count > dayStageEnterCount)
+                            {
+                                clearInterval(timer);
+                                callback(null, newTable.rows[0]);
+                            }
+                            else
+                            {
+                                if(count > 5)
+                                {
+                                    clearInterval(timer);
+                                    console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                    res.status(200).send("Fail:sync");
+                                }
+                                count++;
+                                console.log(config.color.yellow, "Waiting for sync For ", user, "'s monster Limit Break");
+                            }
+                        }
+                        else
+                        {
+                            clearInterval(timer);
+                            callback("error");
+                        }
+                    }
+                    else
+                    {
+                        clearInterval(timer);
+                        callback("error");
+                    }
+                    
+                }
+            });
+        }
+    ],
+    function (err, result) {
+        if (err) {
+            console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+            res.status(200).send(err);
+        }
+        else {
+            eos.getTableRows({
+                code: 'eosio.token',
+                scope: user,
+                limit: 1,
+                table: 'accounts',
+                json: true
+            }, function (err, tokenTable) {
+                if (err) {
+                    console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                    res.status(200).send("Fail:Get Account Table:" + func);
+                }
+                else {
+                    var data = {}
+                    var uEos = tokenTable.rows[0].balance.split(" ");
+                    uEos = uEos[0].split(".");
+                    if (uEos[0] == '0' && uEos[1] == '0000') {
+                        data.eos = '0';
+                    }
+                    else {
+                        data.eos = uEos[0] + uEos[1];
+                    }
+
+                    if (tableData[4].rows.length == 0) {
+                        data.utg = '0';
+                    }
+                    else {
+                        var token = tableData[4].rows[0].balance.split(" ");
+                        token = token[0].split(".");
+                        data.utg = token[0] + token[1];
+                    }
+
+                    var day_stage_info = {
+                        daily_enter_count: result.daily_enter_count,
+                        daily_init_time: result.daily_init_time
+                    }
+
+                    data.day_stage = day_stage_info;
+                    console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                    res.status(200).send(data);
+                }
+            });
+        }
+    })
+}, 1000);
+}
+
 module.exports = User;
