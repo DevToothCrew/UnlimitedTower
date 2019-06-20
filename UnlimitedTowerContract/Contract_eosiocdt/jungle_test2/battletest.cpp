@@ -7574,7 +7574,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
 
   if (_type == 2001)
    {
-       eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
 
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.servant_inventory += (plus_inventory * _count);
@@ -7582,21 +7582,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
    }
    else if (_type == 2002)
    {
-       eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
    else if (_type == 2003)
    {
-       eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
    else if (_type == 2004)
    {
-       eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.item_inventory += (plus_inventory * _count);
        });
