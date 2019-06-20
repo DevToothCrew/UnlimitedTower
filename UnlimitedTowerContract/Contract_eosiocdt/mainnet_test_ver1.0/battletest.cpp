@@ -5595,14 +5595,11 @@ battletest::servant_data battletest::get_servant(eosio::name _user, uint32_t _jo
 
             // result.index = update_user_servant_list.index;
             // result.type = result::servant;
-            if (_gold_type == use_money_type::BATTLE) 
-            {
-                new_data.index = update_user_servant_list.index;
-                new_data.party_number = update_user_servant_list.party_number;
-                new_data.servant = new_servant;
-                gacha_result_index = update_user_servant_list.index;
-            }      
-            });      
+            new_data.index = update_user_servant_list.index;
+            new_data.party_number = update_user_servant_list.party_number;
+            new_data.servant = new_servant;
+            gacha_result_index = update_user_servant_list.index;
+        });
     }
     else if(_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)   //메일 
     {
@@ -9679,167 +9676,175 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     std::vector<size_t> size_list;
     std::vector<std::string> value_list;
     uint32_t value;
-    if (_table == "dbactive")
+    if(_table == "dblevel")
     {
-        substr_value(_value, value_list, size_list, 19);
-        insert_active(atoll(value_list[0].c_str()),
-                      atoi(value_list[1].c_str()),
-                      atoi(value_list[2].c_str()),
-                      atoi(value_list[3].c_str()),
-                      atoi(value_list[4].c_str()),
-                      atoi(value_list[5].c_str()),
-                      atoi(value_list[6].c_str()),
-                      atoi(value_list[7].c_str()),
-                      atoi(value_list[8].c_str()),
-                      atoi(value_list[9].c_str()),
-                      atoi(value_list[10].c_str()),
-                      atoi(value_list[11].c_str()),
-                      atoi(value_list[12].c_str()),
-                      atoi(value_list[13].c_str()),
-                      atoi(value_list[14].c_str()),
-                      atoi(value_list[15].c_str()),
-                      atoi(value_list[16].c_str()),
-                      atoi(value_list[17].c_str()),
-                      atoi(value_list[18].c_str()));
-    }
-    if (_table == "dbgachapool")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(atoll(value_list[0].c_str()));
-        if (main_gacha_db_iter == main_gacha_db_table.end())
-        {
-            main_gacha_db_table.emplace(_self, [&](auto &new_gacha) {
-                new_gacha.gacha_id = atoll(value_list[0].c_str());
-                new_gacha.db_index = atoi(value_list[1].c_str());
-            });
-        }
-        else
-        {
-            main_gacha_db_table.modify(main_gacha_db_iter, _self, [&](auto &new_gacha) {
-                new_gacha.db_index = atoi(value_list[1].c_str());
-            });
-        }
-    }
-    if (_table == "dbbuffs")
-    {
-        substr_value(_value, value_list, size_list, 13);
-        buff_db my_table(_self, _self.value);
-        auto iter = my_table.find( atoll(value_list[0].c_str()));
-        if(iter == my_table.end())
+        substr_value(_value, value_list, size_list, 10);
+        lv_exp my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
         {
             my_table.emplace(_self, [&](auto &new_data) {
-                new_data.id = atoll(value_list[0].c_str());
-                new_data.option_check = atoi(value_list[1].c_str());
-                new_data.buff_debuff_check = atoi(value_list[2].c_str());
-                new_data.target = atoi(value_list[3].c_str());
-                new_data.overlapping_check = atoi(value_list[4].c_str());
-                new_data.effect_type = atoi(value_list[5].c_str());
-                new_data.state = atoi(value_list[6].c_str());
-                new_data.condition_check = atoi(value_list[7].c_str());
-                new_data.effect_stat_give = atoi(value_list[8].c_str());
-                new_data.effect_stat_take = atoi(value_list[9].c_str());
-                new_data.dmg_type = atoi(value_list[10].c_str());
-                new_data.value = atoi(value_list[11].c_str());
-                new_data.turn_count = atoi(value_list[12].c_str());
+                new_data.lv = atoll(value_list[0].c_str());
+                new_data.rank_exp = atoi(value_list[1].c_str());
+                new_data.char_exp = atoi(value_list[2].c_str());
             });
         }
         else
         {
             my_table.modify(iter, _self, [&](auto &new_data) {
-                new_data.option_check = atoi(value_list[1].c_str());
-                new_data.buff_debuff_check = atoi(value_list[2].c_str());
-                new_data.target = atoi(value_list[3].c_str());
-                new_data.overlapping_check = atoi(value_list[4].c_str());
-                new_data.effect_type = atoi(value_list[5].c_str());
-                new_data.state = atoi(value_list[6].c_str());
-                new_data.condition_check = atoi(value_list[7].c_str());
-                new_data.effect_stat_give = atoi(value_list[8].c_str());
-                new_data.effect_stat_take = atoi(value_list[9].c_str());
-                new_data.dmg_type = atoi(value_list[10].c_str());
-                new_data.value = atoi(value_list[11].c_str());
-                new_data.turn_count = atoi(value_list[12].c_str());
+                new_data.rank_exp = atoi(value_list[1].c_str());
+                new_data.char_exp = atoi(value_list[2].c_str());
             });
         }
     }
-    if (_table == "dbactive_buff_list")
+    if (_table == "dbdailystage")
     {
-        substr_value(_value, value_list, size_list, 3);
-        active_db active_db_table(_self, _self.value);
-        auto active_db_iter = active_db_table.find(atoll(value_list[0].c_str()));
-
-        active_db_table.modify(active_db_iter, _self, [&](auto &new_data) {
-            if (new_data.buff_id_list.size() == 0)
-            {
-                new_data.buff_id_list.push_back(atoi(value_list[1].c_str()));
-                if (atoi(value_list[2].c_str()) != 0)
-                {
-                    new_data.buff_id_list.push_back(atoi(value_list[2].c_str()));
-                }
-            }
-            else
-            {
-                new_data.buff_id_list[0] = atoi(value_list[1].c_str());
-                if (atoi(value_list[2].c_str()) != 0)
-                {
-                    new_data.buff_id_list[1] = (atoi(value_list[2].c_str()));
-                }
-            }
-        });
+        substr_value(_value, value_list, size_list, 9);
+        daily_stage_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.difficult = atoi(value_list[3].c_str());
+                new_data.max_entrance_count = atoi(value_list[4].c_str());
+                new_data.real_max_entrance_count = atoi(value_list[5].c_str());
+                new_data.enemy_level_min = atoi(value_list[6].c_str());
+                new_data.enemy_level_max = atoi(value_list[7].c_str());
+                new_data.enemy_count = atoi(value_list[8].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.stage_type = atoi(value_list[1].c_str());
+                new_data.elemental_type = atoi(value_list[2].c_str());
+                new_data.difficult = atoi(value_list[3].c_str());
+                new_data.max_entrance_count = atoi(value_list[4].c_str());
+                new_data.real_max_entrance_count = atoi(value_list[5].c_str());
+                new_data.enemy_level_min = atoi(value_list[6].c_str());
+                new_data.enemy_level_max = atoi(value_list[7].c_str());
+                new_data.enemy_count = atoi(value_list[8].c_str());
+            });
+        }
+    }
+    if(_table == "dblimitbreak")
+    {
+        substr_value(_value, value_list, size_list, 7);
+        limit_break_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
+    }
+    if(_table == "dbdayreward")
+    {
+        substr_value(_value, value_list, size_list, 7);
+        day_reward_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
+    }
+    if(_table == "dballitem")
+    {
+            substr_value(_value, value_list, size_list, 6);
+        allitem_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.grade = atoi(value_list[2].c_str());
+                new_data.max_count = atoi(value_list[3].c_str());
+                new_data.sell_item_id = atoi(value_list[4].c_str());
+                new_data.sell_item_count = atoi(value_list[5].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.grade = atoi(value_list[2].c_str());
+                new_data.max_count = atoi(value_list[3].c_str());
+                new_data.sell_item_id = atoi(value_list[4].c_str());
+                new_data.sell_item_count = atoi(value_list[5].c_str());
+            });
+        }
     }
 }
 
-void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
-                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id)
+ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
 {
-    active_db active_db_table(_self, _self.value);
-    auto active_db_iter = active_db_table.find(_active_id);
-    if (active_db_iter == active_db_table.end())
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+    if (_list == "dbdayreward_rewardlist")
     {
-        active_db_table.emplace(_self, [&](auto &new_active) {
-            new_active.active_id = _active_id;
-            new_active.job = _job;
-            new_active.tribe = _tribe;
-            new_active.active_per = _active_per;
-            new_active.skill_type = _skill_type;
-            new_active.attack_type = _attack_type;
-            new_active.dmg_type = _dmg_type;
-            new_active.elemental_type = _elemental_type;
-            new_active.target_type = _target;
-            new_active.target_count = _target_count;
-            new_active.active_turn = _active_turn;
-            new_active.hit_count = _hit_count;
-            new_active.atk_per_1 = _atk_per;
-            new_active.atk_per_add_1 = _atk_per_add;
-            new_active.atk_per_2 = _atk_per_2;
-            new_active.atk_per_add_2 = _atk_per_add_2;
-            new_active.heal_per = _heal_per;
-            new_active.heal_per_add = _heal_per_add;
-            new_active.option_id = _option_id;
-        });
-    }
-    else
-    {
-        active_db_table.modify(active_db_iter, _self, [&](auto &new_active) {
-            new_active.job = _job;
-            new_active.tribe = _tribe;
-            new_active.active_per = _active_per;
-            new_active.skill_type = _skill_type;
-            new_active.attack_type = _attack_type;
-            new_active.dmg_type = _dmg_type;
-            new_active.elemental_type = _elemental_type;
-            new_active.target_type = _target;
-            new_active.target_count = _target_count;
-            new_active.active_turn = _active_turn;
-            new_active.hit_count = _hit_count;
-            new_active.atk_per_1 = _atk_per;
-            new_active.atk_per_add_1 = _atk_per_add;
-            new_active.atk_per_2 = _atk_per_2;
-            new_active.atk_per_add_2= _atk_per_add_2;
-            new_active.heal_per = _heal_per;
-            new_active.heal_per_add = _heal_per_add;
-            new_active.option_id = _option_id;
+        uint64_t stage_id = atoll(_primary_key.c_str());
+        day_reward_db reward_db_table(_self, _self.value);
+        auto stage_db_iter = reward_db_table.find(stage_id);
+        eosio_assert(stage_db_iter != reward_db_table.end(), "DB List Insert : Not Exist Reward");
+
+        reward_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _value_list.size();)
+            {
+                reward_item_info new_reward;
+                new_reward.id = atoi(_value_list[i].c_str());
+                new_reward.per = atoi(_value_list[i + 1].c_str());
+                new_reward.count = atoi(_value_list[i + 2].c_str());
+                new_data.reward_list.push_back(new_reward);
+                i += 3;
+            }
         });
     }
 }
@@ -9847,8 +9852,6 @@ void battletest::insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tr
 ACTION battletest::deletebattle()
 {
     require_auth(_self);
-
-
 
     new_battle_state_list a(_self, _self.value);
     for(auto iter = a.begin(); iter != a.end();)
@@ -9917,7 +9920,7 @@ ACTION battletest::deletebattle()
 //(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
 
 EOSIO_DISPATCH(battletest,
-                (dbinsert)(deletebattle)
+                (dblistinsert)(dbinsert)(deletebattle)
               //admin
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //

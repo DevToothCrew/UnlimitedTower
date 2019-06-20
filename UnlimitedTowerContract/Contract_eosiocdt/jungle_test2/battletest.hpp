@@ -1758,7 +1758,7 @@ typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
 
 
 uint64_t get_limit_id(uint64_t _level, uint64_t _type);
-ACTION limitbreak(eosio::name _user, uint32_t _object_type, uint32_t _index, uint32_t _item_id);
+ACTION limitbreak(eosio::name _user, uint32_t _object_type, uint32_t _index, uint32_t _item_id, uint32_t _break_count);
 uint64_t get_day_type();
 
 TABLE dbbuff
@@ -1783,13 +1783,6 @@ typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 void deleteuser(eosio::name _user);
 ACTION alluserdel();
 
-ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-ACTION dbinsert(std::string _table, std::string _value);
-void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
-                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
-//end
-ACTION dbinit(std::string _table);
 
 TABLE tlimit
 {
@@ -1801,4 +1794,12 @@ typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
 void insert_limit_log(uint64_t _total_count);
 void insert_package(uint64_t _id, uint64_t _GET_UTG, uint64_t _private_limit_max, uint64_t _price_id, uint64_t _price_count);
 void insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count);
+
+
+ACTION giveitem(eosio::name _user, uint32_t _id, uint32_t _count);
+ACTION daystage(eosio::name _user);
+ACTION limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit_count);
+
+ACTION dbinsert(std::string _table, std::string _value);
+
 };

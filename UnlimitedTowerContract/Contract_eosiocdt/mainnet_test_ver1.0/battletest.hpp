@@ -1628,6 +1628,7 @@ TABLE reward
 };
 
 typedef eosio::multi_index<"dbnewreward"_n, reward> new_reward_db;
+typedef eosio::multi_index<"dbdayreward"_n, reward> day_reward_db;
 
 void insert_new_reward(std::vector<uint32_t> _reward);
 
@@ -1725,8 +1726,39 @@ typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 ACTION deletebattle();
 
 ACTION dbinsert(std::string _table, std::string _value);
-void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
-                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
+ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+
+
+
+TABLE dblimitbreak
+{
+    uint64_t id;
+    uint64_t type;
+    uint64_t available_level;
+    uint64_t need_item_id;
+    uint64_t need_item_count;
+    uint64_t use_utg;
+    uint64_t up_level;
+
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
+
+TABLE dbdailystage
+{
+    uint64_t id;
+    uint32_t stage_type;
+    uint32_t elemental_type;
+    uint32_t difficult;
+    uint32_t max_entrance_count;
+    uint32_t real_max_entrance_count;
+    uint32_t enemy_level_min;
+    uint32_t enemy_level_max;
+    uint32_t enemy_count;
+    std::vector<uint32_t> option_list;
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dbdailystage"_n, dbdailystage> daily_stage_db;
+
 //end
 };

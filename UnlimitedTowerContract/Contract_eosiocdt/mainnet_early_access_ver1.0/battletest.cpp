@@ -5390,14 +5390,11 @@ battletest::servant_data battletest::get_servant(eosio::name _user, uint32_t _jo
 
             // result.index = update_user_servant_list.index;
             // result.type = result::servant;
-            if (_gold_type == use_money_type::BATTLE) 
-            {
-                new_data.index = update_user_servant_list.index;
-                new_data.party_number = update_user_servant_list.party_number;
-                new_data.servant = new_servant;
-                gacha_result_index = update_user_servant_list.index;
-            }      
-            });      
+            new_data.index = update_user_servant_list.index;
+            new_data.party_number = update_user_servant_list.party_number;
+            new_data.servant = new_servant;
+            gacha_result_index = update_user_servant_list.index;
+        });
     }
     else if(_gold_type == use_money_type::PACKAGE || _gold_type == use_money_type::EVENT)   //메일 
     {
