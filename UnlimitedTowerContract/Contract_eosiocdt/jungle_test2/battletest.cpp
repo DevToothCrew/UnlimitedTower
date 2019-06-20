@@ -3325,6 +3325,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     }
     else if(_stage_type == 2)
     {
+        //해당 타입의 요일 던전이 입장이 가능한 요일인지 체크하는 예외처리 필요
+
         daily_stage_db daily_stage_db_table(_self, _self.value);
         auto daily_stage = daily_stage_db_table.find(stage_id);
         eosio_assert(daily_stage != daily_stage_db_table.end(), "Stage Start : Empty Daily Stage / Not Set Daily Stage");
@@ -10446,60 +10448,60 @@ ACTION battletest::limitbreak(eosio::name _user, uint32_t _object_type, uint32_t
 
     limit_break_db limit_break_db_table(_self, _self.value);
     user_items user_items_table(_self, _user.value);
-    if(_object_type == 1) //servant
-    {
-        user_servants user_servants_table(_self, _user.value);
-        auto servant = user_servants_table.find(_index);
-        eosio_assert(servant != user_servants_table.end(),"Limit Break : Empty Servant Index");
+    // if(_object_type == 1) //servant
+    // {
+    //     user_servants user_servants_table(_self, _user.value);
+    //     auto servant = user_servants_table.find(_index);
+    //     eosio_assert(servant != user_servants_table.end(),"Limit Break : Empty Servant Index");
 
-        auto servant_db = get_servant_db(servant->servant.id);
+    //     auto servant_db = get_servant_db(servant->servant.id);
 
-        uint32_t current_available_level = 0;
-        if(max_level + servant->servant.limit_break < 55)
-        {
-            current_available_level = 55;
-        }
-        else if(max_level + servant->servant.limit_break < 60)
-        {
-            current_available_level = 60;
-        }
-        else if(max_level + servant->servant.limit_break < 65)
-        {
-            current_available_level = 65;
-        }
-        else if(max_level + servant->servant.limit_break < 70)
-        {
-            current_available_level = 70;
-        }
-        else
-        {
-            eosio_assert(false, "Limit Break : Impossible Limit Break");
-        }
+    //     uint32_t current_available_level = 0;
+    //     if(max_level + servant->servant.limit_break < 55)
+    //     {
+    //         current_available_level = 55;
+    //     }
+    //     else if(max_level + servant->servant.limit_break < 60)
+    //     {
+    //         current_available_level = 60;
+    //     }
+    //     else if(max_level + servant->servant.limit_break < 65)
+    //     {
+    //         current_available_level = 65;
+    //     }
+    //     else if(max_level + servant->servant.limit_break < 70)
+    //     {
+    //         current_available_level = 70;
+    //     }
+    //     else
+    //     {
+    //         eosio_assert(false, "Limit Break : Impossible Limit Break");
+    //     }
 
-        uint64_t limit_id = get_limit_id(current_available_level, servant_db->job);
-        auto limit_break = limit_break_db_table.find(limit_id);
-        eosio_assert(limit_break != limit_break_db_table.end(),"Limit Break : Empty Limit ID / Wrong Limit ID");
-        eosio_assert(_item_id != limit_break->need_item_id, "Limit Break : Wrong Need Item ID");
+    //     uint64_t limit_id = get_limit_id(current_available_level, servant_db->job);
+    //     auto limit_break = limit_break_db_table.find(limit_id);
+    //     eosio_assert(limit_break != limit_break_db_table.end(),"Limit Break : Empty Limit ID / Wrong Limit ID");
+    //     eosio_assert(_item_id != limit_break->need_item_id, "Limit Break : Wrong Need Item ID");
 
-        //아이템 갯수 체크
-        //아이템 감소 처리
-        uint32_t sub_inventory_count = sub_item_check(_user, limit_break->need_item_id, limit_break->need_item_count);
-        //돈보내는 처리
-        asset limit_break_fee(0, symbol(symbol_code("UTG"), 4));
-        limit_break_fee.amount = limit_break->use_utg;
-        transfer(_user, _self, limit_break_fee, "Servant Limit Break");
+    //     //아이템 갯수 체크
+    //     //아이템 감소 처리
+    //     uint32_t sub_inventory_count = sub_item_check(_user, limit_break->need_item_id, limit_break->need_item_count);
+    //     //돈보내는 처리
+    //     asset limit_break_fee(0, symbol(symbol_code("UTG"), 4));
+    //     limit_break_fee.amount = limit_break->use_utg;
+    //     transfer(_user, _self, limit_break_fee, "Servant Limit Break");
 
-        user_servants_table.modify(servant, _self, [&](auto &new_data) {
-            new_data.servant.limit_break += limit_break->up_level;
-        });
-        //금액 소모 로그 기록
-        user_logs_table.modify(log, _self, [&](auto &new_data)
-        {
-            new_data.use_utg += limit_break_fee.amount;
-        });
-
-    }
-    else if(_object_type == 2)
+    //     user_servants_table.modify(servant, _self, [&](auto &new_data) {
+    //         new_data.servant.limit_break += limit_break->up_level;
+    //     });
+    //     //금액 소모 로그 기록
+    //     user_logs_table.modify(log, _self, [&](auto &new_data)
+    //     {
+    //         new_data.use_utg += limit_break_fee.amount;
+    //     });
+    // }
+    // else 
+    if(_object_type == 2)
     {
         user_monsters user_monsters_table(_self, _user.value);
         auto monster = user_monsters_table.find(_index);
@@ -10561,10 +10563,10 @@ void battletest::buy_add_daily_stage(eosio::name _user)
 {
     user_auths user_auths_table(_self, _self.value);
     auto user = user_auths_table.find(_user.value);
-    eosio_assert(user != user_auths_table.end(),"Buy Add Daily Enter : Empty Auth Table / Not Yet Signup");
-    eosio_assert(user->state == user_state::lobby, "Buy Add Daily Enter : Not Lobby");
-    eosio_assert(user->daily_enter_count == 0, "Buy Add Daily Enter : Remain Eneter Count");
-    eosio_assert(timecheck(user->daily_init_time) == false, "Buy Add Daily Enter : Press the day dungeon entry");
+    eosio_assert(user != user_auths_table.end(),"Buy Add Daily Enter : Empty Auth Table / Not Yet Signup"); //계정이 존재 하는지 예외 처리
+    eosio_assert(user->state == user_state::lobby, "Buy Add Daily Enter : Not Lobby");  //계정이 로비 상태일때만 가능하게
+    eosio_assert(user->daily_enter_count == 0, "Buy Add Daily Enter : Remain Eneter Count");    //오늘자 요일던전 횟수를 다 사용했을 경우만 가능하게
+    eosio_assert(timecheck(user->daily_init_time) == false, "Buy Add Daily Enter : Press the day dungeon entry"); // 초기화할 시간이 아닐경우만 가능하게
     user_auths_table.modify(user, _self, [&](auto &new_data)
     {
         new_data.daily_enter_count += 1;
