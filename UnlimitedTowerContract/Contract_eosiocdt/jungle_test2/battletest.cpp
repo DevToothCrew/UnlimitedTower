@@ -3327,7 +3327,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     {
         //해당 타입의 요일 던전이 입장이 가능한 요일인지 체크하는 예외처리 필요
         uint32_t today_stage = get_day_type();
-        if (today_stage != 3)
+        if (today_stage != 0)
         {
             eosio_assert(today_stage == _type, "Stage Start : This Stage Another Day");
         }
@@ -10578,34 +10578,36 @@ void battletest::buy_add_daily_stage(eosio::name _user)
 uint64_t battletest::get_day_type()
 {
     uint64_t day = (now() / 86400) % 7;
+    uint64_t type = 0 ;
     if (day == 0)
     {
-        return 3;
+        type = 3;
     }
     else if (day == 1)
     {
-        return 4;
+        type = 4;
     }
     else if (day == 2)
     {
-        return 5;
+        type = 5;
     }
     else if (day == 4)
     {
-        return 6;
+        type = 6;
     }
     else if (day == 5)
     {
-        return 1;
+        type = 1;
     }
     else if (day == 6)
     {
-        return 2;
+        type = 2;
     }
     else //일요일
     {
-        return 0;
+        type = 0;
     }
+    return type;
 }
 
 void battletest::insert_limit_pool(uint64_t _index, uint64_t _gacha_id)
