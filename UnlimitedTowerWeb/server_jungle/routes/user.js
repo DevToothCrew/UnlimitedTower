@@ -1137,11 +1137,11 @@ User.buyDayStageCount = function(req, res){
                         data.eos = uEos[0] + uEos[1];
                     }
 
-                    if (tableData[4].rows.length == 0) {
+                    if (tokenTable.rows.length == 0) {
                         data.utg = '0';
                     }
                     else {
-                        var token = tableData[4].rows[0].balance.split(" ");
+                        var token = tokenTable.rows[0].balance.split(" ");
                         token = token[0].split(".");
                         data.utg = token[0] + token[1];
                     }

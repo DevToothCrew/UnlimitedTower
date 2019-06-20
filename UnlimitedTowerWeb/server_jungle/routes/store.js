@@ -480,6 +480,24 @@ Store.buyItem = function(req, res){
                     console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
                     res.status(200).send(user_data);
                 }
+                else if(index == 19){   //인벤토리 패키지 
+                    user_data.get_servant_list = [];
+                    user_data.get_monster_list = [];
+                    user_data.get_equipment_list = [];
+                    user_data.get_item_list = [];
+
+                    var inventory_info = {
+                        servant_inventory : tableData[1].rows[0].servant_inventory,
+                        monster_inventory : tableData[1].rows[0].monster_inventory,
+                        equipment_inventory : tableData[1].rows[0].equipment_inventory,
+                        item_inventory : tableData[1].rows[0].item_inventory
+                    };
+    
+                    user_data.inventory_info = inventory_info;
+    
+                    console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                    res.status(200).send(user_data);
+                }
                 // // 입장권 패키지
                 // else if(index == 19){
                 //     async.parallel([
