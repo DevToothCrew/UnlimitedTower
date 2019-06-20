@@ -10435,8 +10435,6 @@ ACTION battletest::limitbreak(eosio::name _user, uint32_t _object_type, uint32_t
 {
     require_auth(_user);
 
-    uint32_t max_level = 50;
-
     user_auths user_auths_table(_self, _self.value);
     auto user = user_auths_table.find(_user.value);
     eosio_assert(user != user_auths_table.end(), "Limit Break : Empty Auth Table / Not Yet Signup");
@@ -10457,19 +10455,19 @@ ACTION battletest::limitbreak(eosio::name _user, uint32_t _object_type, uint32_t
     //     auto servant_db = get_servant_db(servant->servant.id);
 
     //     uint32_t current_available_level = 0;
-    //     if(max_level + servant->servant.limit_break < 55)
+    //     if(MAX_LEVEL + servant->servant.limit_break < 55)
     //     {
     //         current_available_level = 55;
     //     }
-    //     else if(max_level + servant->servant.limit_break < 60)
+    //     else if(MAX_LEVEL + servant->servant.limit_break < 60)
     //     {
     //         current_available_level = 60;
     //     }
-    //     else if(max_level + servant->servant.limit_break < 65)
+    //     else if(MAX_LEVEL + servant->servant.limit_break < 65)
     //     {
     //         current_available_level = 65;
     //     }
-    //     else if(max_level + servant->servant.limit_break < 70)
+    //     else if(MAX_LEVEL + servant->servant.limit_break < 70)
     //     {
     //         current_available_level = 70;
     //     }
@@ -10510,19 +10508,19 @@ ACTION battletest::limitbreak(eosio::name _user, uint32_t _object_type, uint32_t
         auto monster_db = get_monster_db(monster->monster.id);
 
         uint32_t current_available_level = 0;
-        if(max_level + monster->monster.limit_break < 55)
+        if(MAX_LEVEL + monster->monster.limit_break < 55)
         {
             current_available_level = 55;
         }
-        else if(max_level + monster->monster.limit_break < 60)
+        else if(MAX_LEVEL + monster->monster.limit_break < 60)
         {
             current_available_level = 60;
         }
-        else if(max_level + monster->monster.limit_break < 65)
+        else if(MAX_LEVEL + monster->monster.limit_break < 65)
         {
             current_available_level = 65;
         }
-        else if(max_level + monster->monster.limit_break < 70)
+        else if(MAX_LEVEL + monster->monster.limit_break < 70)
         {
             current_available_level = 70;
         }
