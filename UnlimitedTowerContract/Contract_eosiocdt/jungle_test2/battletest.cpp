@@ -10307,15 +10307,15 @@ uint64_t battletest::get_day_type()
     uint64_t type = 0 ;
     if (day == 0)
     {
-        type = 3;
+        type = 4;
     }
     else if (day == 1)
     {
-        type = 4;
+        type = 5;
     }
     else if (day == 2)
     {
-        type = 5;
+        type = 3;
     }
     else if (day == 4)
     {
