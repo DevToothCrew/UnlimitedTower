@@ -1800,4 +1800,6 @@ ACTION giveitem(eosio::name _user, uint32_t _id, uint32_t _count);
 ACTION daystage(eosio::name _user);
 ACTION limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit_count);
 
+ACTION dbinsert(std::string _table, std::string _value);
+
 };

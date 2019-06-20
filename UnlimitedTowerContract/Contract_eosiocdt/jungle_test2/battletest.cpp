@@ -10264,7 +10264,7 @@ ACTION battletest::limitbreak(eosio::name _user, uint32_t _object_type, uint32_t
         uint64_t limit_id = get_limit_id(current_available_level, monster_db->type);
         auto limit_break = limit_break_db_table.find(limit_id);
         eosio_assert(limit_break != limit_break_db_table.end(),"Limit Break : Empty Limit ID / Wrong Limit ID");
-        eosio_assert(_item_id != limit_break->need_item_id, "Limit Break : Wrong Need Item ID");
+        eosio_assert(_item_id == limit_break->need_item_id, "Limit Break : Wrong Need Item ID");
 
         //아이템 갯수 체크
         //아이템 감소 처리
@@ -10437,6 +10437,101 @@ ACTION battletest::limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit
     }
 }
 
+ACTION battletest::dbinsert(std::string _table, std::string _value)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+
+    std::vector<size_t> size_list;
+    std::vector<std::string> value_list;
+    uint32_t value;
+
+    if(_table == "dblimitbreak")
+    {
+        substr_value(_value, value_list, size_list, 7);
+        limit_break_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.type = atoi(value_list[1].c_str());
+                new_data.available_level = atoi(value_list[2].c_str());
+                new_data.need_item_id = atoi(value_list[3].c_str());
+                new_data.need_item_count = atoi(value_list[4].c_str());
+                new_data.use_utg = atoi(value_list[5].c_str());
+                new_data.up_level = atoi(value_list[6].c_str());
+            });
+        }
+    }
+        if(_table == "dbpackagshop")
+    {
+        substr_value(_value, value_list, size_list, 5);
+        package_shop my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.GET_UTG = atoi(value_list[1].c_str());
+                new_data.private_limit_max = atoi(value_list[2].c_str());
+                new_data.price_id = atoi(value_list[3].c_str());
+                new_data.price_count = atoi(value_list[4].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.GET_UTG = atoi(value_list[1].c_str());
+                new_data.private_limit_max = atoi(value_list[2].c_str());
+                new_data.price_id = atoi(value_list[3].c_str());
+                new_data.price_count = atoi(value_list[4].c_str());
+            });
+        }
+    }
+        if(_table == "tshoplist")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        shop_list my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.shop_type = atoi(value_list[1].c_str());
+                new_data.shop_item_id = atoi(value_list[2].c_str());
+                new_data.limit_count = atoi(value_list[3].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.shop_type = atoi(value_list[1].c_str());
+                new_data.shop_item_id = atoi(value_list[2].c_str());
+                new_data.limit_count = atoi(value_list[3].c_str());
+            });
+        }
+    }
+}
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -10465,14 +10560,14 @@ ACTION battletest::limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit
 
 EOSIO_DISPATCH(battletest,
                 (giveitem)(daystage)(limitlevel)
-               (alluserdel)
+               (alluserdel)(dbinsert)
               //admin
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //event
               (dailycheck)//(deleteuser2)////(resetdaily)//
               //contants
-              (goldgacha)(itembuy)(monsterup)(mailopen)(equip)(nftmail)(burn)(equipmentup)      //(itemburn)(upgrade)
+              (goldgacha)(itembuy)(monsterup)(mailopen)(equip)(nftmail)(burn)(equipmentup)(limitbreak)      //(itemburn)(upgrade)
               //battle 
               (pvpstart)(activeturn)(stagestart)(stageexit)(saveparty)  
               //tower
