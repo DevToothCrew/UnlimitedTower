@@ -3341,7 +3341,6 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
         }
         else
         {
-            eosio_assert(user->daily_enter_count != 0, "Stage Start : Buy Add Enter Daily Count");
             if (timecheck(user->daily_init_time) == true) //초기화 시간이면
             {
                 user_auth.modify(user, _self, [&](auto &data) {
@@ -3354,6 +3353,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
             else if (user->total_enter_count >= daily_stage->max_entrance_count) //유저가 총 입장한 횟수와 최대 입장가능 횟수를 비교한다.
             {
                 eosio_assert(user->total_enter_count < daily_stage->real_max_entrance_count, "Stage Start : It is impossible to enter today"); //최대 입장 횟수를 했을때 추가 입장 가능 여부를 체크 한다.
+                eosio_assert(user->daily_enter_count != 0, "Stage Start : Buy Add Enter Daily Count");
                 user_auth.modify(user, _self, [&](auto &data) {
                     data.daily_enter_count -= 1;
                     data.total_enter_count += 1;
@@ -10563,6 +10563,8 @@ void battletest::buy_add_daily_stage(eosio::name _user)
     auto user = user_auths_table.find(_user.value);
     eosio_assert(user != user_auths_table.end(),"Buy Add Daily Enter : Empty Auth Table / Not Yet Signup");
     eosio_assert(user->state == user_state::lobby, "Buy Add Daily Enter : Not Lobby");
+    eosio_assert(user->daily_enter_count == 0, "Buy Add Daily Enter : Remain Eneter Count");
+    eosio_assert(timecheck(user->daily_init_time) == false, "Buy Add Daily Enter : Press the day dungeon entry");
     user_auths_table.modify(user, _self, [&](auto &new_data)
     {
         new_data.daily_enter_count += 1;
