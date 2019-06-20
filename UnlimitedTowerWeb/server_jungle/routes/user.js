@@ -248,6 +248,7 @@ User.getLoginInfo = function (req, res) {
 
                         user_data.day_stage = {
                             daily_enter_count : tableData[6].rows[0].daily_enter_count,
+                            total_enter_count : tableData[6].rows[0].total_enter_count,
                             daily_init_time : tableData[6].rows[0].daily_init_time
                         }
                         // console.log("total_day ::::"+ user_data.daily.check_day);
@@ -1147,6 +1148,7 @@ User.buyDayStageCount = function(req, res){
 
                     var day_stage_info = {
                         daily_enter_count: result.daily_enter_count,
+                        total_enter_count: result.total_enter_count,
                         daily_init_time: result.daily_init_time
                     }
 

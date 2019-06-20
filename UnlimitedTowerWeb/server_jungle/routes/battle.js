@@ -236,6 +236,7 @@ Battle.battleStart = function (req, res) {
                                     else {
                                         if (user_info.rows[0].user == user) {
                                             day_stage.daily_enter_count = user_info.rows[0].daily_enter_count;
+                                            day_stage.total_enter_count = user_info.rows[0].total_enter_count;
                                             day_stage.daily_init_time = user_info.rows[0].daily_init_time;
                                             data.day_stage = day_stage;
                                         }
