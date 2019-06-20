@@ -3326,6 +3326,11 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     else if(_stage_type == 2)
     {
         //해당 타입의 요일 던전이 입장이 가능한 요일인지 체크하는 예외처리 필요
+        uint32_t today_stage = get_day_type();
+        if (today_stage != 3)
+        {
+            eosio_assert(today_stage == _type, "Stage Start : This Stage Another Day");
+        }
 
         daily_stage_db daily_stage_db_table(_self, _self.value);
         auto daily_stage = daily_stage_db_table.find(stage_id);
@@ -10597,7 +10602,7 @@ uint64_t battletest::get_day_type()
     {
         return 2;
     }
-    else //day == 3
+    else //일요일
     {
         return 0;
     }
