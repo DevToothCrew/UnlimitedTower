@@ -3009,7 +3009,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
         user_battle_table.emplace(_self, [&](auto &new_battle_set) {
             new_battle_set.user = _user;
             new_battle_set.enemy_user = _user;
-            new_battle_set.type = stage_db_iter->type;
+            new_battle_set.type = stage_db_iter->elemental_type;
             new_battle_set.floor = stage_db_iter->floor;
             new_battle_set.difficult = stage_db_iter->difficult;
             new_battle_set.turn = 0;
@@ -3047,7 +3047,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     {
         user_battle_table.modify(user_battle_iter, _self, [&](auto &new_battle_set) {
             new_battle_set.enemy_user = _user;
-            new_battle_set.type = stage_db_iter->type;
+            new_battle_set.type = stage_db_iter->elemental_type;
             new_battle_set.floor = stage_db_iter->floor;
             new_battle_set.difficult = stage_db_iter->difficult;
             new_battle_set.turn = 0;
@@ -7477,7 +7477,7 @@ void battletest::new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::ve
     auto stage_db_iter = stage_db_table.find(_stage_id);
     eosio_assert(stage_db_iter != stage_db_table.end(), "Set Enemy State : Empty Stage / Wrong Stage ID");
 
-    enemyinfo_db enemyinfo_db_table(_self, stage_db_iter->type);
+    enemyinfo_db enemyinfo_db_table(_self, stage_db_iter->elemental_type);
     auto iter = enemyinfo_db_table.find(0);
     eosio_assert(iter != enemyinfo_db_table.end(), "Set Enmey State : Empty Max Count");
     uint32_t max_count = iter->id;
@@ -8487,23 +8487,24 @@ ACTION battletest::dbinit(std::string _table)
             iter15++;
         }
     }
-    // if (_table == "dballitem")
-    // {
-    //     allitem_db common_item_table(_contract, _contract.value);
-    //     allitem_db my_table(_self, _self.value);
-    //     for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
-    //     {
-    //         const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
-    //         my_table.emplace(_self, [&](auto &new_a) {
-    //             new_a.id = data_iter.id;
-    //             new_a.type = data_iter.type;
-    //             new_a.item_param_list.insert(new_a.item_param_list.begin(), data_iter.item_param_list.begin(), data_iter.item_param_list.end());
-    //             new_a.sell_id = data_iter.sell_id;
-    //             new_a.sell_cost = data_iter.sell_cost;
-    //         });
-    //         iter++;
-    //     }
-    // }
+    if (_table == "dballitem")
+    {
+        allitem_db common_item_table(_contract, _contract.value);
+        allitem_db my_table(_self, _self.value);
+        for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
+        {
+            const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
+            my_table.emplace(_self, [&](auto &new_a) {
+                new_a.id = data_iter.id;
+                new_a.type = data_iter.type;
+                new_a.grade = data_iter.grade;
+                new_a.max_count = data_iter.max_count;
+                new_a.sell_item_id = data_iter.sell_item_id;
+                new_a.sell_item_count = data_iter.sell_item_count;
+            });
+            iter++;
+        }
+    }
 
     if (_table == "dbpackagshop")
     {
@@ -8541,6 +8542,68 @@ ACTION battletest::dbinit(std::string _table)
            iter++;
        }
    }
+      if (_table == "dbdailystage")
+   {
+       daily_stage_db other_table(_contract, _contract.value);
+       daily_stage_db my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.stage_type = get_iter.stage_type;
+               new_data.elemental_type = get_iter.elemental_type;
+               new_data.difficult = get_iter.difficult;
+                new_data.max_entrance_count = get_iter.max_entrance_count;
+                new_data.real_max_entrance_count = get_iter.real_max_entrance_count;
+                new_data.enemy_level_min = get_iter.enemy_level_min;
+                new_data.enemy_level_max = get_iter.enemy_level_max;
+                new_data.enemy_count = get_iter.enemy_count;  
+                new_data.option_list = get_iter.option_list;  
+           });
+           iter++;
+       }
+   }
+      if (_table == "dblimitbreak")
+   {
+       limit_break_db other_table(_contract, _contract.value);
+       limit_break_db my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.type = get_iter.type;
+               new_data.available_level = get_iter.available_level;
+               new_data.need_item_id = get_iter.need_item_id;
+               new_data.need_item_count = get_iter.need_item_count;
+               new_data.use_utg = get_iter.use_utg;
+               new_data.up_level = get_iter.up_level;
+           });
+           iter++;
+       }
+   }
+      if (_table == "dbdayreward")
+   {
+       day_reward_db other_table(_contract, _contract.value);
+       day_reward_db my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.reward_utg = get_iter.reward_utg;
+               new_data.rank_exp = get_iter.rank_exp;
+               new_data.char_exp = get_iter.char_exp;
+               new_data.reward_count = get_iter.reward_count;
+               new_data.per_monster = get_iter.per_monster;
+               new_data.per_equipment = get_iter.per_equipment;
+               new_data.reward_list = get_iter.reward_list;
+           });
+           iter++;
+       }
+   }
+
 }
 
 

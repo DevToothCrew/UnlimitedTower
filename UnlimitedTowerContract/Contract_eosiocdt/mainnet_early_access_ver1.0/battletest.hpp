@@ -1570,7 +1570,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 TABLE stageinfo
 {
     uint64_t id;
-    uint32_t type;
+    uint32_t elemental_type;
     uint32_t floor;
     uint32_t difficult;
     uint32_t need_entrance_item_id;
@@ -1628,6 +1628,7 @@ TABLE reward
 };
 
 typedef eosio::multi_index<"dbnewreward"_n, reward> new_reward_db;
+typedef eosio::multi_index<"dbdayreward"_n, reward> day_reward_db;
 
 void insert_new_reward(std::vector<uint32_t> _reward);
 
@@ -1695,6 +1696,36 @@ passive_db::const_iterator get_passive_db(uint64_t _id);
 shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
+
+TABLE dbdailystage
+{
+    uint64_t id;
+    uint32_t stage_type;
+    uint32_t elemental_type;
+    uint32_t difficult;
+    uint32_t max_entrance_count;
+    uint32_t real_max_entrance_count;
+    uint32_t enemy_level_min;
+    uint32_t enemy_level_max;
+    uint32_t enemy_count;
+    std::vector<uint32_t> option_list;
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dbdailystage"_n, dbdailystage> daily_stage_db;
+
+TABLE dblimitbreak
+{
+    uint64_t id;
+    uint64_t type;
+    uint64_t available_level;
+    uint64_t need_item_id;
+    uint64_t need_item_count;
+    uint64_t use_utg;
+    uint64_t up_level;
+
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
 
 TABLE tcount
 {
