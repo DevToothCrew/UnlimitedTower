@@ -1768,6 +1768,15 @@ typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 
 ACTION daystage(eosio::name _user);
 ACTION limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit_count);
+ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+ACTION dbinsert(std::string _table, std::string _value);
+ACTION dbinit(std::string _table);
+ACTION dberase(std::string _table, std::string _value);
 
+ACTION partyupdate();
+
+void deletebattle(eosio::name _user);
+void deleteuser(eosio::name _user);
+ACTION alluserdel();
 //end
 };

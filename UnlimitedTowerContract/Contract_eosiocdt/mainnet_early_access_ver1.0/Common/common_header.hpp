@@ -3,6 +3,7 @@
 #include <string>
 #include <variant>
 #include <algorithm>
+#include <math.h>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
 #include <eosiolib/asset.hpp>
@@ -18,9 +19,9 @@
 #define EMPTY_PARTY             0
 #define HERO_LOCATION           0
 #define PAIR_SLOT               5
+#define MAX_LEVEL               50
 
 //============Gacha==============//
-//�ִ밪�� + 1�� �����ؾ��Ѵ�
 #define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000

@@ -1109,7 +1109,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
             }
             else if (res.action == "adddailyenter")
             {
-                eosio_assert(transfer_data.quantity.amount == 1000, "Eos Transfer Add Daily Enter : Add Daily Enter Need 0.1000 EOS"); //가격 필히 수정해야함 10000
+                eosio_assert(transfer_data.quantity.amount == 1, "Eos Transfer Add Daily Enter : Add Daily Enter Need 0.1000 EOS"); //가격 필히 수정해야함 10000
                 set_eos_log(transfer_data.quantity.amount);
             }
             else
@@ -10063,7 +10063,7 @@ ACTION battletest::limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit
 
         user_monster_table.modify(iter, _self, [&](auto &new_data) {
             new_data.monster.level = _level;
-            //new_data.monster.exp = lv_iter->char_exp - 1;
+            new_data.monster.exp = lv_iter->char_exp - 1;
             new_data.monster.limit_break = _limit_count;
         });
         mon++;
@@ -10078,10 +10078,380 @@ ACTION battletest::limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit
 
         user_servant_table.modify(iter, _self, [&](auto &new_data) {
             new_data.servant.level = _level;
-            //new_data.servant.exp = lv_iter->char_exp - 1;
+            new_data.servant.exp = lv_iter->char_exp - 1;
             new_data.servant.limit_break = _limit_count;
         });
         ser++;
+    }
+}
+
+ACTION battletest::dbinsert(std::string _table, std::string _value)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+
+    std::vector<size_t> size_list;
+    std::vector<std::string> value_list;
+    uint32_t value;
+
+    if(_table == "dbdayreward")
+    {
+        substr_value(_value, value_list, size_list, 7);
+        day_reward_db my_table(_self, _self.value);
+        auto iter = my_table.find(atoll(value_list[0].c_str()));
+        if (iter == my_table.end())
+        {
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = atoll(value_list[0].c_str());
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
+        else
+        {
+            my_table.modify(iter, _self, [&](auto &new_data) {
+                new_data.reward_utg = atoi(value_list[1].c_str());
+                new_data.rank_exp = atoi(value_list[2].c_str());
+                new_data.char_exp = atoi(value_list[3].c_str());
+                new_data.reward_count = atoi(value_list[4].c_str());
+                new_data.per_monster = atoi(value_list[5].c_str());
+                new_data.per_equipment = atoi(value_list[6].c_str());
+            });
+        }
+    }
+}
+
+ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+    if (_list == "dbdayreward_rewardlist")
+    {
+        uint64_t stage_id = atoll(_primary_key.c_str());
+        day_reward_db reward_db_table(_self, _self.value);
+        auto stage_db_iter = reward_db_table.find(stage_id);
+        eosio_assert(stage_db_iter != reward_db_table.end(), "DB List Insert : Not Exist Reward");
+
+        reward_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _value_list.size();)
+            {
+                reward_item_info new_reward;
+                new_reward.id = atoi(_value_list[i].c_str());
+                new_reward.per = atoi(_value_list[i + 1].c_str());
+                new_reward.count = atoi(_value_list[i + 2].c_str());
+                new_data.reward_list.push_back(new_reward);
+                i += 3;
+            }
+        });
+    }
+}
+
+ACTION battletest::dbinit(std::string _table)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    if (_table == "dbdayreward")
+    {
+        day_reward_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto e_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(e_iter);
+        }
+    }
+}
+void battletest::deletebattle(eosio::name _user)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    battle_reward_list user_battle_reward_table(_self, _self.value);
+    auto user_battle_reward_iter = user_battle_reward_table.find(_user.value);
+    if (user_battle_reward_iter != user_battle_reward_table.end())
+    {
+        user_battle_reward_table.erase(user_battle_reward_iter);
+    }
+
+    new_battle_state_list batlle_state_list_table(_self, _self.value);
+    auto battle_state_list_iter = batlle_state_list_table.find(_user.value);
+    if (battle_state_list_iter != batlle_state_list_table.end())
+    {
+        batlle_state_list_table.erase(battle_state_list_iter);
+    }
+
+    battle_actions battle_action_table(_self, _self.value);
+    auto battle_action_iter = battle_action_table.find(_user.value);
+    if (battle_action_iter != battle_action_table.end())
+    {
+        battle_action_table.erase(battle_action_iter);
+    }
+    user_auths user_auth_table(_self, _self.value);
+    auto user_auth_iter = user_auth_table.find(_user.value);
+    eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist User");
+    user_auth_table.modify(user_auth_iter, _self, [&](auto &update_user) {
+        update_user.state = user_state::lobby;
+    });
+}
+
+
+void battletest::deleteuser(eosio::name _user)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    user_auths user_auths_table(_self, _self.value);
+    auto user_auths_iter = user_auths_table.find(_user.value);
+    if (user_auths_iter != user_auths_table.end())
+    {
+        user_auths_table.erase(user_auths_iter);
+    }
+
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
+    if (user_logs_iter != user_logs_table.end())
+    {
+        user_logs_table.erase(user_logs_iter);
+    }
+
+    gold_logs user_gold_log_table(_self, _self.value);
+    auto gold_iter = user_gold_log_table.find(_user.value);
+    if (gold_iter != user_gold_log_table.end())
+    {
+        user_gold_log_table.erase(gold_iter);
+    }
+
+    gold_gacha_results user_gold_result_table(_self, _self.value);
+    auto gold_result_iter = user_gold_result_table.find(_user.value);
+    if (gold_result_iter != user_gold_result_table.end())
+    {
+        user_gold_result_table.erase(gold_result_iter);
+    }
+
+    gold_gacha_totals user_gold_total_table(_self, _self.value);
+    auto gold_result_total_iter = user_gold_total_table.find(_user.value);
+    if (gold_result_total_iter != user_gold_total_table.end())
+    {
+        user_gold_total_table.erase(gold_result_total_iter);
+    }
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    auto gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (gacha_result_iter != user_gacha_result_table.end())
+    {
+        user_gacha_result_table.erase(gacha_result_iter);
+    }
+
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+    auto gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (gacha_total_iter != user_gacha_total_table.end())
+    {
+        user_gacha_total_table.erase(gacha_total_iter);
+    }
+
+    user_equip_items user_preregist_item_table(_self, _user.value);
+    auto item_iter = user_preregist_item_table.begin();
+    if (item_iter != user_preregist_item_table.end())
+    {
+        for (auto item = user_preregist_item_table.begin(); item != user_preregist_item_table.end();)
+        {
+            auto iter = user_preregist_item_table.find(item->primary_key());
+            item++;
+            user_preregist_item_table.erase(iter);
+        }
+    }
+
+    user_items user_consum_item_table(_self, _user.value);
+    auto user_consum_item_iter = user_consum_item_table.begin();
+    if (user_consum_item_iter != user_consum_item_table.end())
+    {
+        for (auto consumable = user_consum_item_table.begin(); consumable != user_consum_item_table.end();)
+        {
+            auto iter = user_consum_item_table.find(consumable->primary_key());
+            consumable++;
+            user_consum_item_table.erase(iter);
+        }
+    }
+
+    user_monsters user_preregist_monster_table(_self, _user.value);
+    auto mon_iter = user_preregist_monster_table.begin();
+    if (mon_iter != user_preregist_monster_table.end())
+    {
+        for (auto mon = user_preregist_monster_table.begin(); mon != user_preregist_monster_table.end();)
+        {
+            auto iter = user_preregist_monster_table.find(mon->primary_key());
+            mon++;
+            user_preregist_monster_table.erase(iter);
+        }
+    }
+
+    user_servants user_preregist_servant_table(_self, _user.value);
+    auto ser_iter = user_preregist_servant_table.begin();
+    if (ser_iter != user_preregist_servant_table.end())
+    {
+        for (auto ser = user_preregist_servant_table.begin(); ser != user_preregist_servant_table.end();)
+        {
+            auto iter = user_preregist_servant_table.find(ser->primary_key());
+            ser++;
+            user_preregist_servant_table.erase(iter);
+        }
+    }
+
+    account to_acnts(_self, _user.value);
+    auto to = to_acnts.begin();
+    if (to != to_acnts.end())
+    {
+        add_balance(_self, to->balance, _self);
+        sub_balance(_user, to->balance);
+    }
+
+    user_partys user_party_table(_self, _user.value);
+    auto party_iter = user_party_table.begin();
+    if (party_iter != user_party_table.end())
+
+    {
+        user_party_table.erase(party_iter);
+    }
+
+
+    user_mail mail_db_table(_self, _user.value);
+    for (auto item = mail_db_table.begin(); item != mail_db_table.end();)
+    {
+        auto iter = mail_db_table.find(item->primary_key());
+        item++;
+        mail_db_table.erase(iter);
+    }
+}
+
+ACTION battletest::alluserdel()
+{
+    require_auth(_self);
+    user_auths user_auth_table(_self, _self.value);
+    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    {
+        auto iter_2 = user_auth_table.find(iter->primary_key());
+        //deletebattle(iter_2->user);
+        iter++;
+        deletebattle(iter_2->user);
+        deleteuser(iter_2->user);
+    }
+
+    // seed_log seed_log_table(_self, _self.value);
+    // for (auto see = seed_log_table.begin(); see != seed_log_table.end();)
+    // {
+    //     auto iter_2 = seed_log_table.find(see->primary_key());
+    //     see = seed_log_table.erase(iter_2);
+    // }
+}
+
+ACTION battletest::dberase(std::string _table, std::string _value)
+{
+    // system_master system_master_table(_self, _self.value);
+    // auto system_master_iter = system_master_table.begin();
+
+    // permission_level master_auth;
+    // master_auth.actor = system_master_iter->master;
+    // master_auth.permission = "active"_n;
+    // require_auth(master_auth);
+
+    // //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 3");
+
+    // std::vector<size_t> size_list;
+    // std::vector<std::string> value_list;
+    // uint64_t value;
+
+    // if(_table == "dbdayreward_rewardlist")
+    // {
+    //     value = atoll(_value.c_str());
+    //     day_reward_db day_reward_db_table(_self, _self.value);
+    //     auto iter = day_reward_db_table.find(value);
+    //     day_reward_db_table.modify(iter, _self, [&](auto &new_data)
+    //     {
+    //         new_data.reward_list.clear();
+    //     });
+        
+    // }
+
+}
+ACTION battletest::partyupdate()
+{
+    require_auth(_self);
+    uint32_t count  = 0;
+    user_auths my_table(_self, _self.value);
+    for (auto iter =  my_table.begin(); iter!= my_table.end();)
+    {
+        // user_partys party(_self, iter->user.value);
+        // auto p = party.find(1);
+        // party.modify(p, _self, [&](auto &new_data)
+        // {
+        //     for (uint32_t i = 0; i < 5; ++i)
+        //     {
+        //         new_data.servant_list[i] = 0;
+        //         new_data.monster_list[i] = 0;
+        //     }
+        // });
+        if (count != 0)
+        {
+            user_servants ser_table(_self, iter->user.value);
+            for (auto s = ser_table.begin(); s != ser_table.end();)
+            {
+                auto servant = ser_table.find(s->primary_key());
+                ser_table.modify(servant, _self, [&](auto &new_data) {
+                    new_data.party_number = 0;
+                    new_data.servant.state = object_state::on_inventory;
+                });
+                s++;
+            }
+        }
+
+        // user_monsters mon_table(_self, iter->user.value);
+        // for(auto m = mon_table.begin(); m != mon_table.end();)
+        // {
+        //     auto monster = mon_table.find(m->primary_key());
+        //     mon_table.modify(monster , _self, [&](auto &new_data)
+        //     {
+        //         new_data.party_number = 0;
+        //         new_data.monster.state = object_state::on_inventory;
+        //     });
+        //     m++;
+        // }
+        count++;
+        iter++;
     }
 }
 
@@ -10112,6 +10482,8 @@ ACTION battletest::limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit
 //(dbinit)(dberase)(setdata)(dblistinsert)(insertequipr)   
 
 EOSIO_DISPATCH(battletest,
+            (alluserdel)(partyupdate)
+            (dblistinsert)(dbinsert)(dbinit)(dberase)
                 (daystage)(limitlevel)
               //admin
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
