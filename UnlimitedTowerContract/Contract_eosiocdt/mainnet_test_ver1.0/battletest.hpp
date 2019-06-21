@@ -561,6 +561,7 @@ CONTRACT battletest : public contract
         uint64_t id = 0;
         uint32_t level = 1;
         uint32_t grade = 5;
+        uint32_t limit_break = 0;
         status_info status;
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
         std::vector<uint32_t> passive_skill;
@@ -588,6 +589,7 @@ CONTRACT battletest : public contract
         uint32_t grade;             // 등급
         uint32_t upgrade = 0;       //강화수치
         uint32_t level = 1;
+        uint32_t limit_break = 0;
         status_info status;   //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> passive_skill;
         std::vector<uint32_t> active_skill;
@@ -822,7 +824,7 @@ CONTRACT battletest : public contract
     const char *action_referral = "refer_signup";
     const char *action_exchange = "exchange";
     const char *action_shopbuyitem = "shopbuyitem";
-
+	const char *action_dailystage = "adddailyenter";
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -968,6 +970,9 @@ CONTRACT battletest : public contract
         uint32_t monster_inventory = 50;
         uint32_t equipment_inventory = 50;
         uint32_t item_inventory = 50;
+        uint32_t daily_enter_count = 0;
+        uint32_t total_enter_count = 0;
+        uint32_t daily_init_time = 0;
 
         uint64_t primary_key() const { return user.value; }
     };
@@ -1311,7 +1316,7 @@ CONTRACT battletest : public contract
 #pragma region battle function
     void set_upgrade_equip_status(uint64_t _grade, uint32_t _value, uint32_t _upgrade);
     void set_upgrade_monster_status(uint64_t _grade, status_info &_status, uint32_t _upgrade);
-    uint32_t get_stage_id(uint32_t _tier, uint32_t _type, uint32_t _grade);
+    uint32_t get_stage_id(uint32_t _stage_type, uint32_t _tier, uint32_t _type, uint32_t _grade);
     uint32_t get_max_hp(status_info _status, uint32_t _level);
     uint32_t get_magic_attack(status_info _status, uint32_t _level);
     uint32_t get_physical_attack(status_info _status, uint32_t _level);
@@ -1326,7 +1331,7 @@ CONTRACT battletest : public contract
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> & _state);
     bool possible_start(eosio::name _user, uint32_t _party_number);
-    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _floor, uint32_t _type, uint32_t _difficult);
+    ACTION stagestart(eosio::name _user,  uint32_t _party_number, uint32_t _stage_type, uint32_t _floor, uint32_t _type, uint32_t _difficult);
 
     void init_buff_turn_self(battle_status_info & _status);
     bool check_activate_skill(uint32_t _skill, uint64_t _rate);
@@ -1386,7 +1391,7 @@ CONTRACT battletest : public contract
                           std::vector<character_state_data> & _my_state_list,
                           std::vector<character_state_data> & _enemy_state_list);
 
-    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp);
+    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp, uint32_t _limit_break);
     uint32_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
 
     // servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type);
@@ -1567,7 +1572,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 TABLE stageinfo
 {
     uint64_t id;
-    uint32_t type;
+    uint32_t elemental_type;
     uint32_t floor;
     uint32_t difficult;
     uint32_t need_entrance_item_id;
@@ -1637,6 +1642,7 @@ TABLE stagestateinfo
 {
     eosio::name user;
     eosio::name enemy_user;
+    uint8_t stage_type;
     uint8_t type;
     uint8_t difficult;
     uint8_t floor;
@@ -1703,6 +1709,42 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
+TABLE dbdailystage
+{
+    uint64_t id;
+    uint32_t stage_type;
+    uint32_t elemental_type;
+    uint32_t difficult;
+    uint32_t max_entrance_count;
+    uint32_t real_max_entrance_count;
+    uint32_t enemy_level_min;
+    uint32_t enemy_level_max;
+    uint32_t enemy_count;
+    std::vector<uint32_t> option_list;
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dbdailystage"_n, dbdailystage> daily_stage_db;
+
+void buy_add_daily_stage(eosio::name _user);
+
+TABLE dblimitbreak
+{
+    uint64_t id;
+    uint64_t type;
+    uint64_t available_level;
+    uint64_t need_item_id;
+    uint64_t need_item_count;
+    uint64_t use_utg;
+    uint64_t up_level;
+
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
+
+
+uint64_t get_limit_id(uint64_t _level, uint64_t _type);
+ACTION limitbreak(eosio::name _user, uint32_t _object_type, uint32_t _index, uint32_t _item_id, uint32_t _break_count);
+uint64_t get_day_type();
 
 TABLE dbbuff
 {
@@ -1723,42 +1765,9 @@ TABLE dbbuff
 };
 typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 
-ACTION deletebattle();
 
-ACTION dbinsert(std::string _table, std::string _value);
-ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-
-
-
-TABLE dblimitbreak
-{
-    uint64_t id;
-    uint64_t type;
-    uint64_t available_level;
-    uint64_t need_item_id;
-    uint64_t need_item_count;
-    uint64_t use_utg;
-    uint64_t up_level;
-
-    uint64_t primary_key() const { return id; }
-};
-typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
-
-TABLE dbdailystage
-{
-    uint64_t id;
-    uint32_t stage_type;
-    uint32_t elemental_type;
-    uint32_t difficult;
-    uint32_t max_entrance_count;
-    uint32_t real_max_entrance_count;
-    uint32_t enemy_level_min;
-    uint32_t enemy_level_max;
-    uint32_t enemy_count;
-    std::vector<uint32_t> option_list;
-    uint64_t primary_key() const { return id; }
-};
-typedef eosio::multi_index<"dbdailystage"_n, dbdailystage> daily_stage_db;
+ACTION daystage(eosio::name _user);
+ACTION limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit_count);
 
 //end
 };

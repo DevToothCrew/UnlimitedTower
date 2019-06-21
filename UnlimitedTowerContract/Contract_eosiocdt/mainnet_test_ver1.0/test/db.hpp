@@ -115,3 +115,10 @@
      //void erase_itemshop(uint64_t _id);
     // void erase_itemshop2(uint64_t _id);
 
+    ACTION deletebattle();
+
+ACTION dbinsert(std::string _table, std::string _value);
+ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+
+
+

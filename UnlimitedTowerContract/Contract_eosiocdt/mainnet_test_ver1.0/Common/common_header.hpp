@@ -3,6 +3,7 @@
 #include <string>
 #include <variant>
 #include <algorithm>
+#include <math.h>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
 #include <eosiolib/asset.hpp>
@@ -18,6 +19,7 @@
 #define EMPTY_PARTY             0
 #define HERO_LOCATION           0
 #define PAIR_SLOT               5
+#define MAX_LEVEL               50
 
 //============Gacha==============//
 //최대값의 + 1로 지정해야한다
