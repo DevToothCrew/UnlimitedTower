@@ -1068,7 +1068,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                     auto item_shop_iter = get_item_shop(shop_list_iter->shop_item_id);
                     eosio_assert(res.count * item_shop_iter->price_count == transfer_data.quantity.amount, "Eos Transfer Item Shop : Not same EOS");
                 }
-                else if (res.type == 16 || res.type == 17 || res.type == 18)
+                else if (res.type == 16 || res.type == 17 || res.type == 18 || res.type == 19)
                 {
                     auto package_shop_iter = package_shop_table.find(shop_list_iter->shop_item_id);
                     eosio_assert(res.count * package_shop_iter->price_count == transfer_data.quantity.amount, "Eos Transfer Package Shop : Not same EOS");
@@ -6878,10 +6878,6 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count, uint64_t _seed)
 {
    system_check(_user);
-
-//    shop_list shop_list_table(_self, _self.value);
-//    auto shop_list_iter = shop_list_table.find(_type);
-//    eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
    
    auto shop_list_iter = get_shop_list(_type);
 
@@ -6899,6 +6895,10 @@ void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _coun
    else if (_type == 16 || _type == 17 || _type == 18)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
+       package_buy(_user, shop_list_iter->shop_item_id, _count, _seed);
+   }
+   else if(_type ==19)
+   {
        package_buy(_user, shop_list_iter->shop_item_id, _count, _seed);
    }
    else
@@ -6925,7 +6925,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
 
   if (_type == 2001)
    {
-       eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
 
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.servant_inventory += (plus_inventory * _count);
@@ -6933,21 +6933,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
    }
    else if (_type == 2002)
    {
-       eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
    else if (_type == 2003)
    {
-       eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
    else if (_type == 2004)
    {
-       eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+       eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) <= 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.item_inventory += (plus_inventory * _count);
        });
@@ -7050,32 +7050,25 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
     {
         start_package(_user);
         get_reward_utg(_user,package_shop_iter->GET_UTG);
-        // package_result.amount += package_shop_iter->GET_UTG;
-        // action(permission_level{get_self(), "active"_n},
-        //        get_self(), "transfer"_n,
-        //        std::make_tuple(_self, _user, package_result, std::string("package result")))
-        //     .send();
     }
     else if (package_shop_iter->id == 1008)
     {
-        // get_new_item(_user, 500200, 10);
-        // get_new_item(_user, 500210, 10);
-        // get_new_item(_user, 500220, 10);
-        // get_new_item(_user, 500230, 10);
-        //get_reward_item(_user, 500200, 10, 2);
-        //get_reward_item(_user, 500210, 10, 2);
-        //get_reward_item(_user, 500220, 10, 2);
-        //get_reward_item(_user, 500230, 10, 2);
-		        get_item(_user, 500200, 10, 3, 0);
+        get_item(_user, 500200, 10, 3, 0);
         get_item(_user, 500210, 10, 3, 0);
         get_item(_user, 500220, 10, 3, 0);
         get_item(_user, 500230, 10, 3, 0);
-		
     }
     else if (package_shop_iter->id == 1011)
     {
         start_gacha_10(_user,_seed,100000,10);
-    }   
+    }
+    else if(package_shop_iter->id == 1021)
+    {
+        inventory_buy(_user,2001,10);
+        inventory_buy(_user,2002,10);
+        inventory_buy(_user,2003,10);
+        inventory_buy(_user,2004,10);
+    }      
     else
     {
         eosio_assert(0 == 1, "package_buy : not exsit this action type");
@@ -7087,8 +7080,6 @@ void battletest::start_package(eosio::name _user)
     for(uint32_t i=1; i<=3;i++)
     {
         uint32_t _seed = safeseed::get_seed_value(_user.value+i, now());        
-        //gacha_servant_id(_user, _seed, i,0,0,1);
-        //servant_data servant = get_reward_servant(_user, i, _seed, 2);
 		get_servant(_user, i, 0,0, 3, _seed);
     }  
 }
@@ -8421,6 +8412,137 @@ battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
 }
 
 
+ACTION battletest::dbinit(std::string _table)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    if (_table == "dblevel")
+    {
+        lv_exp my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+
+    if (_table == "dballitem")
+    {
+        allitem_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+
+    if (_table == "dbpackagshop")
+    {
+        package_shop my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "tshoplist")
+    {
+        shop_list my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    
+}
+
+ ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
+ {
+    require_auth(_self);
+
+    if (_table == "dblevel")
+    {
+        lv_exp other_lv_exp_table(_contract, _contract.value);
+        lv_exp my_table(_self, _self.value);
+        for (auto iter15 = other_lv_exp_table.begin(); iter15 != other_lv_exp_table.end();)
+        {
+            const auto &lv_exp_iter = other_lv_exp_table.get(iter15->primary_key(), "nost exist data");
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.lv = lv_exp_iter.lv;
+                new_data.rank_exp = lv_exp_iter.rank_exp;
+                new_data.char_exp = lv_exp_iter.char_exp;
+            });
+            iter15++;
+        }
+    }
+    if (_table == "dballitem")
+    {
+        allitem_db common_item_table(_contract, _contract.value);
+        allitem_db my_table(_self, _self.value);
+        for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
+        {
+            const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
+            my_table.emplace(_self, [&](auto &new_a) {
+                new_a.id = data_iter.id;
+                new_a.type = data_iter.type;
+                new_a.item_param_list.insert(new_a.item_param_list.begin(), data_iter.item_param_list.begin(), data_iter.item_param_list.end());
+                new_a.sell_id = data_iter.sell_id;
+                new_a.sell_cost = data_iter.sell_cost;
+            });
+            iter++;
+        }
+    }
+
+    if (_table == "dbpackagshop")
+    {
+        package_shop package_shop_table(_contract, _user.value);
+        package_shop my_table(_self, _user.value);
+        for (auto iter = package_shop_table.begin(); iter != package_shop_table.end();)
+        {
+            const auto &get_iter = package_shop_table.get(iter->primary_key(), "not exist data ");
+
+            my_table.emplace(_self, [&](auto &new_data) {
+                new_data.id = get_iter.id;
+                new_data.GET_UTG = get_iter.GET_UTG;
+                new_data.private_limit_max = get_iter.private_limit_max;
+                new_data.price_id = get_iter.price_id;
+                new_data.price_count = get_iter.price_count;
+
+            });
+            iter++;
+        }
+    }
+
+   if (_table == "tshoplist")
+   {
+       shop_list other_table(_contract, _contract.value);
+       shop_list my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.shop_type = get_iter.shop_type;
+               new_data.shop_item_id = get_iter.shop_item_id;
+               new_data.limit_count = get_iter.limit_count;
+           });
+           iter++;
+       }
+   }
+}
+
 
 #undef EOSIO_DISPATCH
 
@@ -8450,6 +8572,7 @@ battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
 
 EOSIO_DISPATCH(battletest,
               //admin
+              (dbinit)(setdata)
                 (systemact)(setmaster)(eostransfer)(setpause)
                (transfer)(changetoken)(create)(issue)
 				 //event
