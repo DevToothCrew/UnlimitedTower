@@ -8487,23 +8487,23 @@ ACTION battletest::dbinit(std::string _table)
             iter15++;
         }
     }
-    if (_table == "dballitem")
-    {
-        allitem_db common_item_table(_contract, _contract.value);
-        allitem_db my_table(_self, _self.value);
-        for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
-        {
-            const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
-            my_table.emplace(_self, [&](auto &new_a) {
-                new_a.id = data_iter.id;
-                new_a.type = data_iter.type;
-                new_a.item_param_list.insert(new_a.item_param_list.begin(), data_iter.item_param_list.begin(), data_iter.item_param_list.end());
-                new_a.sell_id = data_iter.sell_id;
-                new_a.sell_cost = data_iter.sell_cost;
-            });
-            iter++;
-        }
-    }
+    // if (_table == "dballitem")
+    // {
+    //     allitem_db common_item_table(_contract, _contract.value);
+    //     allitem_db my_table(_self, _self.value);
+    //     for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
+    //     {
+    //         const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
+    //         my_table.emplace(_self, [&](auto &new_a) {
+    //             new_a.id = data_iter.id;
+    //             new_a.type = data_iter.type;
+    //             new_a.item_param_list.insert(new_a.item_param_list.begin(), data_iter.item_param_list.begin(), data_iter.item_param_list.end());
+    //             new_a.sell_id = data_iter.sell_id;
+    //             new_a.sell_cost = data_iter.sell_cost;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
     if (_table == "dbpackagshop")
     {
@@ -8544,6 +8544,684 @@ ACTION battletest::dbinit(std::string _table)
 }
 
 
+ACTION battletest::movemove(uint32_t _start_count, uint32_t _type)
+{
+    require_auth(_self);
+    uint64_t limit_count = 1000;
+    uint64_t cur_total_limit_count = 0;
+
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+    if (_type == 1)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_servants user_servants_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
+            {
+                ser++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                temp_servant temp_servant_table(_self, user->user.value);
+                for (auto servant_iter = user_servants_table.begin(); servant_iter != user_servants_table.end();)
+                {
+                    auto get_iter = user_servants_table.find(servant_iter->primary_key());
+                    eosio_assert(get_iter != user_servants_table.end(), "not servant");
+                    temp_servant_table.emplace(_self, [&](auto &new_data) {
+                        new_data.index = get_iter->index;
+                        new_data.party_number = get_iter->party_number;
+                        new_data.servant.state = get_iter->servant.state;
+                        new_data.servant.exp = get_iter->servant.exp;
+                        new_data.servant.id = get_iter->servant.id;
+                        new_data.servant.level = get_iter->servant.level;
+                        new_data.servant.grade = get_iter->servant.grade;
+                        new_data.servant.status.basic_str = get_iter->servant.status.basic_str;
+                        new_data.servant.status.basic_dex = get_iter->servant.status.basic_dex;
+                        new_data.servant.status.basic_int = get_iter->servant.status.basic_int;
+                        new_data.servant.equip_slot = get_iter->servant.equip_slot;
+                        new_data.servant.passive_skill = get_iter->servant.passive_skill;
+                        new_data.servant.active_skill = get_iter->servant.active_skill;
+                    });
+                    servant_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 2)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_monsters user_monsters_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto mon = user_monsters_table.begin(); mon != user_monsters_table.end();)
+            {
+                mon++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                temp_monster temp_monster_table(_self, user->user.value);
+                for (auto monster_iter = user_monsters_table.begin(); monster_iter != user_monsters_table.end();)
+                {
+                    const auto &get_iter = user_monsters_table.get(monster_iter->primary_key(), "not exist data 2");
+                    temp_monster_table.emplace(_self, [&](auto &new_data) {
+                        new_data.index = get_iter.index;
+                        new_data.party_number = get_iter.party_number;
+                        new_data.monster.id = get_iter.monster.id;
+                        new_data.monster.state = get_iter.monster.state;
+                        new_data.monster.exp = get_iter.monster.exp;
+                        new_data.monster.type = get_iter.monster.type;
+                        new_data.monster.tribe = get_iter.monster.tribe;
+                        new_data.monster.level = get_iter.monster.level;
+                        new_data.monster.grade = get_iter.monster.grade;
+                        new_data.monster.upgrade = get_iter.monster.upgrade;
+                        new_data.monster.status.basic_str = get_iter.monster.status.basic_str;
+                        new_data.monster.status.basic_dex = get_iter.monster.status.basic_dex;
+                        new_data.monster.status.basic_int = get_iter.monster.status.basic_int;
+                        new_data.monster.passive_skill = get_iter.monster.passive_skill;
+                        new_data.monster.active_skill = get_iter.monster.active_skill;
+                    });
+                    monster_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 3)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            uint64_t count = 0;
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                temp_auths temp_auths_table(_self, _self.value);
+                const auto &data_iter = user_auth_table.get(iter->primary_key(), "No data");
+                temp_auths_table.emplace(_self, [&](auto &temptable) {
+                    temptable.user = data_iter.user;
+                    temptable.state = data_iter.state;
+                    temptable.exp = data_iter.exp;
+                    temptable.rank = data_iter.rank;
+                    temptable.current_servant_inventory = data_iter.current_servant_inventory;
+                    temptable.current_monster_inventory = data_iter.current_monster_inventory;
+                    temptable.current_equipment_inventory = data_iter.current_equipment_inventory;
+                    temptable.current_item_inventory = data_iter.current_item_inventory;
+                    temptable.servant_inventory = data_iter.servant_inventory;
+                    temptable.monster_inventory = data_iter.monster_inventory;
+                    temptable.equipment_inventory = data_iter.equipment_inventory;
+                    temptable.item_inventory = data_iter.item_inventory;
+                });
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+
+}
+
+
+ACTION battletest::tempdel(uint64_t _start_count, uint32_t _type)
+{
+
+    require_auth(_self);
+    uint64_t limit_count = 1000;
+    uint64_t cur_total_limit_count = 0;
+    
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+     if (_type == 1)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_servants user_servants_table(_self, user->user.value);
+
+            uint64_t count = 0;
+            for (auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
+            {
+                ser++;
+                count++;
+            }
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                for (auto servant_iter = user_servants_table.begin(); servant_iter != user_servants_table.end();)
+                {
+                    auto get_iter = user_servants_table.find(servant_iter->primary_key());
+                    eosio_assert(get_iter != user_servants_table.end(), "not servant");
+
+                    servant_iter++;
+                    user_servants_table.erase(get_iter);
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 2)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_monsters user_monsters_table(_self, user->user.value);
+            uint64_t count = 0;
+
+            for (auto mon = user_monsters_table.begin(); mon != user_monsters_table.end();)
+            {
+                mon++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                for (auto monster_iter = user_monsters_table.begin(); monster_iter != user_monsters_table.end();)
+                {
+                    const auto &get_iter = user_monsters_table.get(monster_iter->primary_key(), "not exist data 2");
+
+                    monster_iter++;
+                    user_monsters_table.erase(get_iter);
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 3)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            uint64_t count = 0;
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                auto erase_iter = user_auth_table.find(iter->primary_key());
+                iter++;
+                user_auth_table.erase(erase_iter);
+                cur_total_limit_count += count;
+                cur_count += 1;
+            }
+        }
+    }
+
+  if (_type == 4)
+    {
+        temp_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            temp_servant user_servants_table(_self, user->user.value);
+
+            uint64_t count = 0;
+            for (auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
+            {
+                ser++;
+                count++;
+            }
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                for (auto servant_iter = user_servants_table.begin(); servant_iter != user_servants_table.end();)
+                {
+                    auto get_iter = user_servants_table.find(servant_iter->primary_key());
+                    eosio_assert(get_iter != user_servants_table.end(), "not servant");
+
+                    servant_iter++;
+                    user_servants_table.erase(get_iter);
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 5)
+    {
+        temp_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            temp_monster user_monsters_table(_self, user->user.value);
+            uint64_t count = 0;
+
+            for (auto mon = user_monsters_table.begin(); mon != user_monsters_table.end();)
+            {
+                mon++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                for (auto monster_iter = user_monsters_table.begin(); monster_iter != user_monsters_table.end();)
+                {
+                    const auto &get_iter = user_monsters_table.get(monster_iter->primary_key(), "not exist data 2");
+
+                    monster_iter++;
+                    user_monsters_table.erase(get_iter);
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+
+    else if (_type == 6)
+    {
+        temp_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            uint64_t count = 0;
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {     auto erase_iter = user_auth_table.find(iter->primary_key());
+                    iter++;
+                    user_auth_table.erase(erase_iter);
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+
+            }
+        }
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // temp_auths user_auth_table(_self, _self.value);
+    // for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    // {
+    //     if (iter_start < _start_count)
+    //     {
+    //         iter_start++;
+    //         iter++;
+    //         continue;
+    //     }
+    //     auto user = user_auth_table.find(iter->primary_key());
+    //     temp_servant user_servants_table(_self, user->user.value);
+    //     temp_monster user_monsters_table(_self, user->user.value);
+    //     uint64_t count = 0;
+    //     for(auto ser = user_servants_table.begin(); ser != user_servants_table.end();)
+    //     {
+    //         ser++;
+    //         count++;
+    //     }
+    //     for (auto mon = user_monsters_table.begin(); mon != user_monsters_table.end();)
+    //     {
+    //         mon++;
+    //         count++;
+    //     }
+        
+    //     if ((cur_total_limit_count + count) >= limit_count)  //ttemp에 넣기
+    //     {
+    //         global_count global_count_table(_self, _self.value);
+    //         global_count_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.count = cur_count;
+    //         });
+    //         break;
+    //     }
+    //     else
+    //     {
+    //         for (auto servant_iter = user_servants_table.begin(); servant_iter != user_servants_table.end();)
+    //         {
+    //             auto get_iter = user_servants_table.find(servant_iter->primary_key());
+    //             eosio_assert(get_iter != user_servants_table.end(), "not servant");
+
+    //             servant_iter++;
+    //             user_servants_table.erase(get_iter);
+    //         }
+    //         for (auto monster_iter = user_monsters_table.begin(); monster_iter != user_monsters_table.end();)
+    //         {
+    //             const auto &get_iter = user_monsters_table.get(monster_iter->primary_key(), "not exist data 2");
+
+    //             monster_iter++;
+    //             user_monsters_table.erase(get_iter);
+    //         }
+
+    //         cur_total_limit_count += count;
+    //         cur_count += 1;
+    //         iter++;
+    //     }
+    // }
+    // temp_auths my_table(_self, _self.value);
+    // for (auto iter = my_table.begin(); iter != my_table.end();)
+    // {
+    //     auto erase_iter = my_table.find(iter->primary_key());
+    //     iter++;
+    //     my_table.erase(erase_iter);
+    // }
+}
+
+ACTION battletest::movemove2(uint32_t _start_count, uint32_t _type)
+{
+    require_auth(_self);
+    uint64_t limit_count = 1000;
+    uint64_t cur_total_limit_count = 0;
+    
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+    
+   if (_type == 1)
+    {
+        temp_auths temp_auths_table(_self, _self.value);
+        for (auto iter = temp_auths_table.begin(); iter != temp_auths_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = temp_auths_table.find(iter->primary_key());
+            temp_servant temp_servant_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto ser = temp_servant_table.begin(); ser != temp_servant_table.end();)
+            {
+                ser++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_servants user_servants_table(_self, user->user.value);
+                for (auto servant_iter = temp_servant_table.begin(); servant_iter != temp_servant_table.end();)
+                {
+                    auto get_iter = temp_servant_table.find(servant_iter->primary_key());
+                    eosio_assert(get_iter != temp_servant_table.end(), "not servant");
+                    user_servants_table.emplace(_self, [&](auto &new_data) {
+                        new_data.index = get_iter->index;
+                        new_data.party_number = get_iter->party_number;
+                        new_data.servant.state = get_iter->servant.state;
+                        new_data.servant.exp = get_iter->servant.exp;
+                        new_data.servant.id = get_iter->servant.id;
+                        new_data.servant.level = get_iter->servant.level;
+                        new_data.servant.grade = get_iter->servant.grade;
+                        new_data.servant.limit_break = get_iter->servant.limit_break;
+                        new_data.servant.status.basic_str = get_iter->servant.status.basic_str;
+                        new_data.servant.status.basic_dex = get_iter->servant.status.basic_dex;
+                        new_data.servant.status.basic_int = get_iter->servant.status.basic_int;
+                        new_data.servant.equip_slot = get_iter->servant.equip_slot;
+                        new_data.servant.passive_skill = get_iter->servant.passive_skill;
+                        new_data.servant.active_skill = get_iter->servant.active_skill;
+                    });
+                    servant_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 2)
+    {
+        temp_auths temp_auths_table(_self, _self.value);
+        for (auto iter = temp_auths_table.begin(); iter != temp_auths_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = temp_auths_table.find(iter->primary_key());
+
+            temp_monster temp_monster_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto mon = temp_monster_table.begin(); mon != temp_monster_table.end();)
+            {
+                mon++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_monsters user_monsters_table(_self, user->user.value);
+                for (auto monster_iter = temp_monster_table.begin(); monster_iter != temp_monster_table.end();)
+                {
+                    const auto &get_iter = temp_monster_table.get(monster_iter->primary_key(), "not exist data 2");
+                    user_monsters_table.emplace(_self, [&](auto &new_data) {
+                        new_data.index = get_iter.index;
+                        new_data.party_number = get_iter.party_number;
+                        new_data.monster.id = get_iter.monster.id;
+                        new_data.monster.state = get_iter.monster.state;
+                        new_data.monster.exp = get_iter.monster.exp;
+                        new_data.monster.type = get_iter.monster.type;
+                        new_data.monster.tribe = get_iter.monster.tribe;
+                        new_data.monster.level = get_iter.monster.level;
+                        new_data.monster.grade = get_iter.monster.grade;
+                        new_data.monster.upgrade = get_iter.monster.upgrade;
+                        new_data.monster.limit_break = get_iter.monster.limit_break;
+                        new_data.monster.status.basic_str = get_iter.monster.status.basic_str;
+                        new_data.monster.status.basic_dex = get_iter.monster.status.basic_dex;
+                        new_data.monster.status.basic_int = get_iter.monster.status.basic_int;
+                        new_data.monster.passive_skill = get_iter.monster.passive_skill;
+                        new_data.monster.active_skill = get_iter.monster.active_skill;
+                    });
+                    monster_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 3)
+    {
+        temp_auths temp_auths_table(_self, _self.value);
+        for (auto iter = temp_auths_table.begin(); iter != temp_auths_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = temp_auths_table.find(iter->primary_key());
+            uint64_t count = 0;
+
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_auths user_auths_table(_self,_self.value);
+                const auto &data_iter = temp_auths_table.get(iter->primary_key(), "No data");
+                user_auths_table.emplace(_self, [&](auto &temptable) {
+                    temptable.user = data_iter.user;
+                    temptable.state = data_iter.state;
+                    temptable.exp = data_iter.exp;
+                    temptable.rank = data_iter.rank;
+                    temptable.current_servant_inventory = data_iter.current_servant_inventory;
+                    temptable.current_monster_inventory = data_iter.current_monster_inventory;
+                    temptable.current_equipment_inventory = data_iter.current_equipment_inventory;
+                    temptable.current_item_inventory = data_iter.current_item_inventory;
+                    temptable.servant_inventory = data_iter.servant_inventory;
+                    temptable.monster_inventory = data_iter.monster_inventory;
+                    temptable.equipment_inventory = data_iter.equipment_inventory;
+                    temptable.item_inventory = data_iter.item_inventory;
+                    temptable.daily_enter_count = data_iter.daily_enter_count;
+                    temptable.total_enter_count = data_iter.total_enter_count;
+                    temptable.daily_init_time = data_iter.daily_init_time;
+
+                });
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+
+}
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -8572,7 +9250,7 @@ ACTION battletest::dbinit(std::string _table)
 
 EOSIO_DISPATCH(battletest,
               //admin
-              (dbinit)(setdata)
+              (dbinit)(setdata)(movemove)(tempdel)(movemove2)
                 (systemact)(setmaster)(eostransfer)(setpause)
                (transfer)(changetoken)(create)(issue)
 				 //event
