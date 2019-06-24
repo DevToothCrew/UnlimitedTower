@@ -10,6 +10,7 @@
 //컨트랙트 계정용
 //owner_system
 static const eosio::name NFT_CONTRACT = "nftbaymain11"_n;
+static const eosio::name MAIN_GAME_CONTRACT = "dldhdmtlqkf1"_n;
 
 CONTRACT battletest : public contract
 {
@@ -1695,16 +1696,10 @@ equipment_info get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _ty
 
 //#pragma endregion
 
-//floor_index::const_iterator get_floor(uint64_t _fnum);
 servant_db::const_iterator get_servant_db(uint64_t _id);
 monster_db::const_iterator get_monster_db(uint64_t _id);
 tribe_db::const_iterator get_tribe_db(uint64_t _id);
-// equipment_db::const_iterator get_equipment_db(uint64_t _id);    //
-// active_db::const_iterator get_active_db(uint64_t _id);          //
 passive_db::const_iterator get_passive_db(uint64_t _id);
-// user_servants::const_iterator get_user_servant(eosio::name _user, uint64_t _index); //
-// user_monsters::const_iterator get_user_monster(eosio::name _user, uint64_t _index); //
-// user_equip_items::const_iterator get_user_equipment(eosio::name _user, uint64_t _index);
 shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
