@@ -67,26 +67,66 @@ Battle.getBattle = function (req, res) {
     var func = 'getBattle';
 
     var user = req.body.user;
+    var count = 0;
     
     eos = Eos(config.eos);
 
-    eos.getTableRows({
-        code: config.contract.main,
-        scope: config.contract.main,
-        table: 'tstgstates',
-        lower_bound: user,
-        limit: 1,
-        json: true
-    }, function (err, stageData) {
-        if (err) {
-            console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
-            res.status(200).send("Fail:Get Table:" + func);
-        }
-        else {
-            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
-            res.status(200).send(stageData.rows[0]);
-        }
-    });
+    var timer = setInterval(function(){
+        async.waterfall([
+            function(callback){
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: config.contract.main,
+                    table: 'tdaily',
+                    lower_bound: user, 
+                    limit: 1,
+                    json: true
+                }, function (err, newTable) {
+                    if (err) {
+                        callback("Fail:Get Table:" + func);
+                    }
+                    else {
+                        if (newTable.rows[0].length != 0) {
+                            if (newTable.rows[0].user == user) {
+                                callback(null, newTable.rows[0]);
+                            }
+                        }
+                        else {
+                            callback("Fail:Get Table:" + func);
+                        }
+                    }
+                });
+            }
+        ],
+        function(err, result){
+            if(err){
+                clearInterval(timer);
+                console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                res.status(200).send(err);
+            }
+            else {
+                if (day_count == result.total_day) {
+                    if(count > 3)
+                    {
+                        clearInterval(timer);
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send("Fail:sync");
+                    }
+                    count++;
+                    console.log(config.color.yellow, "Waiting for sync For ", user, "'s Daily check");
+                }
+                else {
+                    var data = {
+                        check_day: result.total_day,
+                        check_time: result.check_time
+                    }
+                    clearInterval(timer);
+                    console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                    res.status(200).send(data);
+                }
+            }
+        })
+        }, 1000);
 }
 
 /**
@@ -562,5 +602,224 @@ Battle.mainBattleAction = function(req, res){
     });
 }
 
+
+/**
+ * Get Tower Reward Info
+ * 
+ * @param req
+ * @param res
+ */
+Battle.getTowerReward = function (req, res) {
+    var func = 'getTowerReward';
+
+    var user = req.body.user;
+    var floor = req.body.floor;
+    
+    eos = Eos(config.eos);
+
+    async.parallel([
+        function (next) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: config.contract.main,
+                table: 'floorinfo',
+                lower_bound : floor, 
+                limit: 1,
+                json: true
+            }, function (err, floor) {
+                if (err) {
+                    next("Fail:Get Floor Table:" + func);
+                }
+                else {
+                    next(null, floor);
+                }
+            });
+        },
+        function (next) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: config.contract.main,
+                table: 'towerreward',
+                lower_bound : floor, 
+                limit: 1,
+                json: true
+            }, function (err, reward) {
+                if (err) {
+                    next("Fail:Get Reward Table:" + func);
+                }
+                else {
+                    next(null, reward);
+                }
+            });
+        }
+    ],
+        function (err, tableData) {
+            if (err) {
+                console.log(err);
+                res.status(200).send(err);
+            }
+            else {
+                if(tableData[0].rows.length != 0)
+                {
+                    if(tableData[1].rows.length != 0)
+                    {
+                        var user_data = {
+                            owner : tableData[1].rows[0].owner,
+                            utg : tableData[0].rows[0].total_utg,
+                            eos : tableData[0].rows[0].total_eos,
+                            event_end_time : tableData[1].rows[0].opentime,
+                            tower_end_time : tableData[1].rows[0].endtime
+                        };
+                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send(user_data);
+                    }
+                    else
+                    {
+                        res.status(200).send("Fail:Get Table Error:" + func);
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                    }
+                }
+                else
+                {
+                    res.status(200).send("Fail:Get Table Error:" + func);
+                    console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                }
+            }
+        });
+}
+
+
+
+
+/**
+ * Tower Start
+ * 
+ * @param req
+ * @param res
+ */
+Battle.towerStart = function (req, res) {
+    var func = 'towerStart';
+
+    var user = req.body.user;
+    var floor = req.body.floor;
+
+
+    eos = Eos(config.eos);
+
+    var count = 0;
+    
+    var timer = setInterval(function(){
+        eos.getTableRows({
+            code: config.contract.main,
+            scope: config.contract.main,
+            table: 'tstgstates',
+            lower_bound: user,
+            limit: 1,
+            json: true
+        }, function (err, newTable) {
+            if (err) {
+                clearInterval(timer);
+                console.error("Fail:Get Table:" + func);
+                res.status(200).send("Fail:Get Table:" + func);
+            }
+            else {
+                if (newTable.rows.length != 0 && newTable.rows[0].user == user) {
+                    if (newTable.rows[0].turn != 0) {
+                        if(count >10)
+                        {
+                            clearInterval(timer);
+                            console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                            res.status(200).send("Fail:Turn Out:" + func);
+                        }
+                        count++;
+                        console.log(config.color.yellow, "Waiting for sync For ", user, "'s Battle Start");
+                    }
+                    else {
+                        clearInterval(timer);
+                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        var data = {
+                            battle_state: newTable.rows[0]
+                        }
+                        async.parallel([
+                            function (next) {
+                                eos.getTableRows({
+                                    code: config.contract.main,
+                                    scope: config.contract.main,
+                                    table: 'floorinfo',
+                                    lower_bound: floor,
+                                    limit: 1,
+                                    json: true
+                                }, function (err, floor) {
+                                    if (err) {
+                                        next("Fail:Get Floor Table:" + func);
+                                    }
+                                    else {
+                                        next(null, floor);
+                                    }
+                                });
+                            },
+                            function (next) {
+                                eos.getTableRows({
+                                    code: config.contract.main,
+                                    scope: config.contract.main,
+                                    table: 'towerreward',
+                                    lower_bound: floor,
+                                    limit: 1,
+                                    json: true
+                                }, function (err, reward) {
+                                    if (err) {
+                                        next("Fail:Get Reward Table:" + func);
+                                    }
+                                    else {
+                                        next(null, reward);
+                                    }
+                                });
+                            }
+                        ],
+                            function (err, tableData) {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(200).send(err);
+                                }
+                                else {
+                                    if (tableData[0].rows.length != 0) {
+                                        if (tableData[1].rows.length != 0) {
+                                            var reward_info = {
+                                                owner: tableData[1].rows[0].owner,
+                                                utg: tableData[0].rows[0].total_utg,
+                                                eos: tableData[0].rows[0].total_eos,
+                                                event_end_time: tableData[1].rows[0].opentime,
+                                                tower_end_time: tableData[1].rows[0].endtime
+                                            };
+                                            data.tower_reward_info = reward_info;
+                                            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                            res.status(200).send(data);
+                                        }
+                                        else {
+                                            res.status(200).send("Fail:Get Table Error:" + func);
+                                            console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                                        }
+                                    }
+                                    else {
+                                        res.status(200).send("Fail:Get Table Error:" + func);
+                                        console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                                    }
+                                }
+                            });
+
+                    }
+                }
+                else{
+                    count++;
+                    if(count>=10){
+                        clearInterval(timer);
+                        console.error("Fail:Get Table:" + func);
+                        res.status(200).send("Fail:Get Table:" + func);
+                    }
+                }
+            }
+        })
+    }, 1000);
+}
 
 module.exports = Battle;

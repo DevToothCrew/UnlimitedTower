@@ -55,6 +55,8 @@ app.post('/battlestart', battle.battleStart);
 app.post('/battlereward', battle.battleReward);
 app.post('/getBattle', battle.getBattle);
 app.post('/stageEscape', battle.stageEscape);
+app.post('/getTowerReward', battle.getTowerReward);
+app.post('/towerStart', battle.towerStart);
 
 // PVP 관련 API
 app.post('/pvpAction', pvp.pvpAction);
