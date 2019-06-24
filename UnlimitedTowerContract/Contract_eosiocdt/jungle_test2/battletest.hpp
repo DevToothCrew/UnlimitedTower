@@ -1525,6 +1525,7 @@ CONTRACT battletest : public contract
     {
         uint64_t floor;
         uint64_t total_utg;
+        uint64_t total_eos;
         uint64_t primary_key() const { return floor; }
     };
     typedef eosio::multi_index<"towerreward"_n, towerreward> tower_reward;
@@ -1536,13 +1537,14 @@ CONTRACT battletest : public contract
         uint64_t bnum;
         uint64_t pnum;
         string state;
+        uint64_t opentime;
         uint64_t endtime;
 
         uint64_t primary_key() const { return fnum; }
     };
     typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
 
-    ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
+    ACTION toweropen(uint64_t _floor, asset _eos);         //1층에 아무도 없을때 우리가 열어주는 기능
     //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
     ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);

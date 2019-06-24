@@ -5339,38 +5339,38 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     }
     else
     {
-        if (enemy_dead_count == enemy_battle_status_list.size())
-        {
-            pvp_log_index pvp_log_table(_self, _user.value);
-            pvp_log_table.emplace(_self, [&](auto &data) {
-                data.index = pvp_log_table.available_primary_key();
-                data.user = user_battle_state_iter->enemy_user;
-                data.result = "win";
-            });
-            user_auths user_auth_table(_self, _self.value);
-            auto user_auth_iter = user_auth_table.find(_user.value);
-            eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
-            eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
-                end_pvp.state = user_state::lobby;
-            });
-        }
-        else if (user_dead_count == my_battle_status_list.size())
-        {
-            pvp_log_index pvp_log_table(_self, _user.value);
-            pvp_log_table.emplace(_self, [&](auto &data) {
-                data.index = pvp_log_table.available_primary_key();
-                data.user = user_battle_state_iter->enemy_user;
-                data.result = "lose";
-            });
-            user_auths user_auth_table(_self, _self.value);
-            auto user_auth_iter = user_auth_table.find(_user.value);
-            eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
-            eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
-                end_pvp.state = user_state::lobby;
-            });
-        }
+        // if (enemy_dead_count == enemy_battle_status_list.size())
+        // {
+        //     pvp_log_index pvp_log_table(_self, _user.value);
+        //     pvp_log_table.emplace(_self, [&](auto &data) {
+        //         data.index = pvp_log_table.available_primary_key();
+        //         data.user = user_battle_state_iter->enemy_user;
+        //         data.result = "win";
+        //     });
+        //     user_auths user_auth_table(_self, _self.value);
+        //     auto user_auth_iter = user_auth_table.find(_user.value);
+        //     eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
+        //     eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
+        //     user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
+        //         end_pvp.state = user_state::lobby;
+        //     });
+        // }
+        // else if (user_dead_count == my_battle_status_list.size())
+        // {
+        //     pvp_log_index pvp_log_table(_self, _user.value);
+        //     pvp_log_table.emplace(_self, [&](auto &data) {
+        //         data.index = pvp_log_table.available_primary_key();
+        //         data.user = user_battle_state_iter->enemy_user;
+        //         data.result = "lose";
+        //     });
+        //     user_auths user_auth_table(_self, _self.value);
+        //     auto user_auth_iter = user_auth_table.find(_user.value);
+        //     eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
+        //     eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
+        //     user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
+        //         end_pvp.state = user_state::lobby;
+        //     });
+        // }
     }
 }
 
@@ -8216,23 +8216,31 @@ uint64_t battletest::nftexchange(eosio::name _owner, eosio::name _master, std::s
 
 
 //1층을 열어주는 액션
-ACTION battletest::toweropen()
+ACTION battletest::toweropen(uint64_t _floor, asset _eos)
 {
     require_auth(_self);
 
-    uint64_t _floor = 1;
+    //uint64_t _floor = 1;
     floor_index floortable(_self, _self.value);
     auto iter = floortable.find(_floor);
-
     eosio_assert(iter == floortable.end(), "Tower is already open.");
-
     floortable.emplace(_self, [&](auto &floordata) {
         floordata.fnum = _floor;
         floordata.owner = _self;
         floordata.bnum = 0;
         floordata.pnum = 0;
-        floordata.state = "lock";
+        floordata.state = "open";
         floordata.endtime = 0;
+        floordata.opentime = now() + (86400 * 7);
+    });
+
+    tower_reward tower_reward_table(_self, _self.value);
+    auto reward = tower_reward_table.find(_floor);
+    eosio_assert(reward == tower_reward_table.end(), "Tower is already setting");
+    tower_reward_table.emplace(_self, [&](auto &new_data){
+        new_data.floor = _floor;
+        new_data.total_utg = 0;
+        new_data.total_eos = _eos.amount;
     });
 }
 
@@ -8258,25 +8266,18 @@ ACTION battletest::claim(name who, uint64_t fnum)
     floor_index floortable(_self, _self.value);
     auto f_iter = floortable.find(fnum);
     eosio_assert(f_iter !=  floortable.end(), "Floor info does not exist");
-    eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");
-    eosio_assert(f_iter->endtime <= now(), "Not enough time.");
-    eosio_assert(f_iter->state == "end", "Impossible state");
+    //해당층 우승자가 맞는지
+    eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");  
+    //해당층 점령 시간이 24시간지났거나
+    //해당층의 상태가 1주일이 지나서 끝났을 경우
+    eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
+    eosio_assert(f_iter->state != "claim", "Already Get Reward");
 
-    //보상을 획득한거에 대한 상태 처리가 없음
+    //이미 클레임을 받은 상태로 처리해준다.
     floortable.modify(f_iter, _self, [&](auto &new_data)
     {
-        new_data.state = "claim";
+        new_data.state = "claim";   
     });
-
-    // // 다음층 테이블 추가
-    // floortable.emplace(who, [&](auto &floordata) {
-    //     floordata.fnum = fnum + 1;
-    //     floordata.owner = _self;
-    //     floordata.bnum = 0;
-    //     floordata.pnum = 0;
-    //     floordata.state = "lock";
-    //     floordata.endtime = 0;
-    // });
 
     // 우승자 정보 수정
     user_logs user_log(_self, _self.value);
@@ -8285,25 +8286,45 @@ ACTION battletest::claim(name who, uint64_t fnum)
         data.top_clear_tower = fnum;
     });
 
-    //보상에 대한 테이블 처리해야함
-    //자동으로 다음층의 보상을 기록하게 해야함
+    //보상 utg 지급
+    tower_reward tower_reward_table(_self, _self.value);
+    auto reward = tower_reward_table.find(fnum);
+    eosio_assert(reward != tower_reward_table.end(),"Not Set Log");
 
-    // // EOS 스냅샷 확인후 지급
-    // eos_snapshots eos_snapshot_table(_self, _self.value);
-    // auto eos_snapshot_iter = eos_snapshot_table.find(fnum);
-    // eosio_assert(eos_snapshot_iter != eos_snapshot_table.end(), "Wrong SnapShot");
+    asset tower_utg_reward(0, symbol(symbol_code("UTG"), 4));
+    tower_utg_reward.amount = reward->total_utg / 2;
 
-    // asset tower_reward(0, symbol(symbol_code("EOS"), 4));
-    // tower_reward.amount = eos_snapshot_iter->total_eos;
+    std::string me;
+    me += "tower_utg_reward:";
+    me += to_string(fnum);
+    //이오스 보내는것에 대한 예외처리 필요
+    action(permission_level{get_self(), "active"_n},
+           _self, "transfer"_n,
+           std::make_tuple(_self, who, tower_utg_reward, me))
+        .send();
 
-    // std::string memo;
-    // memo += "tower:";
-    // memo += to_string(fnum);
-    // //이오스 보내는것에 대한 예외처리 필요
-    // action(permission_level{get_self(), "active"_n},
-    //        "eosio.token"_n, "transfer"_n,
-    //        std::make_tuple(_self, who, tower_reward, memo))
-    //     .send();
+    //100 EOS 처리
+    asset tower_eos_reward(0, symbol(symbol_code("EOS"), 4));
+    tower_eos_reward.amount = reward->total_eos;
+
+    std::string memo;
+    memo += "tower_eos_reward:";
+    memo += to_string(fnum);
+    //이오스 보내는것에 대한 예외처리 필요
+    action(permission_level{get_self(), "active"_n},
+           "eosio.token"_n, "transfer"_n,
+           std::make_tuple(_self, who, tower_eos_reward, memo))
+        .send();
+    
+    //102201 전설 불속성의 파이노스 랜덤 능력치로 지급
+
+    
+    //보상 테이블 초기화 or 삭제
+    tower_reward_table.modify(reward, _self, [&](auto &new_data)
+    {
+        new_data.total_utg = 0;
+        new_data.total_eos = 0;
+    });
 }
 
 
@@ -8326,19 +8347,23 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
     // 층이 이미 정복된 경우에는 사용자 정보만 변경
     if (f_iter->state == "end" || f_iter->state == "claim")
     {
-        user_logs user_log(_self, _self.value);
-        auto iter = user_log.find(winner.value);
+        // user_logs user_log(_self, _self.value);
+        // auto iter = user_log.find(winner.value);
 
-        if (iter->top_clear_tower == fnum)
-        {
-            user_log.modify(iter, _self, [&](auto &data) {
-                data.top_clear_tower = data.top_clear_tower + 1;
-            });
-        }
+        // if (iter->top_clear_tower < fnum)
+        // {
+        //     user_log.modify(iter, _self, [&](auto &data) {
+        //         data.top_clear_tower = data.top_clear_tower;
+        //     });
+        // }
+        return;
     }
     // 층을 정복한 경우, 혹은 최초 등록시에는 NPC화
     else
     {
+        //이겼을 때 이미 24시간이 지났는지 체크
+        eosio_assert(f_iter->endtime <= now(), "already end tower");
+        //이겼을때 이미 1주일이 지났는지 체크
         floortable.modify(f_iter, _self, [&](auto &floordata) {
             floordata.owner = winner;
             floordata.bnum = bnum + 1;
@@ -8838,22 +8863,10 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
 
     tower_reward tower_reward_table(_self, _self.value);
     auto iter = tower_reward_table.find(_fnum);
-    if(iter == tower_reward_table.end())
-    {
-        tower_reward_table.emplace(_self, [&](auto &new_data)
-        {
-            new_data.floor = _fnum;
-            new_data.total_utg += tower_enter.amount;
-        });
-    }
-    else
-    {
-        tower_reward_table.modify(iter, _self, [&](auto &new_data)
-        {
-            new_data.total_utg += tower_enter.amount;
-        });
-    }
-
+    eosio_assert(iter != tower_reward_table.end(), "Not Set Reward Log");
+    tower_reward_table.modify(iter, _self, [&](auto &new_data) {
+        new_data.total_utg += tower_enter.amount;
+    });
     //타워 층에 대한 상태 체크
     user_logs user_log_table(_self, _self.value);
     auto log_iter = user_log_table.find(_from.value);
@@ -8866,8 +8879,9 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     floor_index floor_index_table(_self, _self.value);
     auto floor_iter = floor_index_table.find(_fnum);
     eosio_assert(floor_iter != floor_index_table.end(), "Tower Start : Empty Floor");
-    //eosio_assert(floor_iter->state != "claim", "Tower Start : Empty Floor");
-    eosio_assert(floor_iter->endtime > now(), "Tower Start : Not enough time.");
+    eosio_assert(floor_iter->state == "open" || floor_iter->state == "idle", "Tower Start : Not Open");
+    eosio_assert(floor_iter->opentime > now(), "Tower Start : Not an event period.");
+    eosio_assert(floor_iter->endtime > now(), "Tower Start : The winner is set.");
 
     std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
     std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
