@@ -9,7 +9,7 @@
 //preregist_log_table, user_log_table
 //컨트랙트 계정용
 //owner_system
-static const eosio::name NFT_CONTRACT = "nftbaymain11"_n;
+static const eosio::name NFT_CONTRACT = "sangwoonft11"_n;
 
 CONTRACT battletest : public contract
 {
@@ -26,6 +26,16 @@ CONTRACT battletest : public contract
         owner_auth.permission = "owner"_n;
     }
 #pragma endregion
+    enum grade_list
+    {
+        ser = 0,
+        legenary = 1,
+        unique,
+        rare,
+        uncommon,
+        common = 5,
+    };
+
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
     std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
 
@@ -380,6 +390,16 @@ CONTRACT battletest : public contract
    typedef eosio::multi_index<"dbgachapool"_n, dbgachapool> main_gacha_db;
    typedef eosio::multi_index<"dbprepool"_n, dbgachapool> pre_gacha_db;
    typedef eosio::multi_index<"dbgoldpool"_n, dbgachapool> gold_gacha_db;
+
+    TABLE dblimitpool
+    {
+        uint64_t index;
+        uint64_t gacha_id;
+        uint64_t primary_key() const {return index;}
+    };
+    typedef eosio::multi_index<"dblimitpool"_n, dblimitpool> limit_gacha_db;
+
+    void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
 
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
@@ -818,7 +838,9 @@ CONTRACT battletest : public contract
     const char *action_referral = "refer_signup";
     const char *action_exchange = "exchange";
     const char *action_shopbuyitem = "shopbuyitem";
-	const char *action_dailystage = "adddailyenter";
+    const char *action_dailystage = "adddailyenter";
+	const char *action_limit_gacha = "limitgacha";
+	
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -831,6 +853,7 @@ CONTRACT battletest : public contract
         PACKAGE = 3,
         BATTLE = 4,
         EVENT = 5,
+        LIMIT = 6,
     };
 
 
@@ -859,9 +882,11 @@ CONTRACT battletest : public contract
 
     uint64_t get_user_seed_value(uint64_t _user);
 
-    void start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eos);    
+    void start_gacha(eosio::name _user, uint32_t _type, uint64_t _seed, uint64_t _use_eos);    
     void start_gacha_10(eosio::name _user, uint64_t _seed, uint64_t _use_eos, uint32_t _count);
     void gacha_get_object(eosio::name _user, uint64_t _seed, uint32_t _grade);
+
+    void limit_gacha(eosio::name _user, uint64_t _seed);
 
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
@@ -964,7 +989,7 @@ CONTRACT battletest : public contract
         uint32_t monster_inventory = 50;
         uint32_t equipment_inventory = 50;
         uint32_t item_inventory = 50;
-        uint32_t daily_enter_count = 0;
+        uint32_t daily_enter_count = 3;
         uint32_t total_enter_count = 0;
         uint32_t daily_init_time = 0;
 
@@ -1417,7 +1442,7 @@ CONTRACT battletest : public contract
     ACTION stageexit(eosio::name _user);
 
 
-    servant_data get_servant(eosio::name _user, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
+    servant_data get_servant(eosio::name _user, uint32_t _id, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     monster_data get_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     equip_data get_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     item_data get_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _gold_type, uint64_t _seed);
@@ -1542,7 +1567,7 @@ CONTRACT battletest : public contract
 
         uint64_t primary_key() const { return fnum; }
     };
-    typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
+    typedef eosio::multi_index<"floorinfo"_n, floorinfo> floor_index;
 
     ACTION toweropen(uint64_t _floor, asset _eos);         //1층에 아무도 없을때 우리가 열어주는 기능
     //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
@@ -1805,4 +1830,11 @@ uint32_t get_buff_effect_damage(buff_db::const_iterator _buff, battle_status_inf
 
 //ACTION testskill(eosio::name _user, uint32_t _job, uint32_t _skill_id);
 //end
+TABLE tlimit
+{
+    eosio::name user;
+    uint32_t total_count;
+    uint64_t primary_key() const {return user.value;}
+};
+typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
 };
