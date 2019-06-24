@@ -387,16 +387,6 @@ CONTRACT battletest : public contract
    typedef eosio::multi_index<"dbprepool"_n, dbgachapool> pre_gacha_db;
    typedef eosio::multi_index<"dbgoldpool"_n, dbgachapool> gold_gacha_db;
 
-    TABLE dblimitpool
-    {
-        uint64_t index;
-        uint64_t gacha_id;
-        uint64_t primary_key() const {return index;}
-    };
-    typedef eosio::multi_index<"dblimitpool"_n, dblimitpool> limit_gacha_db;
-
-    void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
-
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
 
@@ -834,9 +824,7 @@ CONTRACT battletest : public contract
     const char *action_referral = "refer_signup";
     const char *action_exchange = "exchange";
     const char *action_shopbuyitem = "shopbuyitem";
-    const char *action_dailystage = "adddailyenter";
-	const char *action_limit_gacha = "limitgacha";
-	
+	const char *action_dailystage = "adddailyenter";
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -849,7 +837,6 @@ CONTRACT battletest : public contract
         PACKAGE = 3,
         BATTLE = 4,
         EVENT = 5,
-        LIMIT = 6,
     };
 
 
@@ -881,8 +868,6 @@ CONTRACT battletest : public contract
     void start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eos);    
     void start_gacha_10(eosio::name _user, uint64_t _seed, uint64_t _use_eos, uint32_t _count);
     void gacha_get_object(eosio::name _user, uint64_t _seed, uint32_t _grade);
-
-    void limit_gacha(eosio::name _user, uint64_t _seed);
 
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
@@ -1421,7 +1406,7 @@ CONTRACT battletest : public contract
     ACTION stageexit(eosio::name _user);
 
 
-    servant_data get_servant(eosio::name _user, uint32_t _id, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
+    servant_data get_servant(eosio::name _user, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     monster_data get_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     equip_data get_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint32_t _max, uint32_t _gold_type, uint64_t _seed);
     item_data get_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _gold_type, uint64_t _seed);
@@ -1780,26 +1765,18 @@ TABLE dbbuff
 };
 typedef eosio::multi_index<"dbbuffs"_n, dbbuff> buff_db;
 
-void deleteuser(eosio::name _user);
-ACTION alluserdel();
 
-
-TABLE tlimit
-{
-    eosio::name user;
-    uint32_t total_count;
-    uint64_t primary_key() const {return user.value;}
-};
-typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
-void insert_limit_log(uint64_t _total_count);
-void insert_package(uint64_t _id, uint64_t _GET_UTG, uint64_t _private_limit_max, uint64_t _price_id, uint64_t _price_count);
-void insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count);
-
-
-ACTION giveitem(eosio::name _user, uint32_t _id, uint32_t _count);
 ACTION daystage(eosio::name _user);
 ACTION limitlevel(eosio::name _user,uint32_t _level, uint32_t _limit_count);
-
+ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
 ACTION dbinsert(std::string _table, std::string _value);
+ACTION dbinit(std::string _table);
+ACTION dberase(std::string _table, std::string _value);
 
+ACTION partyupdate();
+
+void deletebattle(eosio::name _user);
+void deleteuser(eosio::name _user);
+ACTION alluserdel();
+//end
 };
