@@ -46,7 +46,8 @@ module.exports = {
     // EOS configuration
     eos: {
         chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906', // 32 byte (64 char) hex string
-        httpEndpoint: 'https://mainnet.eosio.sg:443',
+        //httpEndpoint: 'https://mainnet.eosio.sg:443',
+        httpEndpoint: 'https://api-mainnet.starteos.io:443',
         expireInSeconds: 60,
         broadcast: true,
         verbose: true // API activity
@@ -62,7 +63,7 @@ module.exports = {
     },
     // Contract list
     contract : {
-        main : 'untowertest1',
+        main : 'untowermain1',
         dev : 'untowertest1',
         tower : 'dlwodnjs1111'
     },
