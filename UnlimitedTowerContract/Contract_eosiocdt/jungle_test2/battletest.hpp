@@ -506,7 +506,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
-    ACTION setmaster(eosio::name _master, uint32_t _type);
+    ACTION setmaster(eosio::name _master, uint8_t _type);
 #pragma endregion
 
 
@@ -1360,12 +1360,12 @@ CONTRACT battletest : public contract
     uint32_t get_physical_defense(status_info _status, uint32_t _level);
     uint32_t get_cri_per(status_info _status, uint32_t _level);
     uint32_t get_cri_dmg_per(status_info _status, uint32_t _level);
-    uint32_t get_tribe_count(std::vector<character_state_data> &_my_state_list, uint32_t _tribe);
+    uint8_t get_tribe_count(std::vector<character_state_data> &_my_state_list, uint8_t _tribe);
     void set_synergy(
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
     void set_hp_synergy(
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
-    character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> & _state);
+    character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position);
     bool possible_start(eosio::name _user, uint32_t _party_number);
     ACTION stagestart(eosio::name _user,  uint32_t _party_number, uint32_t _stage_type, uint32_t _floor, uint32_t _type, uint32_t _difficult);
 
@@ -1415,8 +1415,7 @@ CONTRACT battletest : public contract
                     uint32_t _action, uint64_t _seed,
                     std::vector<battle_status_info> & _my_status_list,
                     std::vector<battle_status_info> & _enemy_status_list,
-                    uint64_t _my_key, character_action_data & _action_info,
-                    std::vector<std::string> & _data);
+                    uint64_t _my_key, character_action_data & _action_info);
     action_info get_target_action(uint32_t _actvie_id, uint64_t _seed, uint64_t _my_key, uint64_t _target_key,
                                   std::vector<battle_status_info> & _my_status_list, std::vector<battle_status_info> & _enemy_status_list);
     int get_heal_target(const std::vector<battle_status_info> &_enemy_state_list);
@@ -1427,8 +1426,8 @@ CONTRACT battletest : public contract
                           std::vector<character_state_data> & _my_state_list,
                           std::vector<character_state_data> & _enemy_state_list);
 
-    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp, uint32_t _limit_break);
-    uint32_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
+    uint8_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp, uint32_t _limit_break);
+    uint8_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
 
     // servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint64_t _seed, uint32_t _type);
     // monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed, uint32_t _type);
@@ -1573,7 +1572,7 @@ CONTRACT battletest : public contract
     //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
     ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
-    void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
+    void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list);
     ACTION towerstart(eosio::name _from, uint64_t _fnum);
     //ACTION deletetower();
 
@@ -1626,7 +1625,6 @@ TABLE stageinfo
 };
 
 typedef eosio::multi_index<"dbstageinfo"_n, stageinfo> stageinfo_db;
-void insert_stage_info(std::vector<uint32_t> _stage_info);
 
 TABLE enemyinfo
 {
@@ -1639,7 +1637,6 @@ TABLE enemyinfo
 };
 
 typedef eosio::multi_index<"dbenemyinfo"_n, enemyinfo> enemyinfo_db;
-void insert_enemy_info(std::vector<uint32_t> _enemy_info);
 
 TABLE enemystat
 {
@@ -1651,7 +1648,6 @@ TABLE enemystat
 };  
 
 typedef eosio::multi_index<"dbenemystat"_n, enemystat> enemystat_db;
-void insert_enemy_stat(std::vector<uint32_t> _enemy_stat);
 
 struct reward_item_info
 {
@@ -1676,8 +1672,6 @@ TABLE reward
 typedef eosio::multi_index<"dbnewreward"_n, reward> new_reward_db;
 typedef eosio::multi_index<"dbdayreward"_n, reward> day_reward_db;
 
-void insert_new_reward(std::vector<uint32_t> _reward);
-
 
 TABLE stagestateinfo
 {
@@ -1698,7 +1692,7 @@ TABLE stagestateinfo
 typedef eosio::multi_index<"tstgstates"_n, stagestateinfo> new_battle_state_list;
 
 void check_enter_stage(eosio::name _user, uint32_t _stage_id);
-void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
+void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list);
 void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
 
 uint32_t sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
@@ -1785,7 +1779,7 @@ typedef eosio::multi_index<"dblimitbreak"_n, dblimitbreak> limit_break_db;
 
 uint64_t get_limit_id(uint64_t _level, uint64_t _type);
 ACTION limitbreak(eosio::name _user, uint32_t _object_type, uint32_t _index, uint32_t _item_id, uint32_t _break_count);
-uint64_t get_day_type();
+uint8_t get_day_type();
 
 TABLE dbbuff
 {
