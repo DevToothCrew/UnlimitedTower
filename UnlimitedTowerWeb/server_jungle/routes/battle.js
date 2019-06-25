@@ -626,12 +626,12 @@ Battle.getTowerReward = function (req, res) {
                 lower_bound : floor, 
                 limit: 1,
                 json: true
-            }, function (err, floor) {
+            }, function (err, floor_data) {
                 if (err) {
                     next("Fail:Get Floor Table:" + func);
                 }
                 else {
-                    next(null, floor);
+                    next(null, floor_data);
                 }
             });
         },
@@ -664,11 +664,11 @@ Battle.getTowerReward = function (req, res) {
                     if(tableData[1].rows.length != 0)
                     {
                         var user_data = {
-                            owner : tableData[1].rows[0].owner,
-                            utg : tableData[0].rows[0].total_utg,
-                            eos : tableData[0].rows[0].total_eos,
-                            event_end_time : tableData[1].rows[0].opentime,
-                            tower_end_time : tableData[1].rows[0].endtime
+                            owner : tableData[0].rows[0].owner,
+                            utg : tableData[1].rows[0].total_utg,
+                            eos : tableData[1].rows[0].total_eos,
+                            event_end_time : tableData[0].rows[0].opentime, 
+                            tower_end_time : tableData[0].rows[0].endtime
                         };
                         console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
                         res.status(200).send(user_data);

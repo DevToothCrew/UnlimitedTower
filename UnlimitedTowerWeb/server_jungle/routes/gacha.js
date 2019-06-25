@@ -440,7 +440,9 @@ Gacha.gacha = function(req, res){
 
     var user = req.body.user;
     var type = req.body.type;
+    var gacha_type = req.body.gacha_type;
     var table = "";
+
     if(type == "eos"){
         table = "tgacharesult";
     }
@@ -509,7 +511,7 @@ Gacha.gacha = function(req, res){
             else{
                 var table = "";
                 var data = {};
-
+                    
                 // EOS Setting
                 var uEos = result_data[1].rows[0].balance.split(" ");
                 uEos = uEos[0].split(".");
@@ -529,7 +531,7 @@ Gacha.gacha = function(req, res){
                     token = token[0].split(".");
                     data.utg = token[0] + token[1];
                 }
-
+                
                 if (result_data[2].rows[0].result.type == 1) {
                     table = "tservant";
                 }
@@ -827,4 +829,213 @@ Gacha.tenGacha = function(req, res){
         }) 
     }, 200);;
 }
+
+
+
+/**
+ * Limit Gacha - New
+ * 
+ * @param req 
+ * @param res 
+ */
+Gacha.limitgacha = function(req, res){
+    var func = 'limitgacha';
+
+    var user = req.body.user;
+
+    eos = Eos(config.eos);
+    
+    var count = 0;
+    var timer = setInterval(function () {
+        async.parallel([
+            function (next) {
+                // Get EOS Info : 1
+                eos.getTableRows({
+                    code: 'eosio.token',
+                    scope: user,
+                    limit: 1,
+                    table: 'accounts',
+                    json: true
+                }, function (err, uEos) {
+                    if (err) {
+                        next("Fail:Get Token Table:" + func);
+                    }
+                    else {
+                        next(null, uEos);
+                    }
+                });
+            },
+            function(next){
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: config.contract.main,
+                    table: 'tgacharesult',
+                    lower_bound: user,
+                    limit: 1,
+                    json: true
+                }, function(err, gacha){
+                    if (err) {
+                        next("Fail:Get Token Table:" + func);
+                    }
+                    else {
+                        next(null, gacha);
+                    }
+                })
+            }
+        ], function(err, result_data){
+            if(err){
+                res.status(200).send("Fail:Get Table:" + func);
+            }
+            else{
+                var table = "";
+                var data = {};
+
+                // EOS Setting
+                var uEos = result_data[0].rows[0].balance.split(" ");
+                uEos = uEos[0].split(".");
+                if (uEos[0] == '0' && uEos[1] == '0000') {
+                    data.eos = '0';
+                }
+                else {
+                    data.eos = uEos[0] + uEos[1];
+                }
+
+                if (result_data[1].rows[0].result.type == 1) {
+                    table = "tservant";
+                }
+                if (result_data[1].rows[0].result.type == 2) {
+                    table = "tmonster";
+                }
+                if (result_data[1].rows[0].result.type == 3) {
+                    table = "tequipments";
+                }
+                if(result_data[1].rows[0].result.type == 4){
+                    table = "titem";
+                }
+
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: user,
+                    table: table,
+                    lower_bound: result_data[1].rows[0].result.index,
+                    limit: 1,
+                    json: true
+                }, function (err, table_result){
+                    if (err) {
+                        clearInterval(timer);
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send("Fail:Success gacha but get data error:" + func);
+                    }
+                    else{
+                        if(table_result.rows.length != 0){
+                            clearInterval(timer);
+                            var temp_list = [];
+                            temp_list.push(table_result.rows[0]);
+                            if (result_data[1].rows[0].result.type == 1) {
+                                data.get_servant_list = temp_list;
+                                data.get_monster_list = [];
+                                data.get_equipment_list = [];
+                                data.get_item_list = [];
+                            }
+                            if (result_data[1].rows[0].result.type == 2) {
+                                data.get_servant_list = [];
+                                data.get_monster_list = temp_list;;
+                                data.get_equipment_list = [];
+                                data.get_item_list = [];
+                            }
+                            if (result_data[1].rows[0].result.type == 3) {
+                                data.get_servant_list = [];
+                                data.get_monster_list = [];
+                                data.get_equipment_list = temp_list;;
+                                data.get_item_list = [];
+                            }
+                            if(result_data[1].rows[0].result.type == 4){
+                                data.get_servant_list = [];
+                                data.get_monster_list = [];
+                                data.get_equipment_list = [];
+                                data.get_item_list = temp_list;;
+                            }
+                            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                            res.status(200).send(data);
+
+                            poolCluster.getConnection(function(err, connection){
+                                if(err){
+                                    console.log("Fail:Connect DB:" + func);
+                                }
+                                else{
+                                    var gachaLogData = {
+                                        user : user
+                                    }
+                                    
+                                    if(result_data[1].rows[0].result.type == 1){
+                                        gachaLogData.type = "servant";
+                                        gachaLogData.type_index = table_result.rows[0].servant.id;
+                                        gachaLogData.grade = table_result.rows[0].servant.grade;
+                                    }
+                                    if(result_data[1].rows[0].result.type == 2){
+                                        gachaLogData.type = "monster";
+                                        gachaLogData.type_index = table_result.rows[0].monster.id;
+                                        gachaLogData.grade = table_result.rows[0].monster.grade;
+                                    }
+                                    if(result_data[1].rows[0].result.type == 3){
+                                        gachaLogData.type = "equipment";
+                                        gachaLogData.type_index = table_result.rows[0].equipment.id;
+                                        gachaLogData.grade = table_result.rows[0].equipment.grade;
+                                    }
+                                    if(result_data[1].rows[0].result.type == 4){
+                                        gachaLogData.type = "item";
+                                        gachaLogData.type_index = table_result.rows[0].id;
+                                        gachaLogData.grade = 0;
+                                    }
+                                    
+                                    var sql = "INSERT INTO unt.log_gacha SET ?";
+                                    connection.query(sql, gachaLogData, function(err){
+                                        if(err){
+                                            connection.release();
+                                            console.log(config.color.red, 'user : ', user, ', func : ', func + " GachaLog DB Insert", ', time : ', new Date(new Date().toUTCString()));
+                                        }
+                                        else{
+                                            var eosLogData = {
+                                                user : user,
+                                                amount : 10000,
+                                                type : "gacha"
+                                            }
+                                            sql = "INSERT INTO unt.log_eos SET ?";
+                                            connection.query(sql, eosLogData, function(err){
+                                                if(err){
+                                                    connection.release();
+                                                    console.log(config.color.red, 'user : ', user, ', func : ', func + " EosLog DB Insert", ', time : ', new Date(new Date().toUTCString()));
+                                                }
+                                                else{
+                                                    sql = "INSERT INTO unt.log_user (user, gacha) VALUE (?, 1) ON DUPLICATE KEY UPDATE gacha=gacha+1";
+                                                    connection.query(sql, user, function (err) {
+                                                        if (err) {
+                                                            console.log(config.color.red, 'user : ', user, ', func : ', func + " User gacha update", ', time : ', new Date(new Date().toUTCString()));
+                                                        }
+                                                        connection.release();
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else{
+                            count++;
+                            console.log("::::::::::::::::::Error");
+                            console.log(new_data.rows[0]);
+                            if(count > 5){
+                                clearInterval(timer);
+                                res.status(200).send("Fail:Time Out:",func);
+                            }
+                        }
+                    }
+                })
+            }
+        })
+    }, 200);;
+}
+
+
 module.exports = Gacha;

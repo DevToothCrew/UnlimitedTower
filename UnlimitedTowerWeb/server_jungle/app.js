@@ -69,6 +69,7 @@ app.post('/pvpEscape', pvp.pvpEscape);
 app.post('/gacha', gacha.gacha);
 app.post('/testgacha', gacha.testGacha);
 app.post('/tengacha', gacha.tenGacha);
+app.post('/limitGacha', gacha.limitgacha);
 
 // 파티 관련 API
 app.post('/saveParty', party.saveParty);
