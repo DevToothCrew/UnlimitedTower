@@ -1832,4 +1832,18 @@ TABLE tlimit
     uint64_t primary_key() const {return user.value;}
 };
 typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
+// void insert_limit_log(uint64_t _total_count);
+
+
+TABLE tcount
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+
+ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
+ACTION deletemail(eosio::name _user);
+ACTION copymail(uint32_t _start_count, uint32_t _type);
+
 };
