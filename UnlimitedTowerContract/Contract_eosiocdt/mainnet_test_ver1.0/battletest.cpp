@@ -8394,12 +8394,12 @@ ACTION battletest::claim(name who, uint64_t fnum)
         new_data.state = "claim";   
     });
 
-    // 우승자 정보 수정
-    user_logs user_log(_self, _self.value);
-    auto log_iter = user_log.find(who.value);
-    user_log.modify(log_iter, _self, [&](auto &data) {
-        data.top_clear_tower = fnum;
-    });
+    // // 우승자 정보 수정
+    // user_logs user_log(_self, _self.value);
+    // auto log_iter = user_log.find(who.value);
+    // user_log.modify(log_iter, _self, [&](auto &data) {
+    //     data.top_clear_tower = fnum;
+    // });
 
     //보상 utg 지급
     tower_reward tower_reward_table(_self, _self.value);
@@ -8432,7 +8432,7 @@ ACTION battletest::claim(name who, uint64_t fnum)
         .send();
     
     //102201 전설 불속성의 파이노스 랜덤 능력치로 지급
-
+    get_monster(who, 102201, 1, 0, use_money_type::EOS_GACHA, f_iter->endtime);
     
     //보상 테이블 초기화 or 삭제
     tower_reward_table.modify(reward, _self, [&](auto &new_data)
@@ -8486,6 +8486,16 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
             floordata.endtime = now() + 86400;
             floordata.state = "idle";
         });
+
+        user_logs user_log(_self, _self.value);
+        auto iter = user_log.find(winner.value);
+
+        if (iter->top_clear_tower < fnum)
+        {
+            user_log.modify(iter, _self, [&](auto &data) {
+                data.top_clear_tower = data.top_clear_tower;
+            });
+        }
         /***********************/
         /**** 파티 정보 저장 ****/
         /***********************/
@@ -8994,6 +9004,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     floor_index floor_index_table(_self, _self.value);
     auto floor_iter = floor_index_table.find(_fnum);
     eosio_assert(floor_iter != floor_index_table.end(), "Tower Start : Empty Floor");
+    eosio_assert(floor_iter->owner != _from, "Tower Start : You have already taken over");
     eosio_assert(floor_iter->state == "open" || floor_iter->state == "idle", "Tower Start : Not Open");
     eosio_assert(floor_iter->opentime > now(), "Tower Start : Not an event period.");
     if (floor_iter->endtime != 0)
@@ -10901,93 +10912,93 @@ uint8_t battletest::get_day_type()
 
 ACTION battletest::usersimul(eosio::name _user, eosio::name _contract, eosio::name _target)
 {
-    master_active_check();
+    // master_active_check();
 
-    user_auths user_auth_table(_contract, _contract.value);
-    auto user_auth_iter = user_auth_table.find(_target.value);
-    user_auths my_auths_table(_self, _self.value);
-    auto my_auth_iter = my_auths_table.find(_user.value);
+    // user_auths user_auth_table(_contract, _contract.value);
+    // auto user_auth_iter = user_auth_table.find(_target.value);
+    // user_auths my_auths_table(_self, _self.value);
+    // auto my_auth_iter = my_auths_table.find(_user.value);
    
-    user_logs user_log_table(_contract, _contract.value);
-    auto user_log_iter = user_log_table.find(_target.value);
-    user_logs my_logs_table(_self, _self.value);
-    auto my_logs_iter = my_logs_table.find(_user.value);
-    my_logs_table.modify(my_logs_iter, _self, [&](auto &new_data) {
-        new_data.mail = user_log_iter->mail;
-    });
+    // user_logs user_log_table(_contract, _contract.value);
+    // auto user_log_iter = user_log_table.find(_target.value);
+    // user_logs my_logs_table(_self, _self.value);
+    // auto my_logs_iter = my_logs_table.find(_user.value);
+    // my_logs_table.modify(my_logs_iter, _self, [&](auto &new_data) {
+    //     new_data.mail = user_log_iter->mail;
+    // });
 
-    user_mail target_mail(_contract, _target.value);
-    user_preregist_servants target_servant(_contract, _target.value);
-    user_preregist_monsters target_monster(_contract, _target.value);
-    user_preregist_items target_item(_contract, _target.value);
+    // user_mail target_mail(_contract, _target.value);
+    // user_preregist_servants target_servant(_contract, _target.value);
+    // user_preregist_monsters target_monster(_contract, _target.value);
+    // user_preregist_items target_item(_contract, _target.value);
 
 
-    user_preregist_servants my_servant(_contract, _user.value);
-    user_preregist_monsters my_monster(_contract, _user.value);
-    user_preregist_items my_item(_contract, _user.value);
+    // user_preregist_servants my_servant(_contract, _user.value);
+    // user_preregist_monsters my_monster(_contract, _user.value);
+    // user_preregist_items my_item(_contract, _user.value);
 
-    user_mail my_mail(_self, _user.value);
-    for(auto iter = my_mail.begin(); iter != my_mail.end();)
-    {
-        auto mail = my_mail.find(iter->primary_key());
-        iter++;
-        my_mail.erase(mail);
-    }
+    // user_mail my_mail(_self, _user.value);
+    // for(auto iter = my_mail.begin(); iter != my_mail.end();)
+    // {
+    //     auto mail = my_mail.find(iter->primary_key());
+    //     iter++;
+    //     my_mail.erase(mail);
+    // }
 
-    for(auto iter = target_mail.begin(); iter != target_mail.end();)
-    {
-        auto mail = target_mail.find(iter->primary_key());
-        my_mail.emplace(_self, [&](auto &new_data)
-        {
-            new_data.mail_index = mail->mail_index;
-            new_data.mail_type = mail->mail_type;
-            new_data.type_index = mail->type_index;
-            new_data.count = mail->count;
-            new_data.icon_id = mail->icon_id;
-            new_data.get_time = mail->get_time;
-        });
-        iter++;
-    }
+    // for(auto iter = target_mail.begin(); iter != target_mail.end();)
+    // {
+    //     auto mail = target_mail.find(iter->primary_key());
+    //     my_mail.emplace(_self, [&](auto &new_data)
+    //     {
+    //         new_data.mail_index = mail->mail_index;
+    //         new_data.mail_type = mail->mail_type;
+    //         new_data.type_index = mail->type_index;
+    //         new_data.count = mail->count;
+    //         new_data.icon_id = mail->icon_id;
+    //         new_data.get_time = mail->get_time;
+    //     });
+    //     iter++;
+    // }
 
-    for(auto iter = target_servant.begin(); iter != target_servant.end();)
-    {
-        auto servant_iter = target_servant.find(iter->primary_key());
-        my_servant.emplace(_self, [&](auto &new_data)
-        {
-            new_data.index = servant_iter->index;
-            new_data.id = servant_iter->id;
-            new_data.status = servant_iter->status;
-        });
-        iter++;
-    }
+    // for(auto iter = target_servant.begin(); iter != target_servant.end();)
+    // {
+    //     auto servant_iter = target_servant.find(iter->primary_key());
+    //     my_servant.emplace(_self, [&](auto &new_data)
+    //     {
+    //         new_data.index = servant_iter->index;
+    //         new_data.id = servant_iter->id;
+    //         new_data.status = servant_iter->status;
+    //     });
+    //     iter++;
+    // }
 
-    for(auto iter = target_monster.begin(); iter != target_monster.end();)
-    {
-        auto monster_iter = target_monster.find(iter->primary_key());
-        my_monster.emplace(_self, [&](auto &new_data)
-        {
-            new_data.index = monster_iter->index;
-            new_data.id = monster_iter->id;
-            new_data.grade = monster_iter->grade;
-            new_data.status = monster_iter->status;
-        });
-        iter++;
-    }
+    // for(auto iter = target_monster.begin(); iter != target_monster.end();)
+    // {
+    //     auto monster_iter = target_monster.find(iter->primary_key());
+    //     my_monster.emplace(_self, [&](auto &new_data)
+    //     {
+    //         new_data.index = monster_iter->index;
+    //         new_data.id = monster_iter->id;
+    //         new_data.grade = monster_iter->grade;
+    //         new_data.status = monster_iter->status;
+    //     });
+    //     iter++;
+    // }
 
-    for (auto iter = target_item.begin(); iter != target_item.end();)
-    {
-        auto item_iter = target_item.find(iter->primary_key());
-        my_item.emplace(_self, [&](auto &new_data) {
-            new_data.index = item_iter->index;
-            new_data.id = item_iter->id;
-            new_data.type = item_iter->type;
-            new_data.tier = item_iter->tier;
-            new_data.job = item_iter->job;
-            new_data.grade = item_iter->grade;
-            new_data.main_status = item_iter->main_status;
-        });
-        iter++;
-    }
+    // for (auto iter = target_item.begin(); iter != target_item.end();)
+    // {
+    //     auto item_iter = target_item.find(iter->primary_key());
+    //     my_item.emplace(_self, [&](auto &new_data) {
+    //         new_data.index = item_iter->index;
+    //         new_data.id = item_iter->id;
+    //         new_data.type = item_iter->type;
+    //         new_data.tier = item_iter->tier;
+    //         new_data.job = item_iter->job;
+    //         new_data.grade = item_iter->grade;
+    //         new_data.main_status = item_iter->main_status;
+    //     });
+    //     iter++;
+    // }
 
 }
 
