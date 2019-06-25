@@ -842,6 +842,8 @@ Gacha.limitgacha = function(req, res){
     var func = 'limitgacha';
 
     var user = req.body.user;
+    var limit_total_count = req.body.total_count;
+    
 
     eos = Eos(config.eos);
     
@@ -874,6 +876,23 @@ Gacha.limitgacha = function(req, res){
                     limit: 1,
                     json: true
                 }, function(err, gacha){
+                    if (err) {
+                        next("Fail:Get Token Table:" + func);
+                    }
+                    else {
+                        next(null, gacha);
+                    }
+                })
+            },
+            function (next) {
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: config.contract.main,
+                    table: 'tlimit',
+                    lower_bound: config.contract.main,
+                    limit: 1,
+                    json: true
+                }, function (err, gacha) {
                     if (err) {
                         next("Fail:Get Token Table:" + func);
                     }
@@ -929,32 +948,37 @@ Gacha.limitgacha = function(req, res){
                     else{
                         if(table_result.rows.length != 0){
                             clearInterval(timer);
-                            var temp_list = [];
+                            var temp_list = [];                        
                             temp_list.push(table_result.rows[0]);
                             if (result_data[1].rows[0].result.type == 1) {
                                 data.get_servant_list = temp_list;
                                 data.get_monster_list = [];
                                 data.get_equipment_list = [];
                                 data.get_item_list = [];
+                                data.get_total_count = limit_total_count; 
                             }
                             if (result_data[1].rows[0].result.type == 2) {
                                 data.get_servant_list = [];
                                 data.get_monster_list = temp_list;;
                                 data.get_equipment_list = [];
                                 data.get_item_list = [];
+                                data.get_total_count = limit_total_count; 
                             }
                             if (result_data[1].rows[0].result.type == 3) {
                                 data.get_servant_list = [];
                                 data.get_monster_list = [];
                                 data.get_equipment_list = temp_list;;
                                 data.get_item_list = [];
+                                data.get_total_count = limit_total_count; 
                             }
                             if(result_data[1].rows[0].result.type == 4){
                                 data.get_servant_list = [];
                                 data.get_monster_list = [];
                                 data.get_equipment_list = [];
-                                data.get_item_list = temp_list;;
+                                data.get_item_list = temp_list;
+                                data.get_total_count = limit_total_count; 
                             }
+                            
                             console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
                             res.status(200).send(data);
 
