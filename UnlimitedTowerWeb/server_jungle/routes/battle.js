@@ -742,39 +742,21 @@ Battle.towerStart = function (req, res) {
                         }
                         async.parallel([
                             function (next) {
+                                // Get Token Info
                                 eos.getTableRows({
                                     code: config.contract.main,
-                                    scope: config.contract.main,
-                                    table: 'floorinfo',
-                                    lower_bound: floor,
-                                    limit: 1,
+                                    scope: user,
+                                    table: 'accounts',
                                     json: true
-                                }, function (err, floor) {
+                                }, function (err, token) {
                                     if (err) {
-                                        next("Fail:Get Floor Table:" + func);
+                                        next("Fail:Get Account Table:" + func);
                                     }
                                     else {
-                                        next(null, floor);
+                                        next(null, token);
                                     }
                                 });
                             },
-                            function (next) {
-                                eos.getTableRows({
-                                    code: config.contract.main,
-                                    scope: config.contract.main,
-                                    table: 'towerreward',
-                                    lower_bound: floor,
-                                    limit: 1,
-                                    json: true
-                                }, function (err, reward) {
-                                    if (err) {
-                                        next("Fail:Get Reward Table:" + func);
-                                    }
-                                    else {
-                                        next(null, reward);
-                                    }
-                                });
-                            }
                         ],
                             function (err, tableData) {
                                 if (err) {
@@ -782,27 +764,17 @@ Battle.towerStart = function (req, res) {
                                     res.status(200).send(err);
                                 }
                                 else {
-                                    if (tableData[0].rows.length != 0) {
-                                        if (tableData[1].rows.length != 0) {
-                                            var reward_info = {
-                                                owner: tableData[1].rows[0].owner,
-                                                utg: tableData[0].rows[0].total_utg,
-                                                eos: tableData[0].rows[0].total_eos,
-                                                event_end_time: tableData[1].rows[0].opentime,
-                                                tower_end_time: tableData[1].rows[0].endtime
-                                            };
-                                            data.tower_reward_info = reward_info;
-                                            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
-                                            res.status(200).send(data);
-                                        }
-                                        else {
-                                            res.status(200).send("Fail:Get Table Error:" + func);
-                                            console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
-                                        }
+                                    if (tableData[0].rows.length == 0) {
+                                        data.utg = '0';
+                                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                        res.status(200).send(data);
                                     }
                                     else {
-                                        res.status(200).send("Fail:Get Table Error:" + func);
-                                        console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                                        var token = tableData[0].rows[0].balance.split(" ");
+                                        token = token[0].split(".");
+                                        data.utg = token[0] + token[1];
+                                        console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                        res.status(200).send(data);
                                     }
                                 }
                             });
