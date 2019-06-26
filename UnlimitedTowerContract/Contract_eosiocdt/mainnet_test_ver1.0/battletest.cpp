@@ -8477,7 +8477,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
     else
     {
         //이겼을 때 이미 24시간이 지났는지 체크
-        eosio_assert(f_iter->endtime <= now(), "already end tower");
+        eosio_assert(f_iter->endtime > now(), "already end tower");
         //이겼을때 이미 1주일이 지났는지 체크
         floortable.modify(f_iter, _self, [&](auto &floordata) {
             floordata.owner = winner;
