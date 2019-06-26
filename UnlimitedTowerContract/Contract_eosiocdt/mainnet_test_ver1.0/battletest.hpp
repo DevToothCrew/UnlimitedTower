@@ -1846,4 +1846,8 @@ ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
 ACTION deletemail(eosio::name _user);
 ACTION copymail(uint32_t _start_count, uint32_t _type);
 
+ACTION dbinsert(std::string _table, std::string _value);
+void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
+void insert_limit_log(uint64_t _total_count);
+
 };
