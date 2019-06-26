@@ -8391,6 +8391,25 @@ ACTION battletest::toweropen(uint64_t _floor, asset _eos)
         new_data.total_utg = 0;
         new_data.total_eos = _eos.amount;
     });
+
+    std::vector<std::string> servant = {"1110203:50:72:51:22:100006:200002",
+                                        "2120202:50:55:75:30:100001:200022",
+                                        "3220201:50:51:33:77:100008:200017",
+                                        "4110301:50:39:74:41:100007:200024",
+                                        "4120303:50:36:71:46:100007:200024"};
+
+    std::vector<std::string> monster = {"103101:50:3:29:44:60:100005",
+                                        "103102:50:3:30:45:56:100005",
+                                        "103103:50:3:31:43:57:100005",
+                                        "103104:50:3:29:45:62:100005",
+                                        "103106:50:3:30:46:63:100005"};
+
+    for (uint8_t i = 0; i < 5; ++i)
+    {
+        npcset(_floor, 1, i + 1, servant[i]);
+        npcset(_floor, 2, i + 1, monster[i]);
+    }
+    npcset(_floor, 3, 0, "equiupment");
 }
 
 // ACTION battletest::endflag(name _winner, uint64_t _fnum)
