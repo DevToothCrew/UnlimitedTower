@@ -5135,6 +5135,30 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         character_state_data.turn += 1;
         //배틀에 액션테이블에 데이터를 추가해주는 부분
         battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
+            if (user_auth_iter->state == user_state::tower)
+            {
+                floor_index floortable(_self, _self.value);
+                const auto &f_iter = floortable.get(user_battle_state_iter->enemy_user.value, "Floor info does not exist");
+                if (user_battle_state_iter->difficult != f_iter.bnum) //시작한 배틀넘버랑 현재 배틀넘버가 다르면 환불한다
+                {
+                    update_action.turn = 99999;
+                    update_action.character_action_list.clear();
+                    update_action.character_buff_list.clear();
+                    //보상 utg 지급
+                    asset refund(0, symbol(symbol_code("UTG"), 4));
+                    refund.amount = 10000 * 10000;
+
+                    std::string me;
+                    me += "tower_enter_refund:";
+                    me += to_string(user_battle_state_iter->floor);
+                    //이오스 보내는것에 대한 예외처리 필요
+                    action(permission_level{get_self(), "active"_n},
+                           _self, "transfer"_n,
+                           std::make_tuple(_self, _user, refund, me))
+                        .send();
+                    return;
+                }
+            }
             update_action.turn += 1;
             update_action.character_action_list.clear();
             update_action.character_buff_list.clear();
@@ -5443,9 +5467,9 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         {
             change_user_state(_user, user_state::tower, user_state::lobby);
 
-            floor_index floortable(_self, _self.value);
-            const auto &f_iter = floortable.get(user_battle_state_iter->enemy_user.value, "Floor info does not exist");
-            towerwin(user_battle_state_iter->user, user_battle_state_iter->enemy_user.value, 1, f_iter.bnum);
+            // floor_index floortable(_self, _self.value);
+            // const auto &f_iter = floortable.get(user_battle_state_iter->enemy_user.value, "Floor info does not exist");
+            towerwin(user_battle_state_iter->user, user_battle_state_iter->enemy_user.value, 1, user_battle_state_iter->difficult);
         }
         else if (user_dead_count == my_battle_status_list.size())
         {
@@ -8346,7 +8370,7 @@ ACTION battletest::toweropen(uint64_t _floor, asset _eos)
         floordata.pnum = 0;
         floordata.state = "open";
         floordata.endtime = 0;
-        floordata.opentime = now() + (86400 * 7);
+        floordata.opentime = 1562551200;        //7월8일오전 11시
     });
 
     tower_reward tower_reward_table(_self, _self.value);
@@ -8447,9 +8471,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
 {
     floor_index floortable(_self, _self.value);
     auto f_iter = floortable.find(fnum);
-
-    eosio_assert(f_iter->bnum == bnum, "Another user has already conquered.");
-
+    //eosio_assert(f_iter->bnum == bnum, "Another user has already conquered.");
     // if (f_iter->owner == _self)
     // {
     //     // 비어있는걸 차지한 경우
@@ -8477,7 +8499,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
     else
     {
         //이겼을 때 이미 24시간이 지났는지 체크
-        eosio_assert(f_iter->endtime > now(), "already end tower");
+        //eosio_assert(f_iter->endtime > now(), "already end tower");
         //이겼을때 이미 1주일이 지났는지 체크
         floortable.modify(f_iter, _self, [&](auto &floordata) {
             floordata.owner = winner;
@@ -9033,7 +9055,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
             data.enemy_user = fnum;
             data.type = 0;
             data.floor = _fnum;
-            data.difficult = 5;
+            data.difficult = floor_iter->bnum;
             data.turn = 0;
 
             // _from setting
@@ -9067,7 +9089,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
             data.enemy_user = fnum;
             data.type = 0;
             data.floor = _fnum;
-            data.difficult = 5;
+            data.difficult = floor_iter->bnum;
             data.turn = 0;
             data.my_state_list.clear();
             data.enemy_state_list.clear();
@@ -9284,48 +9306,45 @@ ACTION battletest::npcset(uint64_t _floor, uint32_t _type, uint32_t _index, std:
     //     }
     // }
 }
-// ACTION battletest::deletetower()
-// {
-//     require_auth(_self);
+ACTION battletest::deletetower()
+{
+    require_auth(_self);
 
-// floor_index floor_index_table(_self, _self.value);
-// for(auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
-// {
-//     auto fl = floor_index_table.find(iter->primary_key());
+    tower_reward tower_reward_table(_self, _self.value);
+    floor_index floor_index_table(_self, _self.value);
+    for (auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
+    {
+        auto fl = floor_index_table.find(iter->primary_key());
+        auto re = tower_reward_table.find(iter->primary_key());
 
-//     // user_servants table(_self, fl->fnum);
-//     // for(auto ser = table.begin(); ser != table.end();)
-//     // {
-//     //     auto s = table.find(ser->primary_key());
-//     //     table.erase(s);
-//     //     ser++;
-//     // }
-//     // user_monsters npc_mon(_self, fl->fnum);
-//     // for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
-//     // {
-//     //     auto s = npc_mon.find(ser->primary_key());
-//     //     npc_mon.erase(s);
-//     //     ser++;
-//     // }
-
-//     // user_equip_items npc_equip(_self, fl->fnum);
-//     // for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
-//     // {
-//     //     auto s = npc_equip.find(ser->primary_key());
-//     //     npc_equip.erase(s);
-//     //     ser++;
-//     // }
-//     user_partys user_party_table(_self, fl->owner.value);
-//     auto party = user_party_table.begin();
-//     user_party_table.modify(party, _self, [&](auto &data)
-//     {
-//         data.state = party_state::on_wait;
-//     });
-
-//     iter++;
-//     floor_index_table.erase(fl);
-// }
-// }
+        user_servants table(_self, fl->fnum);
+        for (auto ser = table.begin(); ser != table.end();)
+        {
+            auto s = table.find(ser->primary_key());
+            ser++;
+            table.erase(s);
+            
+        }
+        user_monsters npc_mon(_self, fl->fnum);
+        for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
+        {
+            auto s = npc_mon.find(ser->primary_key());
+            ser++;
+            npc_mon.erase(s);
+            
+        }
+        user_equip_items npc_equip(_self, fl->fnum);
+        for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
+        {
+            auto s = npc_equip.find(ser->primary_key());
+            ser++;
+            npc_equip.erase(s);
+        }
+        iter++;
+        floor_index_table.erase(fl);
+        tower_reward_table.erase(re);
+    }
+}
 
 void battletest::refer(eosio::name _referer, std::string _type)
 {
@@ -11489,7 +11508,7 @@ EOSIO_DISPATCH(battletest,
               //battle (pvpstart)
               (activeturn)(stagestart)(stageexit)(saveparty)  
               //tower
-              (toweropen)(claim)(towerstart)(npcset)//(chat)//(endflag)(deletetower)(simulate)(usersimul)
+              (toweropen)(claim)(towerstart)(npcset)(deletetower)//(chat)//(endflag)(deletetower)(simulate)(usersimul)
 (usersimul)(deletemail)(copymail)(dbinsert)
               //cheat    (leveltest)   (updatecheack)(accountset)(deleteuser2)
               )       // (monstercheat)(anothercheck)                                                                                                       
