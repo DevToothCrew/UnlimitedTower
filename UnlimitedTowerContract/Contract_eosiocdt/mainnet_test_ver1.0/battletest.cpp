@@ -9028,7 +9028,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     auto pvp_iter = pvp_table.find(_from.value);
     if (pvp_iter == pvp_table.end())
     {
-        pvp_table.emplace(_from, [&](auto &data) {
+        pvp_table.emplace(_self, [&](auto &data) {
             data.user = _from;
             data.enemy_user = fnum;
             data.type = 0;
@@ -9063,7 +9063,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     }
     else
     {
-        pvp_table.modify(pvp_iter, _from, [&](auto &data) {
+        pvp_table.modify(pvp_iter, _self, [&](auto &data) {
             data.enemy_user = fnum;
             data.type = 0;
             data.floor = _fnum;
@@ -11012,114 +11012,371 @@ ACTION battletest::deletemail(eosio::name _user)
     //     my_mail.erase(mail);
     // }
 
+    mail_reward_list mail_reward_list_table(_self, _user.value);
+    for(auto iter = mail_reward_list_table.begin(); iter != mail_reward_list_table.end();)
+    {
+        auto mail = mail_reward_list_table.find(iter->primary_key());
+        iter++;
+        mail_reward_list_table.erase(mail);
+    }
+
 }
 
 ACTION battletest::copymail(uint32_t _start_count, uint32_t _type)
 {
-    // require_auth(_self);
-    // uint64_t limit_count = 1000;
-    // uint64_t cur_total_limit_count = 0;
+    require_auth(_self);
+    uint64_t limit_count = 1000;
+    uint64_t cur_total_limit_count = 0;
 
-    // uint32_t iter_start = 1;
-    // uint32_t cur_count = _start_count;
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
 
-    // pre_gacha_db pre_gacha_db_table(_self, _self.value);
+    pre_gacha_db pre_gacha_db_table(_self, _self.value);
 
-    // if (_type == 1)
-    // {
-    //     user_auths user_auth_table(_self, _self.value);
-    //     for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    //     {
-    //         if (iter_start < _start_count)
-    //         {
-    //             iter_start++;
-    //             iter++;
-    //             continue;
-    //         }
-    //         auto user = user_auth_table.find(iter->primary_key());
-    //         user_preregist_servants user_preregist_servants_table(_self, user->user.value);
-    //         uint64_t count = 0;
-    //         for (auto ser = user_preregist_servants_table.begin(); ser != user_preregist_servants_table.end();)
-    //         {
-    //             ser++;
-    //             count++;
-    //         }
-    //         if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
-    //         {
-    //             global_count global_count_table(_self, _self.value);
-    //             global_count_table.emplace(_self, [&](auto &new_data) {
-    //                 new_data.count = cur_count;
-    //             });
-    //             break;
-    //         }
-    //         else
-    //         {
+    if (_type == 1)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_preregist_servants user_preregist_servants_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto ser = user_preregist_servants_table.begin(); ser != user_preregist_servants_table.end();)
+            {
+                ser++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_preregist_servants user_preregist_servants_table(_self, user->user.value);
+                for (auto pre_servant_iter = user_preregist_servants_table.begin(); pre_servant_iter != user_preregist_servants_table.end();)
+                {
+                    uint32_t _seed = safeseed::get_seed_value(user->user.value + pre_servant_iter->primary_key(), now());
 
-    //             for (auto pre_servant_iter = user_preregist_servants_table.begin(); pre_servant_iter != user_preregist_servants_table.end();)
-    //             {
-    //                 uint32_t _seed = safeseed::get_seed_value(user->user.value + pre_servant_iter->primary_key(), now());
+                    uint64_t temp_grade = 5;
 
-    //                 uint64_t temp_grade = 5;
+                    servant_lv_status_db servant_lv_status_db_table(_self, _self.value);
+                    auto servant_lv_status_db_iter = servant_lv_status_db_table.find(temp_grade);
 
-    //                 servant_lv_status_db servant_lv_status_db_table(_self, _self.value);
-    //                 auto servant_lv_status_db_iter = servant_lv_status_db_table.find(temp_grade);
+                    auto get_iter = user_preregist_servants_table.find(pre_servant_iter->primary_key());
+                    eosio_assert(get_iter != user_preregist_servants_table.end(), "not servant");
 
-    //                 auto get_iter = user_preregist_servants_table.find(pre_servant_iter->primary_key());
-    //                 eosio_assert(get_iter != user_preregist_servants_table.end(), "not servant");
+                    auto pre_gacha_db_iter = pre_gacha_db_table.find(get_iter->id);
+                    eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "mailopen :Not exist pre_gacha_db_iter");
+                    eosio_assert(servant_lv_status_db_iter != servant_lv_status_db_table.end(), "mailopen :Not exist servant_lv_status Data");
 
-    //                 auto pre_gacha_db_iter = pre_gacha_db_table.find(get_iter->id);
-    //                 eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "mailopen :Not exist pre_gacha_db_iter");
-    //                 eosio_assert(servant_lv_status_db_iter != servant_lv_status_db_table.end(), "mailopen :Not exist servant_lv_status Data");
+                    auto servant_db_iter = get_servant_db(pre_gacha_db_iter->db_index);
 
-    //                 auto servant_db_iter = get_servant_db(pre_gacha_db_iter->db_index);
+                    serstat_db serstat_db_table(_self, _self.value);
+                    uint32_t stat_id = (1000 * servant_db_iter->job) + (100 * 5) + 1;
+                    auto stat_iter = serstat_db_table.find(stat_id);
+                    servant_info new_servant;
+                    servant_data new_data;
 
-    //                 serstat_db serstat_db_table(_self, _self.value);
-    //                 uint32_t stat_id = (1000 * servant_db_iter->job) + (100 * 5) + 1;
-    //                 auto stat_iter = serstat_db_table.find(stat_id);
-    //                 servant_info new_servant;
+                    new_servant.id = servant_db_iter->id;
+                    new_servant.status.basic_str = servant_lv_status_db_iter->change_status[get_iter->status.basic_str].update_status + stat_iter->base_str;
+                    new_servant.status.basic_dex = servant_lv_status_db_iter->change_status[get_iter->status.basic_dex].update_status + stat_iter->base_dex;
+                    new_servant.status.basic_int = servant_lv_status_db_iter->change_status[get_iter->status.basic_int].update_status + stat_iter->base_int;
+                    uint32_t active_id = get_servant_active_skill(servant_db_iter->job, _seed);
+                    uint32_t passive_id = get_passive_skill(1, servant_db_iter->job, _seed);
+                    new_servant.passive_skill.push_back(passive_id);
+                    new_servant.active_skill.push_back(active_id);
 
-    //                 new_servant.id = servant_db_iter->id;
-    //                 new_servant.status.basic_str = servant_lv_status_db_iter->change_status[get_iter->status.basic_str].update_status + stat_iter->base_str;
-    //                 new_servant.status.basic_dex = servant_lv_status_db_iter->change_status[get_iter->status.basic_dex].update_status + stat_iter->base_dex;
-    //                 new_servant.status.basic_int = servant_lv_status_db_iter->change_status[get_iter->status.basic_int].update_status + stat_iter->base_int;
-    //                 uint32_t active_id = get_servant_active_skill(servant_db_iter->job, _seed);
-    //                 uint32_t passive_id = get_passive_skill(1, servant_db_iter->job, _seed);
-    //                 new_servant.passive_skill[0] = passive_id;
-    //                 new_servant.active_skill[0] = active_id;
+                    uint32_t mail_reward_first_index = 0;
+                    mail_reward_list mail_reward_list_table(_self, user->user.value);
+                    uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+                    mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+                        if (new_first_index == 0)
+                        {
+                            update_reward.index = 1;
+                        }
+                        else
+                        {
+                            update_reward.index = mail_reward_list_table.available_primary_key();
+                        }
+                        update_reward.type = 1;
+                        new_data.index = update_reward.index;
+                        std::string body_data;
+                        body_data += to_string(new_servant.id) + ":",
+                            body_data += to_string(new_servant.status.basic_str) + ":",
+                            body_data += to_string(new_servant.status.basic_dex) + ":",
+                            body_data += to_string(new_servant.status.basic_int) + ":",
+                            body_data += to_string(passive_id) + ":",
+                            body_data += to_string(active_id);
+                        update_reward.body = body_data;
+                    });
+                    
+                    user_mail user_mail_table(_self, user->user.value);
+                    user_mail_table.emplace(_self, [&](auto &move_mail) {
+                        uint32_t first_index = user_mail_table.available_primary_key();
+                        if (first_index == 0)
+                        {
+                            move_mail.mail_index = 1;
+                        }
+                        else
+                        {
+                            move_mail.mail_index = user_mail_table.available_primary_key();
+                        }
+                        move_mail.mail_type = 8;
+                        move_mail.type_index = new_data.index;
+                        move_mail.count = 1;
+                        move_mail.icon_id = servant_db_iter->id;
+                        move_mail.get_time = now();
+                    });
 
-    //                 uint32_t mail_reward_first_index = 0;
-    //                 mail_reward_list mail_reward_list_table(_self, user->user.value);
-    //                 uint32_t new_first_index = mail_reward_list_table.available_primary_key();
-    //                 mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
-    //                     if (new_first_index == 0)
-    //                     {
-    //                         update_reward.index = 1;
-    //                     }
-    //                     else
-    //                     {
-    //                         update_reward.index = mail_reward_list_table.available_primary_key();
-    //                     }
-    //                     update_reward.type = 1;
+                    pre_servant_iter++;
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 2)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_preregist_monsters user_preregist_monsters_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto mon = user_preregist_monsters_table.begin(); mon != user_preregist_monsters_table.end();)
+            {
+                mon++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_preregist_monsters user_preregist_monsters_table(_self, user->user.value);
+                for (auto pre_monster_iter = user_preregist_monsters_table.begin(); pre_monster_iter != user_preregist_monsters_table.end();)
+                {
+                    uint32_t _seed = safeseed::get_seed_value(user->user.value + pre_monster_iter->primary_key(), now());
 
-    //                     std::string body_data;
-    //                     servant_info new_servant;
-    //                     body_data += to_string(new_servant.id) + ":",
-    //                         body_data += to_string(new_servant.status.basic_str) + ":",
-    //                         body_data += to_string(new_servant.status.basic_dex) + ":",
-    //                         body_data += to_string(new_servant.status.basic_int) + ":",
-    //                         body_data += to_string(new_servant.passive_skill[0]) + ":",
-    //                         body_data += to_string(new_servant.active_skill[0]);
-    //                 });
+                    monster_lv_status_db monster_lv_status_db_table(_self, _self.value);
+                    auto monster_lv_status_db_iter = monster_lv_status_db_table.find(pre_monster_iter->grade);
+                    eosio_assert(monster_lv_status_db_iter != monster_lv_status_db_table.end(), "mailopen :  Not exist monster_lv_status Data");
 
-    //                 pre_servant_iter++;
-    //             }
+                    auto get_iter = user_preregist_monsters_table.find(pre_monster_iter->primary_key());
+                    eosio_assert(get_iter != user_preregist_monsters_table.end(), "not servant");
 
-    //             cur_total_limit_count += count;
-    //             cur_count += 1;
-    //             iter++;
-    //         }
-    //     }
-    // }
+                    auto pre_gacha_db_iter = pre_gacha_db_table.find(get_iter->id);
+                    eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "mailopen :Not exist pre_gacha_db_iter");
+                    eosio_assert(monster_lv_status_db_iter != monster_lv_status_db_table.end(), "mailopen :Not exist servant_lv_status Data");
+
+                    auto monster_db_iter = get_monster_db(pre_gacha_db_iter->db_index);
+                    // tribe_db tribe_db_table(_self, _self.value);
+                    // const auto &tribe_iter = tribe_db_table.get(monster_db_iter->tribe, "mailopen : Empty Monster Tribe");
+                    auto tribe_iter = get_tribe_db(monster_db_iter->tribe);
+
+                                        
+                    monster_info new_monster;
+                    monster_data new_data;
+
+                    new_monster.id = monster_db_iter->id;
+                    new_monster.status.basic_str = monster_lv_status_db_iter->change_status[get_iter->status.basic_str].update_status;
+                    new_monster.status.basic_dex = monster_lv_status_db_iter->change_status[get_iter->status.basic_dex].update_status;
+                    new_monster.status.basic_int = monster_lv_status_db_iter->change_status[get_iter->status.basic_int].update_status;
+
+                    new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter->base_str) / 100;
+                    new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter->base_dex) / 100;
+                    new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter->base_int) / 100;
+
+                    uint32_t passive_id = get_passive_skill(2, monster_db_iter->tribe, _seed);
+                    new_monster.passive_skill.push_back(passive_id);
+
+                    uint32_t mail_reward_first_index = 0;
+                    mail_reward_list mail_reward_list_table(_self, user->user.value);
+                    uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+                    mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+                        if (new_first_index == 0)
+                        {
+                            update_reward.index = 1;
+                        }
+                        else
+                        {
+                            update_reward.index = mail_reward_list_table.available_primary_key();
+                        }
+                        update_reward.type = 2;
+                        new_data.index = update_reward.index;
+
+                        std::string body_data;
+                        body_data += to_string(new_monster.id) + ":",
+                            body_data += to_string(new_monster.grade) + ":",
+                            body_data += to_string(new_monster.status.basic_str) + ":",
+                            body_data += to_string(new_monster.status.basic_dex) + ":",
+                            body_data += to_string(new_monster.status.basic_int) + ":",
+                            body_data += to_string(passive_id);
+                        update_reward.body = body_data;
+                    });
+                    user_mail user_mail_table(_self, user->user.value);
+                    user_mail_table.emplace(_self, [&](auto &move_mail) {
+                        uint32_t first_index = user_mail_table.available_primary_key();
+                        if (first_index == 0)
+                        {
+                            move_mail.mail_index = 1;
+                        }
+                        else
+                        {
+                            move_mail.mail_index = user_mail_table.available_primary_key();
+                        }
+                        move_mail.mail_type = 9;
+                        move_mail.type_index = new_data.index;
+                        move_mail.count = 1;
+                        move_mail.icon_id = monster_db_iter->id;
+                        move_mail.get_time = now();
+                    });
+
+                    pre_monster_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+    else if (_type == 3)
+    {
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_preregist_items user_preregist_items_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto item = user_preregist_items_table.begin(); item != user_preregist_items_table.end();)
+            {
+                item++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count) //ttemp에 넣기
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_preregist_items user_preregist_items_table(_self, user->user.value);
+                for (auto pre_item_iter = user_preregist_items_table.begin(); pre_item_iter != user_preregist_items_table.end();)
+                {
+                    uint32_t _seed = safeseed::get_seed_value(user->user.value + pre_item_iter->primary_key(), now());
+
+                    equipment_lv_status_db equipment_lv_status_db_table(_self, _self.value);
+                    uint64_t _check_type = pre_item_iter->type;
+                    if (_check_type >= 3)
+                    {
+                        _check_type = 3;
+                    }
+                    uint64_t _check_grade = pre_item_iter->grade;
+                    uint64_t _check_sum = _check_type * 10 + _check_grade;
+
+                    auto equipment_lv_status_db_iter = equipment_lv_status_db_table.find(_check_sum);
+                    eosio_assert(equipment_lv_status_db_iter != equipment_lv_status_db_table.end(), "mailopen : Not exist equipment_lv_status Data");
+
+                    auto get_iter = user_preregist_items_table.find(pre_item_iter->primary_key());
+                    eosio_assert(get_iter != user_preregist_items_table.end(), "not item");
+
+                    auto pre_gacha_db_iter = pre_gacha_db_table.find(get_iter->id);
+                    eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "mailopen :Not exist pre_gacha_db_iter");
+                    eosio_assert(equipment_lv_status_db_iter != equipment_lv_status_db_table.end(), "mailopen :Not exist servant_lv_status Data");
+
+                    equipment_db equipitem_db_table(_self, _self.value);
+                    auto equipitem_db_iter = equipitem_db_table.find(pre_gacha_db_iter->db_index);
+                    eosio_assert(equipitem_db_iter != equipitem_db_table.end(), "mailopen : Not exist equipment_db_iter3");
+
+                    equipment_info new_item;
+                    equip_data new_data;
+
+                    new_item.id = equipitem_db_iter->item_id;
+
+                    uint32_t type_grade = ((equipitem_db_iter->type + 1) * 10) + get_iter->grade;
+                    new_item.value = equipment_lv_status_db_iter->change_status[get_iter->main_status].update_status;
+                    set_tier_status(new_item.value, equipitem_db_iter->tier);
+
+                    uint32_t mail_reward_first_index = 0;
+                    mail_reward_list mail_reward_list_table(_self, user->user.value);
+                    uint32_t new_first_index = mail_reward_list_table.available_primary_key();
+                    mail_reward_list_table.emplace(_self, [&](auto &update_reward) {
+                        if (new_first_index == 0)
+                        {
+                            update_reward.index = 1;
+                        }
+                        else
+                        {
+                            update_reward.index = mail_reward_list_table.available_primary_key();
+                        }
+                        update_reward.type = 3;
+                        new_data.index = update_reward.index;
+                        std::string body_data;
+                        body_data += to_string(new_item.id) + ":",
+                            body_data += to_string(new_item.grade) + ":",
+                            body_data += to_string(new_item.value);
+                        update_reward.body = body_data;
+                    });
+                    user_mail user_mail_table(_self, user->user.value);
+                    user_mail_table.emplace(_self, [&](auto &move_mail) {
+                        uint32_t first_index = user_mail_table.available_primary_key();
+                        if (first_index == 0)
+                        {
+                            move_mail.mail_index = 1;
+                        }
+                        else
+                        {
+                            move_mail.mail_index = user_mail_table.available_primary_key();
+                        }
+                        move_mail.mail_type = 10;
+                        move_mail.type_index = new_data.index;
+                        move_mail.count = 1;
+                        move_mail.icon_id = equipitem_db_iter->item_id;
+                        move_mail.get_time = now();
+                    });
+
+                    pre_item_iter++;
+                }
+
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
+    }
+
 }
 
 #undef EOSIO_DISPATCH
