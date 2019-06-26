@@ -5144,9 +5144,19 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     update_action.turn = 99999;
                     update_action.character_action_list.clear();
                     update_action.character_buff_list.clear();
+
+                    change_user_state(_user, user_state::tower, user_state::lobby);
+
                     //보상 utg 지급
                     asset refund(0, symbol(symbol_code("UTG"), 4));
                     refund.amount = 10000 * 10000;
+
+                    tower_reward tower_reward_table(_self, _self.value);
+                    auto iter = tower_reward_table.find(user_battle_state_iter->floor);
+                    eosio_assert(iter != tower_reward_table.end(), "Not Set Reward Log");
+                    tower_reward_table.modify(iter, _self, [&](auto &new_data) {
+                        new_data.total_utg -= refund.amount / 2;
+                    });
 
                     std::string me;
                     me += "tower_enter_refund:";
@@ -9012,7 +9022,7 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     auto iter = tower_reward_table.find(_fnum);
     eosio_assert(iter != tower_reward_table.end(), "Not Set Reward Log");
     tower_reward_table.modify(iter, _self, [&](auto &new_data) {
-        new_data.total_utg += tower_enter.amount;
+        new_data.total_utg += tower_enter.amount / 2;
     });
     //타워 층에 대한 상태 체크
     user_logs user_log_table(_self, _self.value);
@@ -11401,30 +11411,30 @@ ACTION battletest::copymail(uint32_t _start_count, uint32_t _type)
 
 ACTION battletest::dbinsert(std::string _table, std::string _value)
 {
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
+    // system_master system_master_table(_self, _self.value);
+    // auto system_master_iter = system_master_table.begin();
 
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
+    // permission_level master_auth;
+    // master_auth.actor = system_master_iter->master;
+    // master_auth.permission = "active"_n;
+    // require_auth(master_auth);
 
-    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+    // //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
 
-    std::vector<size_t> size_list;
-    std::vector<std::string> value_list;
-    uint32_t value;
+    // std::vector<size_t> size_list;
+    // std::vector<std::string> value_list;
+    // uint32_t value;
 
-    if (_table == "dblimitpool")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
-    }
-    if (_table == "tlimit")
-    {
-        value = atoll(_value.c_str());
-        insert_limit_log(value);
-    }
+    // if (_table == "dblimitpool")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
+    // }
+    // if (_table == "tlimit")
+    // {
+    //     value = atoll(_value.c_str());
+    //     insert_limit_log(value);
+    // }
 }
 
 void battletest::insert_limit_pool(uint64_t _index, uint64_t _gacha_id)
