@@ -663,8 +663,17 @@ Battle.getTowerReward = function (req, res) {
                 {
                     if(tableData[1].rows.length != 0)
                     {
+                        var onwer = '';
+                        if(tableData[0].rows[0].owner == config.contract.main)
+                        {
+                            onwer = "NPC";
+                        }
+                        else
+                        {
+                            onwer = tableData[0].rows[0].owner;
+                        }
                         var user_data = {
-                            owner : tableData[0].rows[0].owner,
+                            owner : onwer,
                             utg : tableData[1].rows[0].total_utg,
                             eos : tableData[1].rows[0].total_eos,
                             event_end_time : tableData[0].rows[0].opentime, 
