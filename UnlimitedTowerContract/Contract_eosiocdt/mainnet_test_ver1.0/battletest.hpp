@@ -399,6 +399,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dblimitpool"_n, dblimitpool> limit_gacha_db;
 
+    void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
 
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
