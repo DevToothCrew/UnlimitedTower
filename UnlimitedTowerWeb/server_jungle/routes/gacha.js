@@ -440,7 +440,7 @@ Gacha.gacha = function(req, res){
 
     var user = req.body.user;
     var type = req.body.type;
-    var gacha_type = req.body.gacha_type;
+   // var gacha_type = req.body.gacha_type;
     var table = "";
 
     if(type == "eos"){
@@ -843,13 +843,35 @@ Gacha.limitgacha = function(req, res){
 
     var user = req.body.user;
     var limit_total_count = req.body.total_count;
-    
-
+    var type = req.body.type;
+    var table = "";
+    if(type == "eos"){
+        table = "tgacharesult";
+    }
+    else{
+        table = "tgoldresult";
+    }
     eos = Eos(config.eos);
     
     var count = 0;
     var timer = setInterval(function () {
         async.parallel([
+            function (next) {
+                // Get Token Info : 0
+                eos.getTableRows({
+                    code: config.contract.main,
+                    scope: user,
+                    table: 'accounts',
+                    json: true
+                }, function (err, token) {
+                    if (err) {
+                        next("Fail:Get Account Table:" + func);
+                    }
+                    else {
+                        next(null, token);
+                    }
+                });
+            },
             function (next) {
                 // Get EOS Info : 1
                 eos.getTableRows({
@@ -871,7 +893,7 @@ Gacha.limitgacha = function(req, res){
                 eos.getTableRows({
                     code: config.contract.main,
                     scope: config.contract.main,
-                    table: 'tgacharesult',
+                    table: table,
                     lower_bound: user,
                     limit: 1,
                     json: true
@@ -897,6 +919,25 @@ Gacha.limitgacha = function(req, res){
                         next("Fail:Get Token Table:" + func);
                     }
                     else {
+                        if (gacha.rows.length == 0) {
+                            gacha.rows[0].total_count = 0;
+                        }
+                        // else {
+                        //     if (limit_total_count!== gacha.rows[0].total_count) {
+                        //         if (count > 15) {
+                        //             clearInterval(timer);
+                        //             console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        //             res.status(200).send("Fail:sync");
+                        //         }
+                        //         count++;
+                        //         console.log(config.color.yellow, "Waiting for sync For ", user, "'s Limit Gacha");
+                        //     }
+                        //     else {
+                        //         clearInterval(timer);
+                        //         next(null, gacha);
+                        //     }
+                        // }
+
                         next(null, gacha);
                     }
                 })
@@ -923,11 +964,25 @@ Gacha.limitgacha = function(req, res){
                 res.status(200).send("Fail:Get Table:" + func);
             }
             else{
+                
+                if (limit_total_count !== result_data[3].rows[0].total_count) {
+                    if (count > 15) {
+                        clearInterval(timer);
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                        res.status(200).send("Fail:sync");
+                    }
+                    count++;
+                    console.log(config.color.yellow, "Waiting for sync For ", user, "'s Limit Gacha");
+                }
+
+                  
+
+
                 var table = "";
                 var data = {};
 
                 // EOS Setting
-                var uEos = result_data[0].rows[0].balance.split(" ");
+                var uEos = result_data[1].rows[0].balance.split(" ");
                 uEos = uEos[0].split(".");
                 if (uEos[0] == '0' && uEos[1] == '0000') {
                     data.eos = '0';
@@ -936,26 +991,36 @@ Gacha.limitgacha = function(req, res){
                     data.eos = uEos[0] + uEos[1];
                 }
 
-                if (result_data[1].rows[0].result.type == 1) {
+                // Token Setting
+                if (result_data[0].rows.length == 0) {
+                    data.utg = '0';
+                }
+                else {
+                    var token = result_data[0].rows[0].balance.split(" ");
+                    token = token[0].split(".");
+                    data.utg = token[0] + token[1];
+                }
+
+                if (result_data[2].rows[0].result.type == 1) {
                     table = "tservant";
                 }
-                if (result_data[1].rows[0].result.type == 2) {
+                if (result_data[2].rows[0].result.type == 2) {
                     table = "tmonster";
                 }
-                if (result_data[1].rows[0].result.type == 3) {
+                if (result_data[2].rows[0].result.type == 3) {
                     table = "tequipments";
                 }
-                if(result_data[1].rows[0].result.type == 4){
+                if(result_data[2].rows[0].result.type == 4){
                     table = "titem";
                 }
-                result_data[2].rows[0].total_count;
                 result_data[3].rows[0].total_count;
+                result_data[4].rows[0].total_count
 
                 eos.getTableRows({
                     code: config.contract.main,
                     scope: user,
                     table: table,
-                    lower_bound: result_data[1].rows[0].result.index,
+                    lower_bound: result_data[2].rows[0].result.index,
                     limit: 1,
                     json: true
                 }, function (err, table_result){
@@ -969,37 +1034,37 @@ Gacha.limitgacha = function(req, res){
                             clearInterval(timer);
                             var temp_list = [];                        
                             temp_list.push(table_result.rows[0]);
-                            if (result_data[1].rows[0].result.type == 1) {
+                            if (result_data[2].rows[0].result.type == 1) {
                                 data.get_servant_list = temp_list;
                                 data.get_monster_list = [];
                                 data.get_equipment_list = [];
                                 data.get_item_list = [];
-                                data.change_eos = result_data[2].rows[0].total_count;
-                                data.total_count = result_data[3].rows[0].total_count;
+                                data.change_eos = result_data[3].rows[0].total_count;
+                                data.total_count = result_data[4].rows[0].total_count;
                             }
-                            if (result_data[1].rows[0].result.type == 2) {
+                            if (result_data[2].rows[0].result.type == 2) {
                                 data.get_servant_list = [];
                                 data.get_monster_list = temp_list;;
                                 data.get_equipment_list = [];
                                 data.get_item_list = [];
-                                data.change_eos = result_data[2].rows[0].total_count;
-                                data.total_count = result_data[3].rows[0].total_count;
+                                data.change_eos = result_data[3].rows[0].total_count;
+                                data.total_count = result_data[4].rows[0].total_count;
                             }
-                            if (result_data[1].rows[0].result.type == 3) {
+                            if (result_data[2].rows[0].result.type == 3) {
                                 data.get_servant_list = [];
                                 data.get_monster_list = [];
                                 data.get_equipment_list = temp_list;;
                                 data.get_item_list = [];
-                                data.change_eos = result_data[2].rows[0].total_count;
-                                data.total_count = result_data[3].rows[0].total_count;
+                                data.change_eos = result_data[3].rows[0].total_count;
+                                data.total_count = result_data[4].rows[0].total_count;
                             }
-                            if(result_data[1].rows[0].result.type == 4){
+                            if(result_data[2].rows[0].result.type == 4){
                                 data.get_servant_list = [];
                                 data.get_monster_list = [];
                                 data.get_equipment_list = [];
                                 data.get_item_list = temp_list;
-                                data.change_eos = result_data[2].rows[0].total_count;
-                                data.total_count = result_data[3].rows[0].total_count;
+                                data.change_eos = result_data[3].rows[0].total_count;
+                                data.total_count = result_data[4].rows[0].total_count;
                             }
                             
                             console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
@@ -1014,22 +1079,22 @@ Gacha.limitgacha = function(req, res){
                                         user : user
                                     }
                                     
-                                    if(result_data[1].rows[0].result.type == 1){
+                                    if(result_data[2].rows[0].result.type == 1){
                                         gachaLogData.type = "servant";
                                         gachaLogData.type_index = table_result.rows[0].servant.id;
                                         gachaLogData.grade = table_result.rows[0].servant.grade;
                                     }
-                                    if(result_data[1].rows[0].result.type == 2){
+                                    if(result_data[2].rows[0].result.type == 2){
                                         gachaLogData.type = "monster";
                                         gachaLogData.type_index = table_result.rows[0].monster.id;
                                         gachaLogData.grade = table_result.rows[0].monster.grade;
                                     }
-                                    if(result_data[1].rows[0].result.type == 3){
+                                    if(result_data[2].rows[0].result.type == 3){
                                         gachaLogData.type = "equipment";
                                         gachaLogData.type_index = table_result.rows[0].equipment.id;
                                         gachaLogData.grade = table_result.rows[0].equipment.grade;
                                     }
-                                    if(result_data[1].rows[0].result.type == 4){
+                                    if(result_data[2].rows[0].result.type == 4){
                                         gachaLogData.type = "item";
                                         gachaLogData.type_index = table_result.rows[0].id;
                                         gachaLogData.grade = 0;
@@ -1081,7 +1146,100 @@ Gacha.limitgacha = function(req, res){
                 })
             }
         })
-    }, 200);;
+    }, 1000);;
+}
+
+
+
+
+/**
+ * Get Limit Gacha Info
+ * 
+ * @param req
+ * @param res
+ */
+Gacha.getLimitGachaInfo = function (req, res) {
+    var func = 'getLimitGachaInfo';
+
+    var user = req.body.user;
+
+    eos = Eos(config.eos);
+
+
+    async.parallel([
+        function (next) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: config.contract.main,
+                table: 'tlimit',
+                lower_bound : config.contract.main, 
+                limit: 1,
+                json: true
+            }, function (err, contract_data) {
+                if (err) {
+                    next("Fail:Get Tlimit Table:" + func);
+                }
+                else {
+                    next(null, contract_data);
+                }
+            });
+        },
+        function (next) {
+            eos.getTableRows({
+                code: config.contract.main,
+                scope: config.contract.main,
+                table: 'tlimit',
+                lower_bound : user, 
+                limit: 1,
+                json: true
+            }, function (err, user_data) {
+                if (err) {
+                    next("Fail:Get Tlimit Table:" + func);
+                }
+                else {
+                    next(null, user_data);
+                }
+            });
+        }
+    ],
+        function (err, tableData) {
+            if (err) {
+                console.log(err);
+                res.status(200).send(err);
+            }
+            else {
+                try {
+                    if(tableData[0].rows[0].length != 0)
+                    {
+                        var user_total_count;
+                        if(tableData[1].rows[0].length == 0)
+                        {
+                            user_total_count = 0;
+                        }
+                        else
+                        {
+                            user_total_count = tableData[1].rows[0].total_count;
+                        }           
+                            var user_data = {
+                                // user : tableData[0].rows[0].user, 
+                                contract_total_count  : tableData[0].rows[0].total_count,
+                                user_total_count : user_total_count
+                            };
+                            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                            res.status(200).send(user_data);
+                        
+                    }
+                    else
+                    {
+                        res.status(200).send("Fail:Get Table Error:" + func);
+                        console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
+                    }
+
+                } catch(e) {
+                    console.log(e);
+                }
+            }
+        });
 }
 
 

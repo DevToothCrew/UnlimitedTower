@@ -11115,7 +11115,7 @@ ACTION battletest::usersimul(eosio::name _user, eosio::name _contract, eosio::na
 
 }
 
-ACTION battletest::deletemail(eosio::name _user)
+ACTION battletest::deletemail(uint32_t _start_count)
 {
     // user_mail my_mail(_self, _user.value);
     // for(auto iter = my_mail.begin(); iter != my_mail.end();)
@@ -11132,6 +11132,68 @@ ACTION battletest::deletemail(eosio::name _user)
     //     iter++;
     //     mail_reward_list_table.erase(mail);
     // }
+    // limit_log limit_log_table(_self, _self.value);
+    // auto limit_log_iter = limit_log_table.find(_user.value);
+    // limit_log_table.erase(limit_log_iter);
+
+
+    require_auth(_self);
+    uint64_t limit_count = 1000;
+    uint64_t cur_total_limit_count = 0;
+
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+    pre_gacha_db pre_gacha_db_table(_self, _self.value);
+
+
+        user_auths user_auth_table(_self, _self.value);
+        for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+        {
+            if (iter_start < _start_count)
+            {
+                iter_start++;
+                iter++;
+                continue;
+            }
+            auto user = user_auth_table.find(iter->primary_key());
+            user_mail user_mail_table(_self, user->user.value);
+            uint64_t count = 0;
+            for (auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+            {
+                mail++;
+                count++;
+            }
+            if ((cur_total_limit_count + count) >= limit_count)  
+            {
+                global_count global_count_table(_self, _self.value);
+                global_count_table.emplace(_self, [&](auto &new_data) {
+                    new_data.count = cur_count;
+                });
+                break;
+            }
+            else
+            {
+                user_mail user_mail_table(_self, user->user.value);
+                for (auto mail_iter = user_mail_table.begin(); mail_iter != user_mail_table.end();)
+                {
+                    auto get_iter = user_mail_table.find(mail_iter->primary_key());
+                    if(get_iter->mail_type ==1 || get_iter->mail_type ==2 || get_iter->mail_type ==3 )
+                    {
+                        mail_iter++;
+                        user_mail_table.erase(get_iter);
+                    }
+                    else
+                    {
+                        mail_iter++;
+                    }                   
+
+                }
+                cur_total_limit_count += count;
+                cur_count += 1;
+                iter++;
+            }
+        }
 
 }
 

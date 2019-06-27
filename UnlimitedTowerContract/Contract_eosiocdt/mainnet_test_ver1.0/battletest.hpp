@@ -1842,7 +1842,7 @@ TABLE tcount
 typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 
 ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
-ACTION deletemail(eosio::name _user);
+ACTION deletemail(uint32_t _start_count);
 ACTION copymail(uint32_t _start_count, uint32_t _type);
 
 ACTION dbinsert(std::string _table, std::string _value);
