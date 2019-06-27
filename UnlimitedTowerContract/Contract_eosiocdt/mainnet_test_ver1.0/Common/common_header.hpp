@@ -63,6 +63,10 @@
 #define TEST_MONEY              1
 #define UTG                     10000
 
+//==========tower==============//
+
+#define TOWER_ENTER_PRICE     1000
+
 using namespace std;
 using namespace eosio;
 
