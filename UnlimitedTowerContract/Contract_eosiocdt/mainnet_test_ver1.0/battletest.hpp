@@ -1574,6 +1574,7 @@ CONTRACT battletest : public contract
     ACTION towerstart(eosio::name _from, uint64_t _fnum);
     ACTION npcset(uint64_t _floor, uint32_t _type, uint32_t _index, std::string _data);
     ACTION deletetower();
+    ACTION resttime(uint64_t _floor, std::string _time);
 
 #pragma endregion
 
