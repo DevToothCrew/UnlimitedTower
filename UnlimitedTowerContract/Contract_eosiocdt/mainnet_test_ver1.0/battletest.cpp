@@ -1162,7 +1162,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Limit Gacha : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Limit Gacha : Seed Memo [:] Error");
-
+                uint64_t add_mount = 1;
                 limit_log limit_log_table(_self, _self.value);
                 auto limit_log_iter = limit_log_table.find(sender.value);
                 if(limit_log_iter == limit_log_table.end())
@@ -1171,17 +1171,20 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                         new_data.user = sender;
                         new_data.total_count = 1;
                     });
+
                 }
                 else
                 {
                     limit_log_table.modify(limit_log_iter, _self, [&](auto &new_data){
                         new_data.total_count +=1;
                     });
+                     add_mount = limit_log_iter->total_count;
                 }
 
                 uint64_t first_amount = 1;
-                uint64_t add_mount = limit_log_iter->total_count;
-                uint64_t sum_amount = first_amount <<add_mount;
+                //add_mount = limit_log_iter->total_count;
+                uint64_t sum_amount = first_amount << add_mount;
+               // uint64_t make_sum_amount = sum_amount * 1000;
                 eosio_assert(transfer_data.quantity.amount == sum_amount,"Eos Transfer Limit Gacha : Limit Gacha need more EOS");
                 eosio_assert(res.seed != 0, "Eos Transfer Limit Gacha : Wrong Seed Convert");
                 //eosio_assert(transfer_data.quantity.amount == TEST_MONEY, "Eos Transfer Gacha : Gacha need 1.0000 EOS"); //가격 필히 수정해야함 10000

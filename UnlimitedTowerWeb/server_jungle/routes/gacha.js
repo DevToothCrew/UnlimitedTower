@@ -1196,7 +1196,7 @@ Gacha.getLimitGachaInfo = function (req, res) {
                 if (err) {
                     next("Fail:Get Tlimit Table:" + func);
                 }
-                else {
+                else {                    
                     next(null, user_data);
                 }
             });
@@ -1212,14 +1212,31 @@ Gacha.getLimitGachaInfo = function (req, res) {
                     if(tableData[0].rows[0].length != 0)
                     {
                         var user_total_count;
-                        if(tableData[1].rows[0].length == 0)
+                        // if(tableData[1].rows[0].length == 0)
+                        // if (tableData[1].rows[0].user == user) 
+                        // {
+                        //     user_total_count = 0;
+                        // }
+                        // else
+                        // {
+                            
+                        // }           
+                        if(tableData[1].rows[0].length != 0)
                         {
-                            user_total_count = 0;
+                            if (tableData[1].rows[0].user == user)
+                            {
+                                user_total_count = tableData[1].rows[0].total_count;
+                            }
+                            else
+                            {
+                                user_total_count = 0;
+                            }
                         }
                         else
                         {
-                            user_total_count = tableData[1].rows[0].total_count;
-                        }           
+                            user_total_count = 0;
+                        }
+
                             var user_data = {
                                 // user : tableData[0].rows[0].user, 
                                 contract_total_count  : tableData[0].rows[0].total_count,
