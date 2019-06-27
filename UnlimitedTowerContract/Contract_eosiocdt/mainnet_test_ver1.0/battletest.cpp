@@ -1017,6 +1017,27 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         {
             flag = true;
         }
+        if(res.action == "tower_eos_reward")
+        {
+            size_t l_end = transfer_data.memo.length() - (l_center + 1);
+            std::string result = transfer_data.memo.substr(l_center + 1, l_end);
+            uint32_t reward_floor = atoi(result.c_str());
+
+            floor_index floortable(_self, _self.value);
+            auto f_iter = floortable.find(reward_floor);
+            eosio_assert(f_iter != floortable.end(), "Floor info does not exist");
+            //해당층 우승자가 맞는지
+            eosio_assert(f_iter->owner == transfer_data.to, "It does not match the Floor Master.");
+            //해당층 점령 시간이 24시간지났거나
+            //해당층의 상태가 1주일이 지나서 끝났을 경우
+            eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
+            eosio_assert(f_iter->state != "claim", "Already Get Reward");
+
+            //이미 클레임을 받은 상태로 처리해준다.
+            floortable.modify(f_iter, _self, [&](auto &new_data) {
+                new_data.state = "claim";
+            });
+        }
 
         if (flag == false)
         {
@@ -3717,182 +3738,182 @@ bool battletest::possible_start(eosio::name _user, uint32_t _party_number)
 
 ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage_type, uint32_t _floor, uint32_t _type, uint32_t _difficult)
 {
-    system_check(_user);
+    // system_check(_user);
 
-    eosio_assert(check_inventory(_user, 1) == true, "Stage Start : Inventory Is Full");
+    // eosio_assert(check_inventory(_user, 1) == true, "Stage Start : Inventory Is Full");
 
-    std::vector<uint8_t> servant_pos_list = {0, 1, 2, 3, 4};
-    std::vector<uint8_t> monster_pos_list = {5, 6, 7, 8, 9};
+    // std::vector<uint8_t> servant_pos_list = {0, 1, 2, 3, 4};
+    // std::vector<uint8_t> monster_pos_list = {5, 6, 7, 8, 9};
 
-    user_auths user_auth(_self, _self.value);
-    auto user = user_auth.find(_user.value);
-    eosio_assert(user != user_auth.end(), "Change User State : Empty Auth Table / Not Yet Signup");
-    eosio_assert(user->state == user_state::lobby, "Change User State : Check State Not Same");
+    // user_auths user_auth(_self, _self.value);
+    // auto user = user_auth.find(_user.value);
+    // eosio_assert(user != user_auth.end(), "Change User State : Empty Auth Table / Not Yet Signup");
+    // eosio_assert(user->state == user_state::lobby, "Change User State : Check State Not Same");
 
-    uint32_t stage_id = get_stage_id(_stage_type, _floor, _type, _difficult);
+    // uint32_t stage_id = get_stage_id(_stage_type, _floor, _type, _difficult);
 
-    if (_stage_type == 1)
-    {
-        stageinfo_db stage_db_table(_self, _self.value);
-        auto stage_db_iter = stage_db_table.find(stage_id);
-        eosio_assert(stage_db_iter != stage_db_table.end(), "Stage Start : Empty Stage / Not Set Stage");
+    // if (_stage_type == 1)
+    // {
+    //     stageinfo_db stage_db_table(_self, _self.value);
+    //     auto stage_db_iter = stage_db_table.find(stage_id);
+    //     eosio_assert(stage_db_iter != stage_db_table.end(), "Stage Start : Empty Stage / Not Set Stage");
 
-        check_enter_stage(_user, stage_id);
+    //     check_enter_stage(_user, stage_id);
 
-        user_auth.modify(user, _self, [&](auto &data) {
-            data.state = user_state::stage;
-        });
-    }
-    else if(_stage_type == 2)
-    {
-        //해당 타입의 요일 던전이 입장이 가능한 요일인지 체크하는 예외처리 필요
-        uint8_t today_stage = get_day_type();
-        if (today_stage != 0)
-        {
-            eosio_assert(today_stage == _type, "Stage Start : This Stage Another Day");
-        }
+    //     user_auth.modify(user, _self, [&](auto &data) {
+    //         data.state = user_state::stage;
+    //     });
+    // }
+    // else if(_stage_type == 2)
+    // {
+    //     //해당 타입의 요일 던전이 입장이 가능한 요일인지 체크하는 예외처리 필요
+    //     uint8_t today_stage = get_day_type();
+    //     if (today_stage != 0)
+    //     {
+    //         eosio_assert(today_stage == _type, "Stage Start : This Stage Another Day");
+    //     }
 
-        daily_stage_db daily_stage_db_table(_self, _self.value);
-        auto daily_stage = daily_stage_db_table.find(stage_id);
-        eosio_assert(daily_stage != daily_stage_db_table.end(), "Stage Start : Empty Daily Stage / Not Set Daily Stage");
+    //     daily_stage_db daily_stage_db_table(_self, _self.value);
+    //     auto daily_stage = daily_stage_db_table.find(stage_id);
+    //     eosio_assert(daily_stage != daily_stage_db_table.end(), "Stage Start : Empty Daily Stage / Not Set Daily Stage");
 
-        //데일리 던전 진입이 가능한지 체크
-        if(user->daily_init_time == 0)
-        {
-            user_auth.modify(user, _self, [&](auto &data) {
-                data.daily_init_time = (now() / 86400);
-                data.daily_enter_count -= 1;
-                data.total_enter_count += 1;
-                data.state = user_state::stage;
-            });
-        }
-        else
-        {
-            if (timecheck(user->daily_init_time) == true) //초기화 시간이면
-            {
-                user_auth.modify(user, _self, [&](auto &data) {
-                    data.daily_init_time = (now() / 86400);
-                    data.daily_enter_count = 2;
-                    data.total_enter_count = 1;
-                    data.state = user_state::stage;
-                });
-            }
-            else if (user->total_enter_count >= daily_stage->max_entrance_count) //유저가 총 입장한 횟수와 최대 입장가능 횟수를 비교한다.
-            {
-                eosio_assert(user->total_enter_count < daily_stage->real_max_entrance_count, "Stage Start : It is impossible to enter today"); //최대 입장 횟수를 했을때 추가 입장 가능 여부를 체크 한다.
-                eosio_assert(user->daily_enter_count != 0, "Stage Start : Buy Add Enter Daily Count");
-                user_auth.modify(user, _self, [&](auto &data) {
-                    data.daily_enter_count -= 1;
-                    data.total_enter_count += 1;
-                    data.state = user_state::stage;
-                });
-            }
-            else //유저가 최대 입장 가능한 횟수를 안넘었으면
-            {
-                user_auth.modify(user, _self, [&](auto &data) {
-                    data.daily_enter_count -= 1;
-                    data.total_enter_count += 1;
-                    data.state = user_state::stage;
-                });
-            }
-        }
+    //     //데일리 던전 진입이 가능한지 체크
+    //     if(user->daily_init_time == 0)
+    //     {
+    //         user_auth.modify(user, _self, [&](auto &data) {
+    //             data.daily_init_time = (now() / 86400);
+    //             data.daily_enter_count -= 1;
+    //             data.total_enter_count += 1;
+    //             data.state = user_state::stage;
+    //         });
+    //     }
+    //     else
+    //     {
+    //         if (timecheck(user->daily_init_time) == true) //초기화 시간이면
+    //         {
+    //             user_auth.modify(user, _self, [&](auto &data) {
+    //                 data.daily_init_time = (now() / 86400);
+    //                 data.daily_enter_count = 2;
+    //                 data.total_enter_count = 1;
+    //                 data.state = user_state::stage;
+    //             });
+    //         }
+    //         else if (user->total_enter_count >= daily_stage->max_entrance_count) //유저가 총 입장한 횟수와 최대 입장가능 횟수를 비교한다.
+    //         {
+    //             eosio_assert(user->total_enter_count < daily_stage->real_max_entrance_count, "Stage Start : It is impossible to enter today"); //최대 입장 횟수를 했을때 추가 입장 가능 여부를 체크 한다.
+    //             eosio_assert(user->daily_enter_count != 0, "Stage Start : Buy Add Enter Daily Count");
+    //             user_auth.modify(user, _self, [&](auto &data) {
+    //                 data.daily_enter_count -= 1;
+    //                 data.total_enter_count += 1;
+    //                 data.state = user_state::stage;
+    //             });
+    //         }
+    //         else //유저가 최대 입장 가능한 횟수를 안넘었으면
+    //         {
+    //             user_auth.modify(user, _self, [&](auto &data) {
+    //                 data.daily_enter_count -= 1;
+    //                 data.total_enter_count += 1;
+    //                 data.state = user_state::stage;
+    //             });
+    //         }
+    //     }
 
 
-    }
+    // }
 
-    user_partys user_party_table(_self, _user.value);
-    auto user_party_iter = user_party_table.find(_party_number);
-    eosio_assert(user_party_iter != user_party_table.end(), "Stage Start : Empty Party Table / Not Yet Signup");
-    eosio_assert(user_party_iter->state == party_state::on_wait, "Stage Start : Party State Wrong");
-    eosio_assert(true == possible_start(_user, _party_number), "Stage Start : Empty Party");
+    // user_partys user_party_table(_self, _user.value);
+    // auto user_party_iter = user_party_table.find(_party_number);
+    // eosio_assert(user_party_iter != user_party_table.end(), "Stage Start : Empty Party Table / Not Yet Signup");
+    // eosio_assert(user_party_iter->state == party_state::on_wait, "Stage Start : Party State Wrong");
+    // eosio_assert(true == possible_start(_user, _party_number), "Stage Start : Empty Party");
 
-    new_battle_state_list user_battle_table(_self, _self.value);
-    auto user_battle_iter = user_battle_table.find(_user.value);
-    if (user_battle_iter == user_battle_table.end())
-    {
-        user_battle_table.emplace(_self, [&](auto &new_battle_set) {
-            new_battle_set.user = _user;
-            new_battle_set.enemy_user = _user;
-            new_battle_set.stage_type = _stage_type;
-            new_battle_set.type = _type;
-            new_battle_set.floor = _floor;
-            new_battle_set.difficult = _difficult;
-            new_battle_set.turn = 0;
+    // new_battle_state_list user_battle_table(_self, _self.value);
+    // auto user_battle_iter = user_battle_table.find(_user.value);
+    // if (user_battle_iter == user_battle_table.end())
+    // {
+    //     user_battle_table.emplace(_self, [&](auto &new_battle_set) {
+    //         new_battle_set.user = _user;
+    //         new_battle_set.enemy_user = _user;
+    //         new_battle_set.stage_type = _stage_type;
+    //         new_battle_set.type = _type;
+    //         new_battle_set.floor = _floor;
+    //         new_battle_set.difficult = _difficult;
+    //         new_battle_set.turn = 0;
 
-            auto n = name{new_battle_set.user};
-            auto e = name{new_battle_set.enemy_user};
+    //         auto n = name{new_battle_set.user};
+    //         auto e = name{new_battle_set.enemy_user};
 
-            for (uint8_t i = 0; i < 5; ++i)
-            {
-                if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면
-                {
-                    continue;
-                }
-                character_state_data servant_battle_state = get_user_state(_user, "ser", user_party_iter->servant_list[i], servant_pos_list[i]);
-                new_battle_set.my_state_list.push_back(servant_battle_state);
-            }
-            for (uint8_t i = 0; i < 5; ++i)
-            {
-                if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면
-                {
-                    continue;
-                }
-                character_state_data monster_battle_state = get_user_state(_user, "mon", user_party_iter->monster_list[i], monster_pos_list[i]);
-                new_battle_set.my_state_list.push_back(monster_battle_state);
-            }
-            new_set_stage_state(stage_id, now(), new_battle_set.enemy_state_list);
-            set_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
-            set_hp_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
+    //         for (uint8_t i = 0; i < 5; ++i)
+    //         {
+    //             if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면
+    //             {
+    //                 continue;
+    //             }
+    //             character_state_data servant_battle_state = get_user_state(_user, "ser", user_party_iter->servant_list[i], servant_pos_list[i]);
+    //             new_battle_set.my_state_list.push_back(servant_battle_state);
+    //         }
+    //         for (uint8_t i = 0; i < 5; ++i)
+    //         {
+    //             if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면
+    //             {
+    //                 continue;
+    //             }
+    //             character_state_data monster_battle_state = get_user_state(_user, "mon", user_party_iter->monster_list[i], monster_pos_list[i]);
+    //             new_battle_set.my_state_list.push_back(monster_battle_state);
+    //         }
+    //         new_set_stage_state(stage_id, now(), new_battle_set.enemy_state_list);
+    //         set_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
+    //         set_hp_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
 
-            set_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
-            set_hp_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
-        });
-    }
-    else
-    {
-        user_battle_table.modify(user_battle_iter, _self, [&](auto &new_battle_set) {
-            new_battle_set.enemy_user = _user;
-            new_battle_set.stage_type = _stage_type;
-            new_battle_set.type = _type;
-            new_battle_set.floor = _floor;
-            new_battle_set.difficult = _difficult;
-            new_battle_set.turn = 0;
-            new_battle_set.my_state_list.clear();
-            new_battle_set.enemy_state_list.clear();
-            new_battle_set.my_synergy_list.clear();
-            new_battle_set.enemy_synergy_list.clear();
+    //         set_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
+    //         set_hp_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
+    //     });
+    // }
+    // else
+    // {
+    //     user_battle_table.modify(user_battle_iter, _self, [&](auto &new_battle_set) {
+    //         new_battle_set.enemy_user = _user;
+    //         new_battle_set.stage_type = _stage_type;
+    //         new_battle_set.type = _type;
+    //         new_battle_set.floor = _floor;
+    //         new_battle_set.difficult = _difficult;
+    //         new_battle_set.turn = 0;
+    //         new_battle_set.my_state_list.clear();
+    //         new_battle_set.enemy_state_list.clear();
+    //         new_battle_set.my_synergy_list.clear();
+    //         new_battle_set.enemy_synergy_list.clear();
 
-            auto n = name{new_battle_set.user};
-            auto e = name{new_battle_set.enemy_user};
+    //         auto n = name{new_battle_set.user};
+    //         auto e = name{new_battle_set.enemy_user};
 
-            for (uint8_t i = 0; i < 5; ++i)
-            {
-                if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면
-                {
-                    continue;
-                }
-                character_state_data servant_battle_state = get_user_state(_user, "ser", user_party_iter->servant_list[i], servant_pos_list[i]);
-                new_battle_set.my_state_list.push_back(servant_battle_state);
-            }
-            for (uint8_t i = 0; i < 5; ++i)
-            {
-                if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면
-                {
-                    continue;
-                }
-                character_state_data monster_battle_state = get_user_state(_user, "mon", user_party_iter->monster_list[i], monster_pos_list[i]);
-                new_battle_set.my_state_list.push_back(monster_battle_state);
-            }
-            new_set_stage_state(stage_id, now(), new_battle_set.enemy_state_list);
+    //         for (uint8_t i = 0; i < 5; ++i)
+    //         {
+    //             if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면
+    //             {
+    //                 continue;
+    //             }
+    //             character_state_data servant_battle_state = get_user_state(_user, "ser", user_party_iter->servant_list[i], servant_pos_list[i]);
+    //             new_battle_set.my_state_list.push_back(servant_battle_state);
+    //         }
+    //         for (uint8_t i = 0; i < 5; ++i)
+    //         {
+    //             if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면
+    //             {
+    //                 continue;
+    //             }
+    //             character_state_data monster_battle_state = get_user_state(_user, "mon", user_party_iter->monster_list[i], monster_pos_list[i]);
+    //             new_battle_set.my_state_list.push_back(monster_battle_state);
+    //         }
+    //         new_set_stage_state(stage_id, now(), new_battle_set.enemy_state_list);
 
-            set_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
-            set_hp_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
+    //         set_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
+    //         set_hp_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
 
-            set_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
-            set_hp_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
-        });
-    }
-    init_action_reward_table(_user);
+    //         set_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
+    //         set_hp_synergy(new_battle_set.enemy_state_list, new_battle_set.enemy_synergy_list);
+    //     });
+    // }
+    // init_action_reward_table(_user);
 }
 
 #pragma endregion
@@ -8367,30 +8388,49 @@ uint64_t battletest::nftexchange(eosio::name _owner, eosio::name _master, std::s
 //1층을 열어주는 액션
 ACTION battletest::toweropen(uint64_t _floor, asset _eos)
 {
-    require_auth(_self);
+    // require_auth(_self);
 
-    //uint64_t _floor = 1;
-    floor_index floortable(_self, _self.value);
-    auto iter = floortable.find(_floor);
-    eosio_assert(iter == floortable.end(), "Tower is already open.");
-    floortable.emplace(_self, [&](auto &floordata) {
-        floordata.fnum = _floor;
-        floordata.owner = _self;
-        floordata.bnum = 0;
-        floordata.pnum = 0;
-        floordata.state = "open";
-        floordata.endtime = 0;
-        floordata.opentime = 1562551200;        //7월8일오전 11시
-    });
+    // //uint64_t _floor = 1;
+    // floor_index floortable(_self, _self.value);
+    // auto iter = floortable.find(_floor);
+    // eosio_assert(iter == floortable.end(), "Tower is already open.");
+    // floortable.emplace(_self, [&](auto &floordata) {
+    //     floordata.fnum = _floor;
+    //     floordata.owner = _self;
+    //     floordata.bnum = 0;
+    //     floordata.pnum = 0;
+    //     floordata.state = "open";
+    //     floordata.endtime = 0;
+    //     floordata.opentime = 1562551200;        //7월8일오전 11시
+    // });
 
-    tower_reward tower_reward_table(_self, _self.value);
-    auto reward = tower_reward_table.find(_floor);
-    eosio_assert(reward == tower_reward_table.end(), "Tower is already setting");
-    tower_reward_table.emplace(_self, [&](auto &new_data){
-        new_data.floor = _floor;
-        new_data.total_utg = 0;
-        new_data.total_eos = _eos.amount;
-    });
+    // tower_reward tower_reward_table(_self, _self.value);
+    // auto reward = tower_reward_table.find(_floor);
+    // eosio_assert(reward == tower_reward_table.end(), "Tower is already setting");
+    // tower_reward_table.emplace(_self, [&](auto &new_data){
+    //     new_data.floor = _floor;
+    //     new_data.total_utg = 0;
+    //     new_data.total_eos = _eos.amount;
+    // });
+
+    // std::vector<std::string> servant = {"1110203:50:72:51:22:100006:200002",
+    //                                     "2120202:50:55:75:30:100001:200022",
+    //                                     "3220201:50:51:33:77:100008:200017",
+    //                                     "4110301:50:39:74:41:100007:200024",
+    //                                     "4120303:50:36:71:46:100007:200024"};
+
+    // std::vector<std::string> monster = {"103101:50:3:29:44:60:100005",
+    //                                     "103102:50:3:30:45:56:100005",
+    //                                     "103103:50:3:31:43:57:100005",
+    //                                     "103104:50:3:29:45:62:100005",
+    //                                     "103106:50:3:30:46:63:100005"};
+
+    // for (uint8_t i = 0; i < 5; ++i)
+    // {
+    //     npcset(_floor, 1, i + 1, servant[i]);
+    //     npcset(_floor, 2, i + 1, monster[i]);
+    // }
+    // npcset(_floor, 3, 0, "equiupment");
 }
 
 // ACTION battletest::endflag(name _winner, uint64_t _fnum)
@@ -8411,69 +8451,91 @@ ACTION battletest::toweropen(uint64_t _floor, asset _eos)
 
 ACTION battletest::claim(name who, uint64_t fnum)
 {
-    system_check(who);
-    floor_index floortable(_self, _self.value);
-    auto f_iter = floortable.find(fnum);
-    eosio_assert(f_iter !=  floortable.end(), "Floor info does not exist");
-    //해당층 우승자가 맞는지
-    eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");  
-    //해당층 점령 시간이 24시간지났거나
-    //해당층의 상태가 1주일이 지나서 끝났을 경우
-    eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
-    eosio_assert(f_iter->state != "claim", "Already Get Reward");
+    // master_active_check();
+    // floor_index floortable(_self, _self.value);
+    // auto f_iter = floortable.find(fnum);
+    // eosio_assert(f_iter !=  floortable.end(), "Floor info does not exist");
+    // //해당층 우승자가 맞는지
+    // eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");  
+    // //해당층 점령 시간이 24시간지났거나
+    // //해당층의 상태가 1주일이 지나서 끝났을 경우
+    // eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
+    // eosio_assert(f_iter->state != "claim", "Already Get Reward");
 
-    //이미 클레임을 받은 상태로 처리해준다.
-    floortable.modify(f_iter, _self, [&](auto &new_data)
-    {
-        new_data.state = "claim";   
-    });
+    // // //이미 클레임을 받은 상태로 처리해준다.
+    // // floortable.modify(f_iter, _self, [&](auto &new_data)
+    // // {
+    // //     new_data.state = "claim";   
+    // // });
 
-    // // 우승자 정보 수정
-    // user_logs user_log(_self, _self.value);
-    // auto log_iter = user_log.find(who.value);
-    // user_log.modify(log_iter, _self, [&](auto &data) {
-    //     data.top_clear_tower = fnum;
+    // // // 우승자 정보 수정
+    // // user_logs user_log(_self, _self.value);
+    // // auto log_iter = user_log.find(who.value);
+    // // user_log.modify(log_iter, _self, [&](auto &data) {
+    // //     data.top_clear_tower = fnum;
+    // // });
+
+    // //보상 utg 지급
+    // tower_reward tower_reward_table(_self, _self.value);
+    // auto reward = tower_reward_table.find(fnum);
+    // eosio_assert(reward != tower_reward_table.end(),"Not Set Log");
+
+    // asset tower_utg_reward(0, symbol(symbol_code("UTG"), 4));
+    // tower_utg_reward.amount = reward->total_utg;
+
+    // std::string me;
+    // me += "tower_utg_reward:";
+    // me += to_string(fnum);
+    // //이오스 보내는것에 대한 예외처리 필요
+    // action(permission_level{get_self(), "active"_n},
+    //        _self, "transfer"_n,
+    //        std::make_tuple(_self, who, tower_utg_reward, me))
+    //     .send();
+
+    // //100 EOS 처리
+    // asset tower_eos_reward(0, symbol(symbol_code("EOS"), 4));
+    // tower_eos_reward.amount = reward->total_eos;
+
+    // std::string memo;
+    // memo += "tower_eos_reward:";
+    // memo += to_string(fnum);
+    // //이오스 보내는것에 대한 예외처리 필요
+    // action(permission_level{get_self(), "active"_n},
+    //        "eosio.token"_n, "transfer"_n,
+    //        std::make_tuple(_self, who, tower_eos_reward, memo))
+    //     .send();
+    
+    // //102201 전설 불속성의 파이노스 랜덤 능력치로 지급
+    // get_monster(who, 102201, 1, 0, use_money_type::EOS_GACHA, f_iter->endtime);
+    
+    // //보상 테이블 초기화 or 삭제
+    // tower_reward_table.modify(reward, _self, [&](auto &new_data)
+    // {
+    //     new_data.total_utg = 0;
+    //     new_data.total_eos = 0;
     // });
+}
 
-    //보상 utg 지급
-    tower_reward tower_reward_table(_self, _self.value);
-    auto reward = tower_reward_table.find(fnum);
-    eosio_assert(reward != tower_reward_table.end(),"Not Set Log");
-
-    asset tower_utg_reward(0, symbol(symbol_code("UTG"), 4));
-    tower_utg_reward.amount = reward->total_utg / 2;
-
-    std::string me;
-    me += "tower_utg_reward:";
-    me += to_string(fnum);
-    //이오스 보내는것에 대한 예외처리 필요
-    action(permission_level{get_self(), "active"_n},
-           _self, "transfer"_n,
-           std::make_tuple(_self, who, tower_utg_reward, me))
-        .send();
-
-    //100 EOS 처리
-    asset tower_eos_reward(0, symbol(symbol_code("EOS"), 4));
-    tower_eos_reward.amount = reward->total_eos;
-
-    std::string memo;
-    memo += "tower_eos_reward:";
-    memo += to_string(fnum);
-    //이오스 보내는것에 대한 예외처리 필요
-    action(permission_level{get_self(), "active"_n},
-           "eosio.token"_n, "transfer"_n,
-           std::make_tuple(_self, who, tower_eos_reward, memo))
-        .send();
-    
-    //102201 전설 불속성의 파이노스 랜덤 능력치로 지급
-    get_monster(who, 102201, 1, 0, use_money_type::EOS_GACHA, f_iter->endtime);
-    
-    //보상 테이블 초기화 or 삭제
-    tower_reward_table.modify(reward, _self, [&](auto &new_data)
+ACTION battletest::resttime(uint64_t _floor, std::string _time)
+{
+    require_auth(_self);
+    floor_index floortable(_self, _self.value);
+    auto f_iter = floortable.find(_floor);
+    eosio_assert(f_iter != floortable.end(), "Floor info does not exist");
+    if(_time == "open")
     {
-        new_data.total_utg = 0;
-        new_data.total_eos = 0;
-    });
+        floortable.modify(f_iter, _self, [&](auto &new_data)
+        {
+            new_data.opentime = now() + 10;
+        });
+    }
+    else if(_time == "tower")
+    {
+        floortable.modify(f_iter, _self, [&](auto &new_data)
+        {
+            new_data.endtime = now() + 10;
+        });
+    }
 }
 
 
@@ -8508,9 +8570,6 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
     // 층을 정복한 경우, 혹은 최초 등록시에는 NPC화
     else
     {
-        //이겼을 때 이미 24시간이 지났는지 체크
-        //eosio_assert(f_iter->endtime > now(), "already end tower");
-        //이겼을때 이미 1주일이 지났는지 체크
         floortable.modify(f_iter, _self, [&](auto &floordata) {
             floordata.owner = winner;
             floordata.bnum = bnum + 1;
@@ -8525,7 +8584,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
         if (iter->top_clear_tower < fnum)
         {
             user_log.modify(iter, _self, [&](auto &data) {
-                data.top_clear_tower = data.top_clear_tower;
+                data.top_clear_tower = fnum;
             });
         }
         /***********************/
@@ -9024,11 +9083,11 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     tower_reward_table.modify(iter, _self, [&](auto &new_data) {
         new_data.total_utg += tower_enter.amount / 2;
     });
-    //타워 층에 대한 상태 체크
-    user_logs user_log_table(_self, _self.value);
-    auto log_iter = user_log_table.find(_from.value);
-    eosio_assert(log_iter != user_log_table.end(), "Tower Start : Empty Log Table / Not Yet Signup");
-    //eosio_assert(log_iter->top_clear_tower >= _fnum, "Tower Start : Impossilbe Challenge Floor");
+    // //타워 층에 대한 상태 체크
+    // user_logs user_log_table(_self, _self.value);
+    // auto log_iter = user_log_table.find(_from.value);
+    // eosio_assert(log_iter != user_log_table.end(), "Tower Start : Empty Log Table / Not Yet Signup");
+    // //eosio_assert(log_iter->top_clear_tower >= _fnum, "Tower Start : Impossilbe Challenge Floor");
 
     eosio::name fnum;
     fnum.value = _fnum;
@@ -9038,10 +9097,10 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     eosio_assert(floor_iter != floor_index_table.end(), "Tower Start : Empty Floor");
     eosio_assert(floor_iter->owner != _from, "Tower Start : You have already taken over");
     eosio_assert(floor_iter->state == "open" || floor_iter->state == "idle", "Tower Start : Not Open");
-    eosio_assert(floor_iter->opentime > now(), "Tower Start : Not an event period.");
+    eosio_assert(floor_iter->opentime > now(), "Tower Start : Not an event period");
     if (floor_iter->endtime != 0)
     {
-        eosio_assert(floor_iter->endtime > now(), "Tower Start : The winner is set.");
+        eosio_assert(floor_iter->endtime > now(), "Tower Start : The winner is set");
     }
 
     std::vector<uint8_t> servant_pos_list = {0, 1, 2, 3, 4};
@@ -9318,42 +9377,42 @@ ACTION battletest::npcset(uint64_t _floor, uint32_t _type, uint32_t _index, std:
 }
 ACTION battletest::deletetower()
 {
-    require_auth(_self);
+    // require_auth(_self);
 
-    tower_reward tower_reward_table(_self, _self.value);
-    floor_index floor_index_table(_self, _self.value);
-    for (auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
-    {
-        auto fl = floor_index_table.find(iter->primary_key());
-        auto re = tower_reward_table.find(iter->primary_key());
+    // tower_reward tower_reward_table(_self, _self.value);
+    // floor_index floor_index_table(_self, _self.value);
+    // for (auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
+    // {
+    //     auto fl = floor_index_table.find(iter->primary_key());
+    //     auto re = tower_reward_table.find(iter->primary_key());
 
-        user_servants table(_self, fl->fnum);
-        for (auto ser = table.begin(); ser != table.end();)
-        {
-            auto s = table.find(ser->primary_key());
-            ser++;
-            table.erase(s);
+    //     user_servants table(_self, fl->fnum);
+    //     for (auto ser = table.begin(); ser != table.end();)
+    //     {
+    //         auto s = table.find(ser->primary_key());
+    //         ser++;
+    //         table.erase(s);
             
-        }
-        user_monsters npc_mon(_self, fl->fnum);
-        for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
-        {
-            auto s = npc_mon.find(ser->primary_key());
-            ser++;
-            npc_mon.erase(s);
+    //     }
+    //     user_monsters npc_mon(_self, fl->fnum);
+    //     for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
+    //     {
+    //         auto s = npc_mon.find(ser->primary_key());
+    //         ser++;
+    //         npc_mon.erase(s);
             
-        }
-        user_equip_items npc_equip(_self, fl->fnum);
-        for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
-        {
-            auto s = npc_equip.find(ser->primary_key());
-            ser++;
-            npc_equip.erase(s);
-        }
-        iter++;
-        floor_index_table.erase(fl);
-        tower_reward_table.erase(re);
-    }
+    //     }
+    //     user_equip_items npc_equip(_self, fl->fnum);
+    //     for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
+    //     {
+    //         auto s = npc_equip.find(ser->primary_key());
+    //         ser++;
+    //         npc_equip.erase(s);
+    //     }
+    //     iter++;
+    //     floor_index_table.erase(fl);
+    //     tower_reward_table.erase(re);
+    // }
 }
 
 void battletest::refer(eosio::name _referer, std::string _type)
@@ -11518,7 +11577,7 @@ EOSIO_DISPATCH(battletest,
               //battle (pvpstart)
               (activeturn)(stagestart)(stageexit)(saveparty)  
               //tower
-              (toweropen)(claim)(towerstart)(npcset)(deletetower)//(chat)//(endflag)(deletetower)(simulate)(usersimul)
+              (toweropen)(claim)(towerstart)(npcset)(deletetower)(resttime)//(chat)//(endflag)(deletetower)(simulate)(usersimul)
 (usersimul)(deletemail)(copymail)(dbinsert)
               //cheat    (leveltest)   (updatecheack)(accountset)(deleteuser2)
               )       // (monstercheat)(anothercheck)                                                                                                       
