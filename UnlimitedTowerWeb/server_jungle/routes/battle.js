@@ -37,7 +37,7 @@ Battle.battleAction = function (req, res) {
                 res.status(200).send("Fail:Get Table:" + func);
             }
             else {
-                if(turn == battleTable.rows[0].turn || battleTable.rows[0].turn == 99999){
+                if(turn == battleTable.rows[0].turn || battleTable.rows[0].turn == 99999 || battleTable.rows[0].turn == 99998 || battleTable.rows[0].turn == 99997){
                     clearInterval(timer);
                     console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
                     res.status(200).send(battleTable.rows[0]);
