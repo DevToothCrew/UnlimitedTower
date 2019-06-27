@@ -1017,27 +1017,27 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         {
             flag = true;
         }
-        if(res.action == "tower_eos_reward")
-        {
-            size_t l_end = transfer_data.memo.length() - (l_center + 1);
-            std::string result = transfer_data.memo.substr(l_center + 1, l_end);
-            uint32_t reward_floor = atoi(result.c_str());
+        // if(res.action == "tower_eos_reward")
+        // {
+        //     size_t l_end = transfer_data.memo.length() - (l_center + 1);
+        //     std::string result = transfer_data.memo.substr(l_center + 1, l_end);
+        //     uint32_t reward_floor = atoi(result.c_str());
 
-            floor_index floortable(_self, _self.value);
-            auto f_iter = floortable.find(reward_floor);
-            eosio_assert(f_iter != floortable.end(), "Floor info does not exist");
-            //해당층 우승자가 맞는지
-            eosio_assert(f_iter->owner == transfer_data.to, "It does not match the Floor Master.");
-            //해당층 점령 시간이 24시간지났거나
-            //해당층의 상태가 1주일이 지나서 끝났을 경우
-            eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
-            eosio_assert(f_iter->state != "claim", "Already Get Reward");
+        //     floor_index floortable(_self, _self.value);
+        //     auto f_iter = floortable.find(reward_floor);
+        //     eosio_assert(f_iter != floortable.end(), "Floor info does not exist");
+        //     //해당층 우승자가 맞는지
+        //     eosio_assert(f_iter->owner == transfer_data.to, "It does not match the Floor Master.");
+        //     //해당층 점령 시간이 24시간지났거나
+        //     //해당층의 상태가 1주일이 지나서 끝났을 경우
+        //     eosio_assert(f_iter->endtime <= now() || f_iter->opentime <= now(), "Not enough time.");
+        //     eosio_assert(f_iter->state != "claim", "Already Get Reward");
 
-            //이미 클레임을 받은 상태로 처리해준다.
-            floortable.modify(f_iter, _self, [&](auto &new_data) {
-                new_data.state = "claim";
-            });
-        }
+        //     //이미 클레임을 받은 상태로 처리해준다.
+        //     floortable.modify(f_iter, _self, [&](auto &new_data) {
+        //         new_data.state = "claim";
+        //     });
+        // }
 
         if (flag == false)
         {
@@ -8481,10 +8481,10 @@ ACTION battletest::claim(name who, uint64_t fnum)
     eosio_assert(f_iter->state != "claim", "Already Get Reward");
 
     // //이미 클레임을 받은 상태로 처리해준다.
-    // floortable.modify(f_iter, _self, [&](auto &new_data)
-    // {
-    //     new_data.state = "claim";   
-    // });
+    floortable.modify(f_iter, _self, [&](auto &new_data)
+    {
+        new_data.state = "claim";   
+    });
 
     // // 우승자 정보 수정
     // user_logs user_log(_self, _self.value);
@@ -8510,22 +8510,25 @@ ACTION battletest::claim(name who, uint64_t fnum)
            std::make_tuple(_self, who, tower_utg_reward, me))
         .send();
 
-    //100 EOS 처리
-    asset tower_eos_reward(0, symbol(symbol_code("EOS"), 4));
-    tower_eos_reward.amount = reward->total_eos;
+    // //100 EOS 처리
+    // asset tower_eos_reward(0, symbol(symbol_code("EOS"), 4));
+    // tower_eos_reward.amount = reward->total_eos;
 
-    std::string memo;
-    memo += "tower_eos_reward:";
-    memo += to_string(fnum);
-    //이오스 보내는것에 대한 예외처리 필요
-    action(permission_level{get_self(), "active"_n},
-           "eosio.token"_n, "transfer"_n,
-           std::make_tuple(_self, who, tower_eos_reward, memo))
-        .send();
+    // std::string memo;
+    // memo += "tower_eos_reward:";
+    // memo += to_string(fnum);
+    // //이오스 보내는것에 대한 예외처리 필요
+    // action(permission_level{get_self(), "active"_n},
+    //        "eosio.token"_n, "transfer"_n,
+    //        std::make_tuple(_self, who, tower_eos_reward, memo))
+    //     .send();
     
     //102201 전설 불속성의 파이노스 랜덤 능력치로 지급
     get_monster(who, 102201, 1, 0, use_money_type::EOS_GACHA, f_iter->endtime);
     
+    //813401 전설 아이템
+    get_equip(who, 813401, 1, 0, use_money_type::EOS_GACHA, f_iter->opentime);
+
     //보상 테이블 초기화 or 삭제
     tower_reward_table.modify(reward, _self, [&](auto &new_data)
     {
