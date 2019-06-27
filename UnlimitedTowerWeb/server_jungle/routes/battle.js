@@ -666,7 +666,7 @@ Battle.getTowerReward = function (req, res) {
                         var onwer = '';
                         if(tableData[0].rows[0].owner == config.contract.main)
                         {
-                            onwer = "NPC";
+                            onwer = "NPC Defender";
                         }
                         else
                         {
@@ -824,7 +824,7 @@ Battle.towerStart = function (req, res) {
                                             var onwer = '';
                                             if(tableData[1].rows[0].owner == config.contract.main)
                                             {
-                                                onwer = "NPC";
+                                                onwer = "NPC Defender";
                                             }
                                             else
                                             {
