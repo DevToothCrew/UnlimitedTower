@@ -1579,7 +1579,7 @@ CONTRACT battletest : public contract
         uint64_t get_user() const { return user.value; }
     };
     typedef eosio::multi_index<"pvplog"_n, pvplog> pvp_log_index;
-ACTION pvpstart(eosio::name _from, eosio::name _to);
+//ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region tower
