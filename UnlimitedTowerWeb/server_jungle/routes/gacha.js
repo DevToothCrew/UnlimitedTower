@@ -440,7 +440,10 @@ Gacha.gacha = function(req, res){
 
     var user = req.body.user;
     var type = req.body.type;
-   // var gacha_type = req.body.gacha_type;
+    var gacha_result_index = req.body.index;
+    var gacha_result_type = req.body.gacha_result_type;
+    // console.log(":::::"+index);
+    // console.log(":::::"+gacha_result_type);
     var table = "";
 
     if(type == "eos"){
@@ -531,7 +534,8 @@ Gacha.gacha = function(req, res){
                     token = token[0].split(".");
                     data.utg = token[0] + token[1];
                 }
-                
+                // console.log(":::::"+result_data[2].rows[0].result.type);
+                // console.log("::::"+result_data[2].rows[0].result.index);
                 if (result_data[2].rows[0].result.type == 1) {
                     table = "tservant";
                 }
@@ -559,6 +563,16 @@ Gacha.gacha = function(req, res){
                         res.status(200).send("Fail:Success gacha but get data error:" + func);
                     }
                     else{
+                        if (gacha_result_type !== result_data[2].rows[0].result.type || gacha_result_index !== result_data[2].rows[0].result.index) {                            
+                            if (count > 15) {
+                                clearInterval(timer);
+                                console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+                                res.status(200).send("Fail:sync");
+                            }
+                            count++;
+                            console.log(config.color.yellow, "Waiting for sync For ", user, "'s Gacha");
+                        }
+
                         if(table_result.rows.length != 0){
                             clearInterval(timer);
                             var temp_list = [];
@@ -666,7 +680,7 @@ Gacha.gacha = function(req, res){
                 })
             }
         })
-    }, 200);;
+    }, 500);;
 }
 
 
@@ -844,6 +858,7 @@ Gacha.limitgacha = function(req, res){
     var user = req.body.user;
     var limit_total_count = req.body.total_count;
     var type = req.body.type;
+    var temp_count;
     var table = "";
     if(type == "eos"){
         table = "tgacharesult";
@@ -915,32 +930,34 @@ Gacha.limitgacha = function(req, res){
                     limit: 1,
                     json: true
                 }, function (err, gacha) {
-                    if (err) {
-                        next("Fail:Get Token Table:" + func);
-                    }
-                    else {
-                        if (gacha.rows.length == 0) {
-                            gacha.rows[0].total_count = 0;
+                        if (err) {
+                            next("Fail:Get Token Table:" + func);
                         }
-                        // else {
-                        //     if (limit_total_count!== gacha.rows[0].total_count) {
-                        //         if (count > 15) {
-                        //             clearInterval(timer);
-                        //             console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
-                        //             res.status(200).send("Fail:sync");
-                        //         }
-                        //         count++;
-                        //         console.log(config.color.yellow, "Waiting for sync For ", user, "'s Limit Gacha");
-                        //     }
-                        //     else {
-                        //         clearInterval(timer);
-                        //         next(null, gacha);
-                        //     }
-                        // }
-
-                        next(null, gacha);
-                    }
-                })
+                        else {
+                            if (gacha.rows.length == 0) {
+                                // gacha.rows[0].total_count = 0;
+                                // console.log(gacha.rows[0].total_count);
+                            }
+                            else if (gacha.rows[0].user != user) {
+                                console.log(gacha.rows[0].total_count);
+                                console.log(":::");
+                                gacha.rows[0].total_count = 0;
+                                console.log(gacha.rows[0].total_count);
+                            }
+                            // if (gacha.rows.length == 0) {
+                            //     gacha.rows[0].total_count = 0;
+                            // }
+                            // else if (gacha.rows.user != user) {
+                            //     gacha.rows[0].total_count = 0;
+                            // }
+                            // else {
+                            else {
+                                console.log(gacha.rows[0].total_count);
+                                next(null, gacha);
+                            }
+                            //}
+                        }
+                    })
             },
             function (next) {
                 eos.getTableRows({
@@ -963,9 +980,9 @@ Gacha.limitgacha = function(req, res){
             if(err){
                 res.status(200).send("Fail:Get Table:" + func);
             }
-            else{
-                
+            else{                
                 if (limit_total_count !== result_data[3].rows[0].total_count) {
+                    
                     if (count > 15) {
                         clearInterval(timer);
                         console.log(config.color.red, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
@@ -974,9 +991,7 @@ Gacha.limitgacha = function(req, res){
                     count++;
                     console.log(config.color.yellow, "Waiting for sync For ", user, "'s Limit Gacha");
                 }
-
-                  
-
+                 
 
                 var table = "";
                 var data = {};
