@@ -583,29 +583,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"tservant"_n, tservant> user_servants;
 
-//   struct servant_infos
-//     {
-//         uint32_t state;    
-//         uint32_t exp = 0;   
-//         uint64_t id = 0;
-//         uint32_t level = 1;
-//         uint32_t grade = 5;
-//         status_info status;
-//         std::vector<uint32_t> equip_slot; 
-//         std::vector<uint32_t> passive_skill;
-//         std::vector<uint32_t> active_skill;
-//     };
-
-//     TABLE tempservants
-//     {
-//         uint64_t index;
-//         uint32_t party_number = 0;
-//         servant_infos servant;
-//         uint64_t primary_key() const { return index; }
-//     };
-//     typedef eosio::multi_index<"tempservants"_n, tempservants> temp_servant;
-
-
 #pragma endregion
 
 #pragma region gacha tmonster
@@ -633,32 +610,6 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
-
-
-
-    // struct monster_infos
-    // {
-    //     uint64_t id;                
-    //     uint32_t state;             
-    //     uint32_t exp = 0;           
-    //     uint32_t type = 0;          
-    //     uint32_t tribe = 0; 
-    //     uint32_t grade;             
-    //     uint32_t upgrade = 0;       
-    //     uint32_t level = 1;
-    //     status_info status;   
-    //     std::vector<uint32_t> passive_skill;
-    //     std::vector<uint32_t> active_skill;
-    // };
-
-    // TABLE tempmonster
-    // {
-    //     uint64_t index;
-    //     uint32_t party_number = 0;
-    //     monster_infos monster;
-    //     uint64_t primary_key() const { return index; }
-    // };
-    // typedef eosio::multi_index<"tempmonster"_n, tempmonster> temp_monster;
 
 
 #pragma endregion
@@ -1039,26 +990,6 @@ CONTRACT battletest : public contract
 
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> user_auths;
 
-    // TABLE tempauth
-    // {
-    //     eosio::name user;
-    //     uint32_t state = user_state::lobby;
-    //     uint32_t exp = 0;
-    //     uint32_t rank = 1;
-    //     uint32_t current_servant_inventory = 0;
-    //     uint32_t current_monster_inventory = 0;
-    //     uint32_t current_equipment_inventory = 0;
-    //     uint32_t current_item_inventory = 0;
-    //     uint32_t servant_inventory = 50;
-    //     uint32_t monster_inventory = 50;
-    //     uint32_t equipment_inventory = 50;
-    //     uint32_t item_inventory = 50;
-
-
-    //     uint64_t primary_key() const { return user.value; }
-    // };
-
-    // typedef eosio::multi_index<"tempauth"_n, tempauth> temp_auths;
 
 
 #pragma endregion
@@ -1513,51 +1444,6 @@ CONTRACT battletest : public contract
     uint64_t nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index,uint64_t _icon_id);
 
-    //-------------------------------------------------------------------------------//
-    //-----------------------------preregist_table-----------------------------------//
-    //-------------------------------------------------------------------------------//
-
-#pragma region preregist
-
-    TABLE preservant
-    {
-        uint64_t index;
-        uint32_t id;
-        status_info status;
-        uint64_t primary_key() const { return index; }
-    };
-
-    typedef eosio::multi_index<"preservant"_n, preservant> user_preregist_servants;
-
-    TABLE premonster
-    {
-        uint64_t index;
-        uint32_t id;
-        uint32_t grade;
-        status_info status;
-        uint64_t primary_key() const { return index; }
-    };
-
-    typedef eosio::multi_index<"premonster"_n, premonster> user_preregist_monsters;
-
-    TABLE preitem
-    {
-        uint64_t index;
-        uint32_t id;
-        uint32_t type;
-        uint32_t tier;
-        uint32_t job;
-        uint32_t grade;
-        uint32_t main_status;
-        uint64_t primary_key() const { return index; }
-    };
-    typedef eosio::multi_index<"preitem"_n, preitem> user_preregist_items;
-#pragma endregion
-
-//------------------------------------------------------------------------//
-//--------------------------preregist_log_table----------------------------//
-//------------------------------------------------------------------------//
-
 
 
 
@@ -1880,14 +1766,6 @@ typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
 // void insert_limit_log(uint64_t _total_count);
 
 
-TABLE tcount
-{
-    uint64_t count;
-    uint64_t primary_key() const { return count; }
-};
-typedef eosio::multi_index<"tcount"_n, tcount> global_count;
-
-
 //ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
 // ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
 // ACTION deletemail(uint32_t _start_count);
@@ -1897,7 +1775,5 @@ typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 // ACTION dbinsert(std::string _table, std::string _value);
 // void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
 // void insert_limit_log(uint64_t _total_count);
-
-ACTION rescu(eosio::name _user);
 
 };
