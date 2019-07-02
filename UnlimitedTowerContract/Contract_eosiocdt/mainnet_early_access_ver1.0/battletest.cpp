@@ -726,197 +726,195 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         // {
 
         // }
-        //  if (user_mail_iter->mail_type == 5) //UTS
-        // {
-        //     user_servants user_servant_table(_self, _user.value);
-        //     auto user_servants_iter = user_servant_table.find(user_mail_iter->type_index);
-        //     eosio_assert(user_servants_iter != user_servant_table.end(), "mailopen : Not eixst mail data NFT");
-        //     user_servant_table.modify(user_servants_iter, _self, [&](auto &new_data) {
-        //         new_data.servant.state = object_state::on_inventory;
-        //     });
-        //     servant_add_inventory +=1;
- 
-        // }
+        if (user_mail_iter->mail_type == 5) //UTS
+        {
+            user_servants user_servant_table(_self, _user.value);
+            auto user_servants_iter = user_servant_table.find(user_mail_iter->type_index);
+            eosio_assert(user_servants_iter != user_servant_table.end(), "mailopen : Not eixst mail data NFT");
+            user_servant_table.modify(user_servants_iter, _self, [&](auto &new_data) {
+                new_data.servant.state = object_state::on_inventory;
+            });
+            servant_add_inventory += 1;
+        }
 
-        // else if (user_mail_iter->mail_type == 6) //UTM
-        // {
-        //     user_monsters user_monster_table(_self, _user.value);
-        //     auto user_monster_iter = user_monster_table.find(user_mail_iter->type_index);
-        //     eosio_assert(user_monster_iter != user_monster_table.end(), "mailopen : Not eixst mail data NFT");
-        //     user_monster_table.modify(user_monster_iter,_self, [&](auto &move_monster) {
-        //         move_monster.monster.state = object_state::on_inventory;
-        //     });
+        else if (user_mail_iter->mail_type == 6) //UTM
+        {
+            user_monsters user_monster_table(_self, _user.value);
+            auto user_monster_iter = user_monster_table.find(user_mail_iter->type_index);
+            eosio_assert(user_monster_iter != user_monster_table.end(), "mailopen : Not eixst mail data NFT");
+            user_monster_table.modify(user_monster_iter, _self, [&](auto &move_monster) {
+                move_monster.monster.state = object_state::on_inventory;
+            });
 
-        //     monster_add_inventory +=1;
-        // }
-        // else if (user_mail_iter->mail_type == 7) //UTI
-        // {
-        //     user_equip_items user_equipment_table(_self, _user.value);
-        //     auto user_equip_iter = user_equipment_table.find(user_mail_iter->type_index);
-        //     eosio_assert(user_equip_iter != user_equipment_table.end(), "mailopen : Not eixst mail data NFT");
-        //     user_equipment_table.modify(user_equip_iter, _self, [&](auto &move_item) {
-        //         move_item.equipment.state = object_state::on_inventory;
-        //     });
+            monster_add_inventory += 1;
+        }
+        else if (user_mail_iter->mail_type == 7) //UTI
+        {
+            user_equip_items user_equipment_table(_self, _user.value);
+            auto user_equip_iter = user_equipment_table.find(user_mail_iter->type_index);
+            eosio_assert(user_equip_iter != user_equipment_table.end(), "mailopen : Not eixst mail data NFT");
+            user_equipment_table.modify(user_equip_iter, _self, [&](auto &move_item) {
+                move_item.equipment.state = object_state::on_inventory;
+            });
 
-        //     equipment_add_inventory +=1;
+            equipment_add_inventory += 1;
+        }
+        else if (user_mail_iter->mail_type == 8)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
 
-        // }
-        // else if (user_mail_iter->mail_type == 8)
-        // {
-        //     std::vector<size_t> size_list;
-        //     std::vector<std::string> value_list;
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
 
-        //     auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
-        //     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 1) //서번트
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
+                user_servants user_servant_table(_self, _user.value);
+                user_servant_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_servant_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_servant_table.available_primary_key();
+                    }
 
-        //     if (mail_reward_list_iter->type == 1) //서번트
-        //     {
-        //         substr_value(mail_reward_list_iter->body, value_list, size_list, 7);
-        //         user_servants user_servant_table(_self, _user.value);
-        //         user_servant_table.emplace(_self, [&](auto &new_data) {
-        //             uint32_t first_index = user_servant_table.available_primary_key();
-        //             if (first_index == 0)
-        //             {
-        //                 new_data.index = 1;
-        //             }
-        //             else
-        //             {
-        //                 new_data.index = user_servant_table.available_primary_key();
-        //             }
+                    new_data.servant.id = atoll(value_list[0].c_str());
 
-        //             new_data.servant.id = atoll(value_list[0].c_str());
+                    auto servant_db_iter = get_servant_db(new_data.servant.id);
 
-        //             auto servant_db_iter = get_servant_db(new_data.servant.id);
+                    new_data.party_number = 0;
+                    new_data.servant.state = object_state::on_inventory;
+                    new_data.servant.exp = 0;
+                    new_data.servant.level = 1;
+                    new_data.servant.grade = 5;
+                    new_data.servant.limit_break = 0;
+                    new_data.servant.status.basic_str = atoi(value_list[1].c_str());
+                    new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
+                    new_data.servant.status.basic_int = atoi(value_list[3].c_str());
+                    new_data.servant.equip_slot.resize(3);
+                    new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
+                    new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
+                });
 
-        //             new_data.party_number = 0;
-        //             new_data.servant.state = object_state::on_inventory;
-        //             new_data.servant.exp = 0;
-        //             new_data.servant.level = 1;
-        //             new_data.servant.grade = 5;
-        //             new_data.servant.limit_break = 0;
-        //             new_data.servant.status.basic_str = atoi(value_list[1].c_str());
-        //             new_data.servant.status.basic_dex = atoi(value_list[2].c_str());
-        //             new_data.servant.status.basic_int = atoi(value_list[3].c_str());
-        //             new_data.servant.equip_slot.resize(3);
-        //             new_data.servant.passive_skill.push_back(atoi(value_list[4].c_str()));
-        //             new_data.servant.active_skill.push_back(atoi(value_list[5].c_str()));
-        //         });
+                servant_add_inventory += 1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 9)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
 
-        //         servant_add_inventory +=1;
-        //         mail_reward_list_table.erase(mail_reward_list_iter);
-        //     }
-        // }
-        // else if (user_mail_iter->mail_type == 9)
-        // {
-        //     std::vector<size_t> size_list;
-        //     std::vector<std::string> value_list;
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 2)
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
+                user_monsters user_monster_table(_self, _user.value);
+                user_monster_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_monster_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_monster_table.available_primary_key();
+                    }
 
-        //     auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
-        //     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-        //     if (mail_reward_list_iter->type == 2)  
-        //     {
-        //         substr_value(mail_reward_list_iter->body, value_list, size_list, 6);
-        //         user_monsters user_monster_table(_self, _user.value);
-        //         user_monster_table.emplace(_self, [&](auto &new_data) {
-        //             uint32_t first_index = user_monster_table.available_primary_key();
-        //             if (first_index == 0)
-        //             {
-        //                 new_data.index = 1;
-        //             }
-        //             else
-        //             {
-        //                 new_data.index = user_monster_table.available_primary_key();
-        //             }
+                    new_data.monster.id = atoll(value_list[0].c_str());
+                    auto monster_db_iter = get_monster_db(new_data.monster.id);
 
-        //             new_data.monster.id = atoll(value_list[0].c_str());
-        //             auto monster_db_iter = get_monster_db(new_data.monster.id);
+                    new_data.party_number = 0;
+                    new_data.monster.state = object_state::on_inventory;
+                    new_data.monster.exp = 0;
+                    new_data.monster.level = 1;
+                    new_data.monster.type = monster_db_iter->type;
+                    new_data.monster.tribe = monster_db_iter->tribe;
+                    new_data.monster.grade = atoi(value_list[1].c_str());
+                    new_data.monster.limit_break = 0;
+                    new_data.monster.status.basic_str = atoi(value_list[2].c_str());
+                    new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
+                    new_data.monster.status.basic_int = atoi(value_list[4].c_str());
+                    new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
+                });
 
-        //             new_data.party_number = 0;
-        //             new_data.monster.state = object_state::on_inventory;
-        //             new_data.monster.exp = 0;
-        //             new_data.monster.level = 1;
-        //             new_data.monster.type = monster_db_iter->type;
-        //             new_data.monster.tribe = monster_db_iter->tribe;
-        //             new_data.monster.grade = atoi(value_list[1].c_str());
-        //             new_data.monster.limit_break = 0;
-        //             new_data.monster.status.basic_str = atoi(value_list[2].c_str());
-        //             new_data.monster.status.basic_dex = atoi(value_list[3].c_str());
-        //             new_data.monster.status.basic_int = atoi(value_list[4].c_str());
-        //             new_data.monster.passive_skill.push_back(atoi(value_list[5].c_str()));
-        //         });
+                monster_add_inventory += 1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 10)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
 
-        //         monster_add_inventory +=1;
-        //         mail_reward_list_table.erase(mail_reward_list_iter);
-        //     }
-        // }
-        // else if (user_mail_iter->mail_type == 10)
-        // {
-        //     std::vector<size_t> size_list;
-        //     std::vector<std::string> value_list;
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 3)
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
+                user_equip_items user_equip_items_table(_self, _user.value);
+                user_equip_items_table.emplace(_self, [&](auto &new_data) {
+                    uint32_t first_index = user_equip_items_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_data.index = 1;
+                    }
+                    else
+                    {
+                        new_data.index = user_equip_items_table.available_primary_key();
+                    }
 
-        //     auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
-        //     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-        //     if (mail_reward_list_iter->type == 3) 
-        //     {
-        //         substr_value(mail_reward_list_iter->body, value_list, size_list, 3);
-        //         user_equip_items user_equip_items_table(_self, _user.value);
-        //         user_equip_items_table.emplace(_self, [&](auto &new_data) {
-        //             uint32_t first_index = user_equip_items_table.available_primary_key();
-        //             if (first_index == 0)
-        //             {
-        //                 new_data.index = 1;
-        //             }
-        //             else
-        //             {
-        //                 new_data.index = user_equip_items_table.available_primary_key();
-        //             }
+                    new_data.equipment.id = atoll(value_list[0].c_str());
+                    equipment_db my_table(_self, _self.value);
+                    auto equipment_db_iter = my_table.find(new_data.equipment.id);
+                    eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
+                    //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
+                    new_data.equipment.state = object_state::on_inventory;
+                    new_data.equipment.type = equipment_db_iter->type;
+                    new_data.equipment.tier = equipment_db_iter->tier;
+                    new_data.equipment.job = equipment_db_iter->job;
+                    new_data.equipment.grade = atoi(value_list[1].c_str());
+                    new_data.equipment.upgrade = 0;
+                    new_data.equipment.value = atoi(value_list[2].c_str());
+                });
 
-        //             new_data.equipment.id = atoll(value_list[0].c_str());
-        //             equipment_db my_table(_self, _self.value);
-        //             auto equipment_db_iter = my_table.find(new_data.equipment.id);
-        //             eosio_assert(equipment_db_iter != my_table.end(), "Equipment DB : Empty Equipment ID");
-        //             //auto equipment_db_iter = get_equipment_db(new_data.equipment.id);
-        //             new_data.equipment.state = object_state::on_inventory;
-        //             new_data.equipment.type = equipment_db_iter->type;
-        //             new_data.equipment.tier = equipment_db_iter->tier;
-        //             new_data.equipment.job = equipment_db_iter->job;
-        //             new_data.equipment.grade = atoi(value_list[1].c_str());
-        //             new_data.equipment.upgrade = 0;
-        //             new_data.equipment.value = atoi(value_list[2].c_str());
-        //         });
+                equipment_add_inventory += 1;
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 11)
+        {
+            std::vector<size_t> size_list;
+            std::vector<std::string> value_list;
 
-        //         equipment_add_inventory +=1;
-        //         mail_reward_list_table.erase(mail_reward_list_iter);
-        //     }
-        // }
-        // else if (user_mail_iter->mail_type == 11)
-        // {
-        //     std::vector<size_t> size_list;
-        //     std::vector<std::string> value_list;
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            if (mail_reward_list_iter->type == 4)
+            {
+                substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
+                add_inventory += sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
 
-        //     auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
-        //     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-        //     if (mail_reward_list_iter->type == 4)  
-        //     {
-        //         substr_value(mail_reward_list_iter->body, value_list, size_list, 2);
-        //         add_inventory += sum_item_check(_user, atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+                mail_reward_list_table.erase(mail_reward_list_iter);
+            }
+        }
+        else if (user_mail_iter->mail_type == 12)
+        {
+            auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
+            eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
+            mail_get_UTG_result.amount = atoll(mail_reward_list_iter->body.c_str());
+            utg_get_amount += mail_get_UTG_result.amount;
 
-        //         mail_reward_list_table.erase(mail_reward_list_iter);
-        //     }
-        // }
-        // else if (user_mail_iter->mail_type == 12)
-        // {
-        //     auto mail_reward_list_iter = mail_reward_list_table.find(user_mail_iter->type_index);
-        //     eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-        //     mail_get_UTG_result.amount = atoll(mail_reward_list_iter->body.c_str());
-        //     utg_get_amount += mail_get_UTG_result.amount;
-
-        //     action(permission_level{get_self(), "active"_n},
-        //            get_self(), "transfer"_n,
-        //            std::make_tuple(_self, _user, mail_get_UTG_result, std::string("get mail UTG")))
-        //         .send();
-        //     mail_reward_list_table.erase(mail_reward_list_iter);
-        // }
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, mail_get_UTG_result, std::string("get mail UTG")))
+                .send();
+            mail_reward_list_table.erase(mail_reward_list_iter);
+        }
         user_mail_table.erase(user_mail_iter);
         mail_erase_count +=1;
     }
@@ -8097,51 +8095,51 @@ uint64_t battletest::nftexchange(eosio::name _owner, eosio::name _master, std::s
 
 
 //1층을 열어주는 액션
-ACTION battletest::toweropen(uint64_t _floor, asset _eos)
-{
-    require_auth(_self);
+// ACTION battletest::toweropen(uint64_t _floor, asset _eos)
+// {
+//     require_auth(_self);
 
-    //uint64_t _floor = 1;
-    floor_index floortable(_self, _self.value);
-    auto iter = floortable.find(_floor);
-    eosio_assert(iter == floortable.end(), "Tower is already open.");
-    floortable.emplace(_self, [&](auto &floordata) {
-        floordata.fnum = _floor;
-        floordata.owner = _self;
-        floordata.bnum = 0;
-        floordata.pnum = 0;
-        floordata.state = "open";
-        floordata.endtime = 0;
-        floordata.opentime = 1562551200;        //7월8일오전 11시
-    });
+//     //uint64_t _floor = 1;
+//     floor_index floortable(_self, _self.value);
+//     auto iter = floortable.find(_floor);
+//     eosio_assert(iter == floortable.end(), "Tower is already open.");
+//     floortable.emplace(_self, [&](auto &floordata) {
+//         floordata.fnum = _floor;
+//         floordata.owner = _self;
+//         floordata.bnum = 0;
+//         floordata.pnum = 0;
+//         floordata.state = "open";
+//         floordata.endtime = 0;
+//         floordata.opentime = 1562551200;        //7월8일오전 11시
+//     });
 
-    tower_reward tower_reward_table(_self, _self.value);
-    auto reward = tower_reward_table.find(_floor);
-    eosio_assert(reward == tower_reward_table.end(), "Tower is already setting");
-    tower_reward_table.emplace(_self, [&](auto &new_data){
-        new_data.floor = _floor;
-        new_data.total_utg = 100000 * 10000;
-        new_data.total_eos = _eos.amount;
-    });
-        std::vector<std::string> servant = {"1110203:50:72:51:22:100006:200002",
-                                        "2120202:50:55:75:30:100001:200004",
-                                        "3220201:50:51:33:77:100008:200017",
-                                        "4110301:50:39:74:41:100007:200024",
-                                        "4120303:50:36:71:46:100007:200024"};
+//     tower_reward tower_reward_table(_self, _self.value);
+//     auto reward = tower_reward_table.find(_floor);
+//     eosio_assert(reward == tower_reward_table.end(), "Tower is already setting");
+//     tower_reward_table.emplace(_self, [&](auto &new_data){
+//         new_data.floor = _floor;
+//         new_data.total_utg = 100000 * 10000;
+//         new_data.total_eos = _eos.amount;
+//     });
+//         std::vector<std::string> servant = {"1110203:50:72:51:22:100006:200002",
+//                                         "2120202:50:55:75:30:100001:200004",
+//                                         "3220201:50:51:33:77:100008:200017",
+//                                         "4110301:50:39:74:41:100007:200024",
+//                                         "4120303:50:36:71:46:100007:200024"};
 
-    std::vector<std::string> monster = {"103101:50:3:29:44:60:100005",
-                                        "103102:50:3:30:45:56:100005",
-                                        "103103:50:3:31:43:57:100005",
-                                        "103104:50:3:29:45:62:100005",
-                                        "103106:50:3:30:46:63:100005"};
+//     std::vector<std::string> monster = {"103101:50:3:29:44:60:100005",
+//                                         "103102:50:3:30:45:56:100005",
+//                                         "103103:50:3:31:43:57:100005",
+//                                         "103104:50:3:29:45:62:100005",
+//                                         "103106:50:3:30:46:63:100005"};
 
-    for (uint8_t i = 0; i < 5; ++i)
-    {
-        npcset(_floor, 1, i + 1, servant[i]);
-        npcset(_floor, 2, i + 1, monster[i]);
-    }
-    npcset(_floor, 3, 0, "equiupment");
-}
+//     for (uint8_t i = 0; i < 5; ++i)
+//     {
+//         npcset(_floor, 1, i + 1, servant[i]);
+//         npcset(_floor, 2, i + 1, monster[i]);
+//     }
+//     npcset(_floor, 3, 0, "equiupment");
+// }
 
 // ACTION battletest::endflag(name _winner, uint64_t _fnum)
 // {
@@ -10890,94 +10888,385 @@ uint8_t battletest::get_day_type()
 //     // }
 // }
 
-ACTION battletest::dbinsert(std::string _table, std::string _value)
-{
-    // system_master system_master_table(_self, _self.value);
-    // auto system_master_iter = system_master_table.begin();
+// ACTION battletest::dbinsert(std::string _table, std::string _value)
+// {
+//     system_master system_master_table(_self, _self.value);
+//     auto system_master_iter = system_master_table.begin();
 
-    // permission_level master_auth;
-    // master_auth.actor = system_master_iter->master;
-    // master_auth.permission = "active"_n;
-    // require_auth(master_auth);
+//     permission_level master_auth;
+//     master_auth.actor = system_master_iter->master;
+//     master_auth.permission = "active"_n;
+//     require_auth(_self);
 
-    // //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+//     //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
 
-    // std::vector<size_t> size_list;
-    // std::vector<std::string> value_list;
-    // uint32_t value;
+//     std::vector<size_t> size_list;
+//     std::vector<std::string> value_list;
+//     uint32_t value;
 
-    // if (_table == "dblimitpool")
-    // {
-    //     substr_value(_value, value_list, size_list, 2);
-    //     insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
-    // }
-    // if (_table == "tlimit")
-    // {
-    //     value = atoll(_value.c_str());
-    //     insert_limit_log(value);
-    // }
-    // if (_table == "init_dblimitpool")
-    // {
-    //     limit_gacha_db my_table(_self, _self.value);
-    //     for (auto iter = my_table.begin(); iter != my_table.end();)
-    //     {
-    //         auto my = my_table.find(iter->primary_key());
-    //         iter++;
-    //         my_table.erase(my);
-    //     }
-    // }
-    // if (_table == "init_tlimit")
-    // {
-    //     limit_log my_table(_self, _self.value);
-    //     for (auto iter = my_table.begin(); iter != my_table.end();)
-    //     {
-    //         auto my = my_table.find(iter->primary_key());
-    //         iter++;
-    //         my_table.erase(my);
-    //     }
-    // }
-}
+//     // if (_table == "dblimitpool")
+//     // {
+//     //     substr_value(_value, value_list, size_list, 2);
+//     //     insert_limit_pool(atoll(value_list[0].c_str()), atoll(value_list[1].c_str()));
+//     // }
+//     if (_table == "tlimit")
+//     {
+//         value = atoll(_value.c_str());
+//         insert_limit_log(value);
+//     }
+//     // if (_table == "init_dblimitpool")
+//     // {
+//     //     limit_gacha_db my_table(_self, _self.value);
+//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
+//     //     {
+//     //         auto my = my_table.find(iter->primary_key());
+//     //         iter++;
+//     //         my_table.erase(my);
+//     //     }
+//     // }
+//     // if (_table == "init_tlimit")
+//     // {
+//     //     limit_log my_table(_self, _self.value);
+//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
+//     //     {
+//     //         auto my = my_table.find(iter->primary_key());
+//     //         iter++;
+//     //         my_table.erase(my);
+//     //     }
+//     // }
+// }
 
-void battletest::insert_limit_pool(uint64_t _index, uint64_t _gacha_id)
-{
-    limit_gacha_db limit_gacha_db_table(_self, _self.value);
-    auto iter = limit_gacha_db_table.find(_index);
+// void battletest::insert_limit_pool(uint64_t _index, uint64_t _gacha_id)
+// {
+//     limit_gacha_db limit_gacha_db_table(_self, _self.value);
+//     auto iter = limit_gacha_db_table.find(_index);
     
-    if(iter == limit_gacha_db_table.end())
-    {
-        limit_gacha_db_table.emplace(_self, [&](auto &new_data)
-        {
-            new_data.index = _index;
-            new_data.gacha_id = _gacha_id;
-        });
-    }
-    else
-    {
-        limit_gacha_db_table.modify(iter, _self, [&](auto &new_data) {
-            new_data.gacha_id = _gacha_id;
-        });
-    }
-}
+//     if(iter == limit_gacha_db_table.end())
+//     {
+//         limit_gacha_db_table.emplace(_self, [&](auto &new_data)
+//         {
+//             new_data.index = _index;
+//             new_data.gacha_id = _gacha_id;
+//         });
+//     }
+//     else
+//     {
+//         limit_gacha_db_table.modify(iter, _self, [&](auto &new_data) {
+//             new_data.gacha_id = _gacha_id;
+//         });
+//     }
+// }
 
-void battletest::insert_limit_log(uint64_t _total_count) 
-{
-    limit_log limit_log_table(_self, _self.value);
-    auto iter = limit_log_table.find(_self.value);
+// void battletest::insert_limit_log(uint64_t _total_count) 
+// {
+//     limit_log limit_log_table(_self, _self.value);
+//     auto iter = limit_log_table.find(_self.value);
 
-    if(iter == limit_log_table.end())
-    {
-        limit_log_table.emplace(_self, [&](auto &new_data){
-            new_data.user = _self;
-            new_data.total_count = _total_count;
-        });
-    }
-    else
-    {
-        limit_log_table.modify(iter,_self, [&](auto &new_data) {
-            new_data.total_count = _total_count;
-        });
-    }
-}
+//     if(iter == limit_log_table.end())
+//     {
+//         limit_log_table.emplace(_self, [&](auto &new_data){
+//             new_data.user = _self;
+//             new_data.total_count = _total_count;
+//         });
+//     }
+//     else
+//     {
+//         limit_log_table.modify(iter,_self, [&](auto &new_data) {
+//             new_data.total_count = _total_count;
+//         });
+//     }
+// }
+
+// ACTION battletest::setdata(eosio::name _contract, std::string _table)
+// {
+//     require_auth(_self);
+
+//     if (_table == "dblimitpool")
+//     {
+//         limit_gacha_db pre_users_table(_contract, _contract.value);
+//         limit_gacha_db my_table(_self, _self.value);
+//         for (auto iter = pre_users_table.begin(); iter != pre_users_table.end();)
+//         {
+//             const auto &get_iter = pre_users_table.get(iter->primary_key(), "not exist data ");
+
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.index = get_iter.index;
+//                 new_data.gacha_id = get_iter.gacha_id;
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dbactive")
+//     {
+//         active_db pre_users_table(_contract, _contract.value);
+//         active_db my_table(_self, _self.value);
+//         for (auto iter = pre_users_table.begin(); iter != pre_users_table.end();)
+//         {
+//             const auto &get_iter = pre_users_table.get(iter->primary_key(), "not exist data ");
+
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.active_id = get_iter.active_id;
+//                 new_data.job = get_iter.job;
+//                 new_data.tribe = get_iter.tribe;
+//                 new_data.active_per = get_iter.active_per;
+//                 new_data.skill_type = get_iter.skill_type;
+//                 new_data.active_turn = get_iter.active_turn;
+//                 new_data.attack_type = get_iter.attack_type;
+//                 new_data.dmg_type = get_iter.dmg_type;
+//                 new_data.elemental_type = get_iter.elemental_type;
+//                 new_data.target_type = get_iter.target_type;
+//                 new_data.target_count = get_iter.target_count;
+//                 new_data.hit_count = get_iter.hit_count;
+//                 new_data.atk_per_1 = get_iter.atk_per_1;
+//                 new_data.atk_per_add_1 = get_iter.atk_per_add_1;
+//                 new_data.atk_per_2 = get_iter.atk_per_2;
+//                 new_data.atk_per_add_2 = get_iter.atk_per_add_2;
+//                 new_data.heal_per = get_iter.heal_per;
+//                 new_data.heal_per_add = get_iter.heal_per_add;
+//                 new_data.option_id = get_iter.option_id;
+//                 new_data.buff_id_list = get_iter.buff_id_list;
+//             });
+//             iter++;
+//         }
+//     }
+//         if (_table == "dbactive_init")
+//     {
+//         active_db my_table(_self, _self.value);
+//         for (auto iter = my_table.begin(); iter != my_table.end();)
+//         {
+//              auto get_iter = my_table.find(iter->primary_key());
+
+//             iter++;
+//             my_table.erase(get_iter);
+//         }
+//     }
+//     if (_table == "dbbuffs")
+//     {
+//         buff_db pre_users_table(_contract, _contract.value);
+//         buff_db my_table(_self, _self.value);
+//         for (auto iter = pre_users_table.begin(); iter != pre_users_table.end();)
+//         {
+//             const auto &get_iter = pre_users_table.get(iter->primary_key(), "not exist data ");
+
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.option_check = get_iter.option_check;
+//                 new_data.buff_debuff_check = get_iter.buff_debuff_check;
+//                 new_data.target = get_iter.target;
+//                 new_data.overlapping_check = get_iter.overlapping_check;
+//                 new_data.effect_type = get_iter.effect_type;
+//                 new_data.state = get_iter.state;
+//                 new_data.condition_check = get_iter.condition_check;
+//                 new_data.effect_stat_give = get_iter.effect_stat_give;
+//                 new_data.effect_stat_take = get_iter.effect_stat_take;
+//                 new_data.dmg_type = get_iter.dmg_type;
+//                 new_data.value = get_iter.value;
+//                 new_data.turn_count = get_iter.turn_count;
+//             });
+//             iter++;
+//         }
+//     }
+// }
+
+
+// ACTION battletest::usersimul(eosio::name _user, eosio::name _contract, eosio::name _target)
+// {
+//    master_active_check();
+
+//     user_auths user_auth_table(_contract, _contract.value);
+//     auto user_auth_iter = user_auth_table.find(_target.value);
+//     user_auths my_auths_table(_self, _self.value);
+//     auto my_auth_iter = my_auths_table.find(_user.value);
+//     my_auths_table.modify(my_auth_iter, _self, [&](auto &new_data) {
+//         new_data.state = user_state::lobby;
+//         new_data.exp = user_auth_iter->exp;
+//         new_data.rank = user_auth_iter->rank;
+//         new_data.current_servant_inventory = user_auth_iter->current_servant_inventory;
+//         new_data.current_monster_inventory = user_auth_iter->current_monster_inventory;
+//         new_data.current_equipment_inventory = user_auth_iter->current_equipment_inventory;
+//         new_data.current_item_inventory = user_auth_iter->current_item_inventory;
+//         new_data.servant_inventory = user_auth_iter->servant_inventory;
+//         new_data.monster_inventory = user_auth_iter->monster_inventory;
+//         new_data.equipment_inventory = user_auth_iter->equipment_inventory;
+//         new_data.item_inventory = user_auth_iter->item_inventory;
+//         new_data.daily_enter_count = user_auth_iter->daily_enter_count;
+//         new_data.total_enter_count = user_auth_iter->total_enter_count;
+//         new_data.daily_init_time = user_auth_iter->daily_init_time;
+//     });
+
+//     user_logs user_log_table(_contract, _contract.value);
+//     auto user_log_iter = user_log_table.find(_target.value);
+//     user_logs my_logs_table(_self, _self.value);
+//     auto my_logs_iter = my_logs_table.find(_user.value);
+//     my_logs_table.modify(my_logs_iter, _self, [&](auto &new_data) {
+//         new_data.servant_num = user_log_iter->servant_num;
+//         new_data.monster_num = user_log_iter->monster_num;
+//         new_data.equipment_num = user_log_iter->equipment_num;
+//         new_data.gacha_num = user_log_iter->gacha_num;
+//         new_data.get_utg = user_log_iter->get_utg;
+//         new_data.use_utg = user_log_iter->use_utg;
+//         new_data.use_eos = user_log_iter->use_eos;
+//         new_data.battle_count = user_log_iter->battle_count;
+//         new_data.last_stage_num = user_log_iter->last_stage_num;
+//         new_data.last_tower_num = user_log_iter->last_tower_num;
+//         new_data.top_clear_stage = user_log_iter->top_clear_stage;
+//         new_data.top_clear_tower = user_log_iter->top_clear_tower;
+//         new_data.add_party_count = user_log_iter->add_party_count;
+//         new_data.soul_powder = user_log_iter->soul_powder;
+//         new_data.mail = user_log_iter->mail;
+//     });
+
+//     user_items target_item(_contract, _target.value);
+//     user_servants target_servant(_contract, _target.value);
+//     user_monsters target_monster(_contract, _target.value);
+//     user_equip_items target_equipment(_contract, _target.value);
+//     user_mail target_mail(_contract, _target.value);
+//     mail_reward_list target_mail_reward(_contract, _target.value);
+//     account target_account(_contract, _target.value);
+
+//     user_items my_item(_self, _user.value);
+//     for (auto iter = my_item.begin(); iter != my_item.end();)
+//     {
+//         auto item = my_item.find(iter->primary_key());
+//         iter++;
+//         my_item.erase(item);
+//     }
+
+//     user_servants my_servant(_self, _user.value);
+//     for (auto iter = my_servant.begin(); iter != my_servant.end();)
+//     {
+//         auto item = my_servant.find(iter->primary_key());
+//         iter++;
+//         my_servant.erase(item);
+//     }
+//     user_monsters my_monster(_self, _user.value);
+//     for (auto iter = my_monster.begin(); iter != my_monster.end();)
+//     {
+//         auto item = my_monster.find(iter->primary_key());
+//         iter++;
+//         my_monster.erase(item);
+//     }
+
+//     user_equip_items my_equipment(_self, _user.value);
+//     for (auto iter = my_equipment.begin(); iter != my_equipment.end();)
+//     {
+//         auto item = my_equipment.find(iter->primary_key());
+//         iter++;
+//         my_equipment.erase(item);
+//     }
+
+//     user_mail my_mail(_self, _user.value);
+//     for (auto iter = my_mail.begin(); iter != my_mail.end();)
+//     {
+//         auto item = my_mail.find(iter->primary_key());
+//         iter++;
+//         my_mail.erase(item);
+//     }
+
+//     mail_reward_list my_reward(_self, _user.value);
+//     for (auto iter = my_reward.begin(); iter != my_reward.end();)
+//     {
+//         auto item = my_reward.find(iter->primary_key());
+//         iter++;
+//         my_reward.erase(item);
+//     }
+
+//     account my_account(_self, _user.value);
+//     for (auto iter = my_account.begin(); iter != my_account.end();)
+//     {
+//         auto item = my_account.find(iter->primary_key());
+//         iter++;
+//         my_account.erase(item);
+//     }
+
+//     for (auto iter = target_item.begin(); iter != target_item.end();)
+//     {
+//         auto item = target_item.find(iter->primary_key());
+//         my_item.emplace(_self, [&](auto &new_data) {
+//             new_data.id = item->id;
+//             new_data.type = item->type;
+//             new_data.item_list = item->item_list;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_servant.begin(); iter != target_servant.end();)
+//     {
+//         auto item = target_servant.find(iter->primary_key());
+//         my_servant.emplace(_self, [&](auto &new_data) {
+//             new_data.index = item->index;
+//             new_data.party_number = item->party_number;
+//             new_data.servant = item->servant;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_monster.begin(); iter != target_monster.end();)
+//     {
+//         auto item = target_monster.find(iter->primary_key());
+//         my_monster.emplace(_self, [&](auto &new_data) {
+//             new_data.index = item->index;
+//             new_data.party_number = item->party_number;
+//             new_data.monster = item->monster;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_equipment.begin(); iter != target_equipment.end();)
+//     {
+//         auto item = target_equipment.find(iter->primary_key());
+//         my_equipment.emplace(_self, [&](auto &new_data) {
+//             new_data.index = item->index;
+//             new_data.equipment = item->equipment;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_mail.begin(); iter != target_mail.end();)
+//     {
+//         auto item = target_mail.find(iter->primary_key());
+//         my_mail.emplace(_self, [&](auto &new_data) {
+//             new_data.mail_index = item->mail_index;
+//             new_data.mail_type = item->mail_type;
+//             new_data.type_index = item->type_index;
+//             new_data.count = item->count;
+//             new_data.icon_id = item->icon_id;
+//             new_data.get_time = item->get_time;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_mail_reward.begin(); iter != target_mail_reward.end();)
+//     {
+//         auto item = target_mail_reward.find(iter->primary_key());
+//         my_reward.emplace(_self, [&](auto &new_data) {
+//             new_data.index = item->index;
+//             new_data.type = item->type;
+//             new_data.body = item->body;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_account.begin(); iter != target_account.end();)
+//     {
+//         auto item = target_account.find(iter->primary_key());
+//         my_account.emplace(_self, [&](auto &new_data) {
+//             new_data.balance = item->balance;
+//         });
+//         iter++;
+//     }
+
+//     user_partys user_party_table(_contract, _target.value);
+//     auto user_party_iter = user_party_table.find(1);
+
+//     user_partys my_party_table(_self, _user.value);
+//     auto my_party_iter = my_party_table.find(1);
+//     my_party_table.modify(my_party_iter, _self, [&](auto &new_data) {
+//         new_data.state = party_state::on_wait;
+//         new_data.servant_list = user_party_iter->servant_list;
+//         new_data.monster_list = user_party_iter->monster_list;
+//     });
+// }
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -11002,7 +11291,7 @@ void battletest::insert_limit_log(uint64_t _total_count)
         }                                                                                      \
     }
 
-//(dbinsert)(dberase)(dblistinsert)(insertequipr)
+//(dbinsert)(dberase)(dblistinsert)(insertequipr)(dbinsert)(setdata)
 
 EOSIO_DISPATCH(battletest,
               //admin
@@ -11015,7 +11304,7 @@ EOSIO_DISPATCH(battletest,
                (goldgacha)(itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(burn)(limitbreak)
                //battle
                (stageexit)(stagestart)(activeturn)(saveparty)
-              //tower (claim)(resttime)(deletetower)
-              (toweropen)(towerstart)
-              (dbinsert)//(usersimul)(copymail)(deletemail)//
+              //tower (claim)(resttime)(deletetower)(toweropen)
+              (towerstart)
+              //(usersimul)(copymail)(deletemail)//
 			  )

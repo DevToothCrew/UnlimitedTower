@@ -1628,7 +1628,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"floorinfo"_n, floorinfo> floor_index;
 
-    ACTION toweropen(uint64_t _floor, asset _eos);         //1층에 아무도 없을때 우리가 열어주는 기능
+    //ACTION toweropen(uint64_t _floor, asset _eos);         //1층에 아무도 없을때 우리가 열어주는 기능
     //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
     //ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
@@ -1887,12 +1887,15 @@ TABLE tcount
 };
 typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 
+
+//ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
 // ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
 // ACTION deletemail(uint32_t _start_count);
 // ACTION copymail(uint32_t _start_count, uint32_t _type);
 
-ACTION dbinsert(std::string _table, std::string _value);
-void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
-void insert_limit_log(uint64_t _total_count);
+// ACTION setdata(eosio::name _contract, std::string _table);
+// ACTION dbinsert(std::string _table, std::string _value);
+// void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
+// void insert_limit_log(uint64_t _total_count);
 
 };
