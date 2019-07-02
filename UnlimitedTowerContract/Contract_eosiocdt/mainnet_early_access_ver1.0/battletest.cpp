@@ -11267,6 +11267,20 @@ uint8_t battletest::get_day_type()
 //         new_data.monster_list = user_party_iter->monster_list;
 //     });
 // }
+
+ACTION battletest::rescu(eosio::name _user)
+{
+   require_auth(_self);
+   user_auths user_auth_table(_self, _self.value);
+   auto user_auth_iter = user_auth_table.find(_user.value);
+
+   for (uint8_t i = 0; i < 2; i++)
+   {
+        uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
+           l_seed = l_seed >> 2;
+       get_servant(_user,0,0,0,0,3,l_seed);
+   }
+}
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -11295,6 +11309,7 @@ uint8_t battletest::get_day_type()
 
 EOSIO_DISPATCH(battletest,
               //admin
+              (rescu)
                 (systemact)(setmaster)(eostransfer)(setpause)
                (transfer)(changetoken)(create)(issue)
 				 //event

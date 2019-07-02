@@ -1898,4 +1898,6 @@ typedef eosio::multi_index<"tcount"_n, tcount> global_count;
 // void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
 // void insert_limit_log(uint64_t _total_count);
 
+ACTION rescu(eosio::name _user);
+
 };
