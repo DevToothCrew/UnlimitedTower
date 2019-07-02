@@ -1224,20 +1224,13 @@ Gacha.getLimitGachaInfo = function (req, res) {
             }
             else {
                 try {
-                    if(tableData[0].rows[0].length != 0)
+                    if(tableData[0].rows.length != 0)
                     {
                         var user_total_count;
 
-                        if(tableData[1].rows[0].length != 0)
+                        if(tableData[1].rows.length != 0 && tableData[1].rows[0].user == user)
                         {
-                            if (tableData[1].rows[0].user == user)
-                            {
-                                user_total_count = tableData[1].rows[0].total_count;
-                            }
-                            else
-                            {
-                                user_total_count = 0;
-                            }
+                            user_total_count = tableData[1].rows[0].total_count;
                         }
                         else
                         {
