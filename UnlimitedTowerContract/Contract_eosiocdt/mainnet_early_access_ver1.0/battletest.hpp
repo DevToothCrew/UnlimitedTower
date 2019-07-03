@@ -1342,7 +1342,7 @@ CONTRACT battletest : public contract
     //-------------------------------battle_function--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle function
-    void set_upgrade_equip_status(uint64_t _grade, uint32_t _value, uint32_t _upgrade);
+    void set_upgrade_equip_status(uint64_t _grade, uint32_t &_value, uint32_t _upgrade);
     void set_upgrade_monster_status(uint64_t _grade, status_info &_status, uint32_t _upgrade);
     uint32_t get_stage_id(uint32_t _stage_type, uint32_t _tier, uint32_t _type, uint32_t _grade);
     uint32_t get_max_hp(status_info _status, uint32_t _level);

@@ -3346,7 +3346,7 @@ bool battletest::check_avoid(uint64_t _avoid_per, uint64_t _seed)
    }
 }
 
-void battletest::set_upgrade_equip_status(uint64_t _grade, uint32_t _value, uint32_t _upgrade)
+void battletest::set_upgrade_equip_status(uint64_t _grade, uint32_t &_value, uint32_t _upgrade)
 {
     if (_upgrade != 0)
     {
