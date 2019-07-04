@@ -1766,11 +1766,6 @@ typedef eosio::multi_index<"tlimit"_n, tlimit> limit_log;
 // void insert_limit_log(uint64_t _total_count);
 
 
-//ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
-// ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
-// ACTION deletemail(uint32_t _start_count);
-// ACTION copymail(uint32_t _start_count, uint32_t _type);
-
 // ACTION setdata(eosio::name _contract, std::string _table);
 // ACTION dbinsert(std::string _table, std::string _value);
 // void insert_limit_pool(uint64_t _index, uint64_t _gacha_id);
