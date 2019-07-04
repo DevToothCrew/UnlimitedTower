@@ -4100,12 +4100,11 @@ bool battletest::set_action(eosio::name _user,
         }
         action_info new_action;
         new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+        _action_info.action_info_list.push_back(new_action);
 
         set_random_damage(new_action, _seed);       //90~110% 사이의 랜덤 데미지
         result_type_damage(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //속성 추뎀 체크
         check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
-
-        _action_info.action_info_list.push_back(new_action);
     }
     else if (_action == action_type::skill)
     {
@@ -4125,9 +4124,9 @@ bool battletest::set_action(eosio::name _user,
                 }
                 action_info new_action;
                 new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _my_status_list);
+                _action_info.action_info_list.push_back(new_action);
                 set_random_damage(new_action, _seed); //90~110% 사이의 랜덤 데미지
                 check_hp(2, new_action.damage, _my_status_list[enemy_key]);
-                _action_info.action_info_list.push_back(new_action);
             }
             else if(active_iter->target_type == active_target_type::allally)
             {
@@ -4140,9 +4139,9 @@ bool battletest::set_action(eosio::name _user,
                         new_seed = new_seed >> (my + 1);
                         action_info new_action;
                         new_action = get_target_action(_action, _seed, _my_key, my, _my_status_list, _my_status_list);
+                        _action_info.action_info_list.push_back(new_action);
                         set_random_damage(new_action, _seed); //90~110% 사이의 랜덤 데미지
                         check_hp(2, new_action.damage, _my_status_list[my]);
-                        _action_info.action_info_list.push_back(new_action);
                         check = true;
                     }
                 }
@@ -4191,12 +4190,13 @@ bool battletest::set_action(eosio::name _user,
                     {
                         action_info new_action;
                         new_action = get_target_action(_action, _seed, _my_key, enemy, _my_status_list, _enemy_status_list);
+                        _action_info.action_info_list.push_back(new_action);
                         set_random_damage(new_action, _seed);
                         result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy); //스킬의 속성 추뎀 체크
                         check_hp(1, new_action.damage, _enemy_status_list[enemy]);
                         set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy]);
                         check = true;
-                        _action_info.action_info_list.push_back(new_action);
+                        
                     }
                 }
                 if (check == false)
@@ -4204,8 +4204,7 @@ bool battletest::set_action(eosio::name _user,
                     return false;
                 }
             }
-            else if (active_iter->target_type == active_target_type::enemies ||
-                     active_iter->target_type == active_target_type::enemy)
+            else if (active_iter->target_type == active_target_type::enemies)
             {
                 for (uint8_t i = 0; i < active_iter->target_count; ++i)
                 {
@@ -4213,21 +4212,41 @@ bool battletest::set_action(eosio::name _user,
                     int enemy_key = get_random_target(_enemy_status_list, new_seed, _enemy_status_list.size(), 0);
                     if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                     {
-                        return false;
+                        if(i == 0)
+                        {
+                            return false;
+                        }
+                        return true;
                     }
 
                     new_seed = new_seed >> (i + 2);
 
                     action_info new_action;
                     new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+                    _action_info.action_info_list.push_back(new_action);
 
                     set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
                     result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
                     check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
                     set_buff(active_iter, _my_status_list[_my_key] ,_enemy_status_list[enemy_key]);
-
-                    _action_info.action_info_list.push_back(new_action);
                 }
+            }
+            else if(active_iter->target_type == active_target_type::enemy)
+            {
+                uint64_t new_seed = safeseed::get_seed_value(now(), _seed);
+                int enemy_key = get_random_target(_enemy_status_list, new_seed, _enemy_status_list.size(), 0);
+                if (enemy_key == -1) //상대 파티가 모두 죽은 상태
+                {
+                    return false;
+                }
+                action_info new_action;
+                new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+                _action_info.action_info_list.push_back(new_action);
+
+                set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
+                result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
+                check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
+                set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy_key]);
             }
             else if(active_iter->target_type == active_target_type::enemyback)
             {
@@ -4237,7 +4256,7 @@ bool battletest::set_action(eosio::name _user,
                     int enemy_key = get_random_target(_enemy_status_list, new_seed, _enemy_status_list.size(), 0);
                     if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                     {
-                        return false;
+                        return true;
                     }
                     else
                     {
@@ -4252,26 +4271,26 @@ bool battletest::set_action(eosio::name _user,
 
                     action_info new_action;
                     new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+                    _action_info.action_info_list.push_back(new_action);
 
                     set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
                     result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
                     check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
                     set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy_key]);
 
-                    _action_info.action_info_list.push_back(new_action);
+                   
 
                     int back_enemy_key = get_back_position(_enemy_status_list, _enemy_status_list[enemy_key].position);
                     if (back_enemy_key != -1)
                     {
                         action_info add_action;
                         add_action = get_target_action(_action, _seed, _my_key, back_enemy_key, _my_status_list, _enemy_status_list);
+                        _action_info.action_info_list.push_back(add_action);
 
                         set_random_damage(add_action, _seed);                                                               //90~110% 사이의 랜덤 데미지
                         result_type_skill(_user, add_action, _my_status_list, _enemy_status_list, _my_key, back_enemy_key); //스킬의 속성 추뎀 체크                                    //버프 스킬 체크
                         check_hp(1, add_action.damage, _enemy_status_list[back_enemy_key]);
                         set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[back_enemy_key]);
-
-                        _action_info.action_info_list.push_back(add_action);
                     }
                 }
             }
@@ -10626,6 +10645,7 @@ uint8_t battletest::get_day_type()
 //         }
 //     }
 // }
+
 
 
 #undef EOSIO_DISPATCH
