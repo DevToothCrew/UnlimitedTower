@@ -3587,11 +3587,16 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
         auto stage_db_iter = stage_db_table.find(stage_id);
         eosio_assert(stage_db_iter != stage_db_table.end(), "Stage Start : Empty Stage / Not Set Stage");
 
-        check_enter_stage(_user, stage_id);
-
-        user_auth.modify(user, _self, [&](auto &data) {
-            data.state = user_state::stage;
-        });
+        if (_difficult != 5)
+        {
+            check_enter_stage(_user, stage_id);
+        }
+        else
+        {
+            user_auth.modify(user, _self, [&](auto &data) {
+                data.state = user_state::stage;
+            });
+        }
     }
     else if(_stage_type == 2)
     {
@@ -4100,11 +4105,11 @@ bool battletest::set_action(eosio::name _user,
         }
         action_info new_action;
         new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
-        _action_info.action_info_list.push_back(new_action);
 
         set_random_damage(new_action, _seed);       //90~110% 사이의 랜덤 데미지
         result_type_damage(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //속성 추뎀 체크
         check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
+        _action_info.action_info_list.push_back(new_action);
     }
     else if (_action == action_type::skill)
     {
@@ -4124,9 +4129,10 @@ bool battletest::set_action(eosio::name _user,
                 }
                 action_info new_action;
                 new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _my_status_list);
-                _action_info.action_info_list.push_back(new_action);
+               
                 set_random_damage(new_action, _seed); //90~110% 사이의 랜덤 데미지
                 check_hp(2, new_action.damage, _my_status_list[enemy_key]);
+                 _action_info.action_info_list.push_back(new_action);
             }
             else if(active_iter->target_type == active_target_type::allally)
             {
@@ -4139,9 +4145,10 @@ bool battletest::set_action(eosio::name _user,
                         new_seed = new_seed >> (my + 1);
                         action_info new_action;
                         new_action = get_target_action(_action, _seed, _my_key, my, _my_status_list, _my_status_list);
-                        _action_info.action_info_list.push_back(new_action);
+                        
                         set_random_damage(new_action, _seed); //90~110% 사이의 랜덤 데미지
                         check_hp(2, new_action.damage, _my_status_list[my]);
+                        _action_info.action_info_list.push_back(new_action);
                         check = true;
                     }
                 }
@@ -4190,11 +4197,12 @@ bool battletest::set_action(eosio::name _user,
                     {
                         action_info new_action;
                         new_action = get_target_action(_action, _seed, _my_key, enemy, _my_status_list, _enemy_status_list);
-                        _action_info.action_info_list.push_back(new_action);
+                        
                         set_random_damage(new_action, _seed);
                         result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy); //스킬의 속성 추뎀 체크
                         check_hp(1, new_action.damage, _enemy_status_list[enemy]);
                         set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy]);
+                        _action_info.action_info_list.push_back(new_action);
                         check = true;
                         
                     }
@@ -4223,12 +4231,13 @@ bool battletest::set_action(eosio::name _user,
 
                     action_info new_action;
                     new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
-                    _action_info.action_info_list.push_back(new_action);
+                    
 
                     set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
                     result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
                     check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
                     set_buff(active_iter, _my_status_list[_my_key] ,_enemy_status_list[enemy_key]);
+                    _action_info.action_info_list.push_back(new_action);
                 }
             }
             else if(active_iter->target_type == active_target_type::enemy)
@@ -4241,12 +4250,13 @@ bool battletest::set_action(eosio::name _user,
                 }
                 action_info new_action;
                 new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
-                _action_info.action_info_list.push_back(new_action);
+                
 
                 set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
                 result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
                 check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
                 set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy_key]);
+                _action_info.action_info_list.push_back(new_action);
             }
             else if(active_iter->target_type == active_target_type::enemyback)
             {
@@ -4271,12 +4281,13 @@ bool battletest::set_action(eosio::name _user,
 
                     action_info new_action;
                     new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
-                    _action_info.action_info_list.push_back(new_action);
+                    
 
                     set_random_damage(new_action, _seed);                                                          //90~110% 사이의 랜덤 데미지
                     result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key); //스킬의 속성 추뎀 체크
                     check_hp(1, new_action.damage, _enemy_status_list[enemy_key]);
                     set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[enemy_key]);
+                    _action_info.action_info_list.push_back(new_action);
 
                    
 
@@ -4285,12 +4296,13 @@ bool battletest::set_action(eosio::name _user,
                     {
                         action_info add_action;
                         add_action = get_target_action(_action, _seed, _my_key, back_enemy_key, _my_status_list, _enemy_status_list);
-                        _action_info.action_info_list.push_back(add_action);
+                        
 
                         set_random_damage(add_action, _seed);                                                               //90~110% 사이의 랜덤 데미지
                         result_type_skill(_user, add_action, _my_status_list, _enemy_status_list, _my_key, back_enemy_key); //스킬의 속성 추뎀 체크                                    //버프 스킬 체크
                         check_hp(1, add_action.damage, _enemy_status_list[back_enemy_key]);
                         set_buff(active_iter, _my_status_list[_my_key], _enemy_status_list[back_enemy_key]);
+                        _action_info.action_info_list.push_back(add_action);
                     }
                 }
             }
@@ -9246,6 +9258,7 @@ void battletest::check_enter_stage(eosio::name _user, uint32_t _stage_id)
         auto user_auth_iter = user_auth_table.find(_user.value);
         user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
             add_auth.current_item_inventory -= check_inventory;
+            add_auth.state = user_state::stage;
         });
     }
 }
@@ -10647,7 +10660,6 @@ uint8_t battletest::get_day_type()
 // }
 
 
-
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -10687,5 +10699,5 @@ EOSIO_DISPATCH(battletest,
                (stageexit)(stagestart)(activeturn)(saveparty)
               //tower (claim)(resttime)(deletetower)(toweropen)
               (towerstart)
-              //(usersimul)(copymail)(deletemail)//
+              //(copymail)(deletemail)//
 			  )
