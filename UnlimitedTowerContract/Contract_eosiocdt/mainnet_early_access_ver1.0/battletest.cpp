@@ -7274,12 +7274,7 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     }
     else
     {
-        user_servants user_servants_table(_self,_user.value);
-        auto user_servants_iter = user_servants_table.find(user_equipment_iter->equipment.equipservantindex);
-        user_servants_table.modify(user_servants_iter, _self, [&](auto &update){
-            update.servant.equip_slot[user_equipment_iter->equipment.type] = 0;
-        });
-        
+       
         user_equip_item_table.erase(user_equipment_iter);
     }
 
