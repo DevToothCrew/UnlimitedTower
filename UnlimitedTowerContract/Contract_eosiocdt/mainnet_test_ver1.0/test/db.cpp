@@ -2092,646 +2092,714 @@ void battletest::insert_packageshop(uint64_t _id, uint64_t _get_utg, uint64_t _l
 //     //     // }
 // }
 
-// //  ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
-// //  {
-// //     require_auth(_self);
+//  ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
+//  {
+//     require_auth(_self);
 
-// //     if (_table == "preauth")
-// //     {
-// //         pre_users pre_users_table(_contract, _contract.value);
-// //         pre_users my_table(_self, _self.value);
-// //         for (auto iter = pre_users_table.begin(); iter != pre_users_table.end();)
-// //         {
-// //             const auto &get_iter = pre_users_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.user = get_iter.user;
-// //                 new_data.state = get_iter.state;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     else if (_table == "prelog")
-// //     {
-// //         pre_logs pre_logs_table(_contract, _contract.value);
-// //         pre_logs my_table(_self, _self.value);
-// //         for (auto iter = pre_logs_table.begin(); iter != pre_logs_table.end();)
-// //         {
-// //             const auto &get_iter = pre_logs_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.user = get_iter.user;
-// //                 new_data.servant_num = get_iter.servant_num;
-// //                 new_data.monster_num = get_iter.monster_num;
-// //                 new_data.item_num = get_iter.item_num;
-// //                 new_data.gacha_num = get_iter.gacha_num;
-// //                 new_data.use_eos = get_iter.use_eos;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "preservant")
-// //     {
-// //         user_preregist_servants user_preregist_servants_table(_contract, _user.value);
-// //         user_preregist_servants my_table(_self, _user.value);
-// //         for (auto iter = user_preregist_servants_table.begin(); iter != user_preregist_servants_table.end();)
-// //         {
-// //             const auto &get_iter = user_preregist_servants_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.index = get_iter.index;
-// //                 new_data.id = get_iter.id;
-// //                 new_data.status.basic_str = get_iter.status.basic_str;
-// //                 new_data.status.basic_dex = get_iter.status.basic_dex;
-// //                 new_data.status.basic_int = get_iter.status.basic_int;
-
-// //             });
-// //             iter++;
-// //         }
-// //     }
-
-// //     if (_table == "premonster")
-// //     {
-// //         user_preregist_monsters user_preregist_monsters_table(_contract, _user.value);
-// //         user_preregist_monsters my_table(_self, _user.value);
-// //         for (auto iter = user_preregist_monsters_table.begin(); iter != user_preregist_monsters_table.end();)
-// //         {
-// //             const auto &get_iter = user_preregist_monsters_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.index = get_iter.index;
-// //                 new_data.id = get_iter.id;
-// //                 new_data.grade = get_iter.grade;
-// //                 new_data.status.basic_str = get_iter.status.basic_str;
-// //                 new_data.status.basic_dex = get_iter.status.basic_dex;
-// //                 new_data.status.basic_int = get_iter.status.basic_int;
-
-// //             });
-// //             iter++;
-// //         }
-// //     }
-
-// //     else if (_table == "preitem")
-// //     {
-// //         user_preregist_items user_preregist_items_table(_contract, _user.value);
-// //         user_preregist_items my_table(_self, _user.value);
-// //         for (auto iter = user_preregist_items_table.begin(); iter != user_preregist_items_table.end();)
-// //         {
-// //             const auto &get_iter = user_preregist_items_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.index = get_iter.index;
-// //                 new_data.id = get_iter.id;
-// //                 new_data.type = get_iter.type;
-// //                 new_data.tier = get_iter.tier;
-// //                 new_data.job = get_iter.job;
-// //                 new_data.grade = get_iter.grade;
-// //                 new_data.main_status = get_iter.main_status;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-
-// //     if(_table == "dbstatusequi")
-// //     {
-// //         equipment_lv_status_db upgrade_item_ratio_db_table(_contract, _contract.value);
-// //         equipment_lv_status_db my_table(_self, _self.value);
-// //         for (auto iter = upgrade_item_ratio_db_table.begin(); iter != upgrade_item_ratio_db_table.end();)
-// //         {
-// //             const auto &data = upgrade_item_ratio_db_table.get(iter->primary_key(), "nost exist data");
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.type_grade = data.type_grade;
-// //                 new_data.change_status = data.change_status;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbbody")
-// //     {
-// //         body_db body_table(_contract, _contract.value);
-// //         for (auto iter = body_table.begin(); iter != body_table.end();)
-// //         {
-// //             const auto &data_iter = body_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_body(data_iter.body);
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbhair")
-// //     {
-// //         hair_db hair_table(_contract, _contract.value);
-// //         for (auto iter = hair_table.begin(); iter != hair_table.end();)
-// //         {
-// //             const auto &data_iter = hair_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_hair(data_iter.hair);
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbhead")
-// //     {
-// //         head_db head_table(_contract, _contract.value);
-// //         for (auto iter = head_table.begin(); iter != head_table.end();)
-// //         {
-// //             const auto &data_iter = head_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_head(data_iter.head);
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbgender")
-// //     {
-// //         gender_db gender_table(_contract, _contract.value);
-// //         for (auto iter = gender_table.begin(); iter != gender_table.end();)
-// //         {
-// //             const auto &data_iter = gender_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_gender(data_iter.gender);
-// //             iter++;
-// //         }
-// //     }
-
-// //     if (_table == "dbservantjob")
-// //     {
-// //         servant_job_db servant_job_table(_contract, _contract.value);
-// //         for (auto iter = servant_job_table.begin(); iter != servant_job_table.end();)
-// //         {
-// //             const auto &data_iter = servant_job_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_job(std::string("all"), data_iter.job, 0, 10);
-// //             iter++;
-// //         }
-// //     }
-// //     else if (_table == "dbgraderatio")
-// //     {
-// //         grade_ratio_db other_table(_contract, _contract.value);
-// //         grade_ratio_db my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.grade = get_iter.grade;
-// //                 new_data.ratio = get_iter.ratio;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbburn")
-// //     {
-// //         burnitem_db other_table(_contract, _contract.value);
-// //          burnitem_db my_table(_self, _self.value);
-// //                  for (auto iter2 = other_table.begin(); iter2 != other_table.end();)
-// //         {
-// //             const auto &upgrade_monster_iter = other_table.get(iter2->primary_key(), "nost exist data");
-// //             my_table.emplace(_self, [&](auto &new_data)
-// //             {
-// //                 new_data.servant_job = upgrade_monster_iter.servant_job;
-// //                 new_data.result_item_id = upgrade_monster_iter.result_item_id;
-// //             });
-// //             iter2++;
-// //         }
-// //     }
-// //     if (_table == "dbmonsterup")
-// //     {
-// //         upgrade_monster_ratio_db upgrade_monster_ratio_db_table(_contract, _contract.value);
-// //         upgrade_monster_ratio_db my_table(_self, _self.value);
-// //         for (auto iter2 = upgrade_monster_ratio_db_table.begin(); iter2 != upgrade_monster_ratio_db_table.end();)
-// //         {
-// //             const auto &upgrade_monster_iter = upgrade_monster_ratio_db_table.get(iter2->primary_key(), "nost exist data");
-// //             my_table.emplace(_self, [&](auto &new_data)
-// //             {
-// //                 new_data.main_monster_grade_upgrade = upgrade_monster_iter.main_monster_grade_upgrade;
-// //                 new_data.sub = upgrade_monster_iter.sub;
-// //                 new_data.use_UTG = upgrade_monster_iter.use_UTG;
-// //             });
-// //             iter2++;
-// //         }
-// //     }
-// //     if (_table == "dbequipup")
-// //     {
-// //         upgrade_equipment_ratio_dbs upgrade_item_ratio_db_table(_contract, _contract.value);
-// //         upgrade_equipment_ratio_dbs my_table(_self, _self.value);
-// //         for (auto iter = upgrade_item_ratio_db_table.begin(); iter != upgrade_item_ratio_db_table.end();)
-// //         {
-// //             const auto &data = upgrade_item_ratio_db_table.get(iter->primary_key(), "nost exist data");
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.equipment_type_grade = data.equipment_type_grade;
-// //                 new_data.material_id = data.material_id;
-// //                 new_data.upgrade_ratio = data.upgrade_ratio;
-// //                 new_data.material_count= data.material_count;
-// //                 new_data.use_UTG = data.use_UTG;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dblevel")
-// //     {
-// //         lv_exp other_lv_exp_table(_contract, _contract.value);
-// //         lv_exp my_table(_self, _self.value);
-// //         for (auto iter15 = other_lv_exp_table.begin(); iter15 != other_lv_exp_table.end();)
-// //         {
-// //             const auto &lv_exp_iter = other_lv_exp_table.get(iter15->primary_key(), "nost exist data");
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.lv = lv_exp_iter.lv;
-// //                 new_data.rank_exp = lv_exp_iter.rank_exp;
-// //                 new_data.char_exp = lv_exp_iter.char_exp;
-// //             });
-// //             iter15++;
-// //         }
-// //     }
-// //     else if (_table == "dbstatusserv")
-// //     {
-// //         servant_lv_status_db other_table(_contract, _contract.value);
-// //         servant_lv_status_db my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.grade = get_iter.grade;
-// //                 new_data.change_status.insert(new_data.change_status.end(), get_iter.change_status.begin(), get_iter.change_status.end());
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     else if (_table == "dbstatusmon")
-// //     {
-// //         monster_lv_status_db other_table(_contract, _contract.value);
-// //         monster_lv_status_db my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.grade = get_iter.grade;
-// //                 new_data.change_status.insert(new_data.change_status.end(), get_iter.change_status.begin(), get_iter.change_status.end());
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //         else if (_table == "dbpassive")
-// //         {
-// //             passive_db other_table(_contract, _contract.value);
-// //             passive_db my_table(_self, _self.value);
-// //             for (auto iter = other_table.begin(); iter != other_table.end();)
-// //             {
-// //                 const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-
-// //                 my_table.emplace(_self, [&](auto &new_data) {
-// //                     new_data.passive_id = get_iter.passive_id;
-// //                     new_data.enable_stack = get_iter.enable_stack;
-// //                     new_data.max_stack = get_iter.max_stack;
-// //                     new_data.effect_type = get_iter.effect_type;
-// //                     new_data.effect_value = get_iter.effect_value;
-// //                     new_data.effect_value_add = get_iter.effect_value_add;
-// //                     new_data.target = get_iter.target;
-// //                     new_data.role_target = get_iter.role_target;
-// //                 });
-// //                 iter++;
-// //             }
-// //         }
-// //         else if (_table == "dbactive")
-// //         {
-// //             active_db other_table(_contract, _contract.value);
-// //             active_db my_table(_self, _self.value);
-// //             for (auto iter = other_table.begin(); iter != other_table.end();)
-// //             {
-// //                 const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-
-// //                 my_table.emplace(_self, [&](auto &new_data) {
-// //                     new_data.active_id = get_iter.active_id;
-// //                     new_data.job = get_iter.job;
-// //                     new_data.active_per = get_iter.active_per;
-// //                     new_data.skill_type = get_iter.skill_type;
-// //                     new_data.attack_type = get_iter.attack_type;
-// //                     new_data.dmg_type = get_iter.dmg_type;
-// //                     new_data.target = get_iter.target;
-// //                     new_data.target_count = get_iter.target_count;
-// //                     new_data.active_turn = get_iter.target_active_turnrange;
-// //                     new_data.hit_count = get_iter.hit_count;
-// //                     new_data.atk_per_1 = get_iter.atk_per_1;
-// //                     new_data.atk_per_add_1 = get_iter.atk_per_add_1;
-// //                     new_data.heal_per = get_iter.heal_per;
-// //                     new_data.heal_per_add = get_iter.heal_per_add;
-// //                 });
-// //                 iter++;
-// //             }
-// //         }
-// //     if (_table == "dbmonsters")
-// //     {
-// //         monster_db monster_table(_contract, _contract.value);
-// //         monster_db my_table(_self, _self.value);
-// //         for (auto iter = monster_table.begin(); iter != monster_table.end();)
-// //         {
-// //             const auto &data_iter = monster_table.get(iter->primary_key(), "Not Exist Data");
-// //             my_table.emplace(_self, [&](auto &new_monster)
-// //             {
-// //                 new_monster.id = data_iter.id;
-// //                 new_monster.tribe = data_iter.tribe;
-// //                 new_monster.type = data_iter.type;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbitemshop")
-// //    {
-// //        item_shop other_table(_contract, _contract.value);
-// //        item_shop my_table(_self, _self.value);
-// //        for (auto iter = other_table.begin(); iter != other_table.end();)
-// //        {
-// //            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-// //            my_table.emplace(_self, [&](auto &new_data) {
-// //                new_data.id = get_iter.id;
-// //                new_data.shop_type = get_iter.shop_type;
-// //                new_data.product_id = get_iter.product_id;
-// //                new_data.product_count = get_iter.product_count;
-// //                new_data.product_limit_max = get_iter.product_limit_max;
-// //                new_data.price_id = get_iter.price_id;
-// //                new_data.price_count = get_iter.price_count;
-// //            });
-// //            iter++;
-// //        }
-// //    }
-
-// //    if (_table == "tshoplist")
-// //    {
-// //        shop_list other_table(_contract, _contract.value);
-// //        shop_list my_table(_self, _self.value);
-// //        for (auto iter = other_table.begin(); iter != other_table.end();)
-// //        {
-// //            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-// //            my_table.emplace(_self, [&](auto &new_data) {
-// //                new_data.id = get_iter.id;
-// //                new_data.shop_type = get_iter.shop_type;
-// //                new_data.shop_item_id = get_iter.shop_item_id;
-// //                new_data.limit_count = get_iter.limit_count;
-// //            });
-// //            iter++;
-// //        }
-// //    }
-// //     if (_table == "dbservants")
-// //     {
-// //         servant_db servant_table(_contract, _contract.value);
-// //         servant_db my_table(_self, _self.value);
-// //         for (auto iter = servant_table.begin(); iter != servant_table.end();)
-// //         {
-// //             const auto &data_iter = servant_table.get(iter->primary_key(), "Not Exist Data");
-// //             my_table.emplace(_self, [&](auto &new_ser) {
-// //                 new_ser.id = data_iter.id;
-// //                 new_ser.body = data_iter.body;
-// //                 new_ser.head = data_iter.head;
-// //                 new_ser.gender = data_iter.gender;
-// //                 new_ser.head = data_iter.head;
-// //                 new_ser.hair = data_iter.hair;
-// //                 new_ser.job = data_iter.job;
-// //                 new_ser.grade = data_iter.grade;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbitemshop")
-// //     {
-// //         item_shop other_table(_contract, _contract.value);
-// //         item_shop my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &data_iter = other_table.get(iter->primary_key(), "Not Exist Data");
-// //             my_table.emplace(_self, [&](auto &new_ser) {
-// //                 new_ser.id = data_iter.id;
-// //                 new_ser.goods_type = data_iter.goods_type;
-// //                 new_ser.goods_limited = data_iter.goods_limited;
-// //                 new_ser.goods_count = data_iter.goods_count;
-// //                 new_ser.price_type = data_iter.price_type;
-// //                 new_ser.price_count = data_iter.price_count;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbequipment")
-// //     {
-// //         equipment_db equip_item_table(_contract, _contract.value);
-// //         equipment_db my_table(_self, _self.value);
-// //         for (auto iter = equip_item_table.begin(); iter != equip_item_table.end();)
-// //         {
-// //             const auto &data_iter = equip_item_table.get(iter->primary_key(), "Not Exist Data");
-// //             my_table.emplace(_self, [&](auto &new_a) {
-// //                 new_a.item_id = data_iter.item_id;
-// //                 new_a.set_id = data_iter.set_id;
-// //                 new_a.type = data_iter.type;
-// //                 new_a.tier = data_iter.tier;
-// //                 new_a.job = data_iter.job;
-
-// //                 new_a.option_list=data_iter.option_list;
-// //                 new_a.option_value_min_list=data_iter.option_value_min_list;
-// //                 new_a.option_value_max_list= data_iter.option_value_max_list;
-// //                 new_a.upgrade_option_value_list=data_iter.upgrade_option_value_list;
-// //                 new_a.random_option_id_list=data_iter.random_option_id_list;
-// //                 new_a.grade_multi_list = data_iter.grade_multi_list;
-
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dballitem")
-// //     {
-// //         allitem_db common_item_table(_contract, _contract.value);
-// //         allitem_db my_table(_self, _self.value);
-// //         for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
-// //         {
-// //             const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
-// //             my_table.emplace(_self, [&](auto &new_a) {
-// //                 new_a.id = data_iter.id;
-// //                 new_a.type = data_iter.type;
-// //                 new_a.item_param_list.insert(new_a.item_param_list.begin(), data_iter.item_param_list.begin(), data_iter.item_param_list.end());
-// //                 new_a.sell_id = data_iter.sell_id;
-// //                 new_a.sell_cost = data_iter.sell_cost;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbgachapool")
-// //     {
-// //         main_gacha_db other_table(_contract, _contract.value);
-// //         main_gacha_db my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.gacha_id = get_iter.gacha_id;
-// //                 new_data.db_index = get_iter.db_index;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-
-// //     else if (_table == "dbprepool")
-// //     {
-// //         pre_gacha_db other_table(_contract, _contract.value);
-// //         pre_gacha_db my_table(_self, _self.value);
-// //         for (auto iter = other_table.begin(); iter != other_table.end();)
-// //         {
-// //             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-// //             my_table.emplace(_self, [&](auto &new_data) {
-// //                 new_data.gacha_id = get_iter.gacha_id;
-// //                 new_data.db_index = get_iter.db_index;
-// //             });
-// //             iter++;
-// //         }
-// //     }
-
-// else if (_table == "dbstageenemy")
-// {
-//     stage_enemy_db other_table(_contract, _contract.value);
-//     stage_enemy_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//     if (_table == "dbenemyinfo")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.id = get_iter.id;
-//             new_data.grade = get_iter.grade;
-//             new_data.enemy_tribe = get_iter.enemy_tribe;
-//             new_data.type = get_iter.type;
-//             new_data.enemy_str = get_iter.enemy_str;
-//             new_data.enemy_dex = get_iter.enemy_dex;
-//             new_data.enemy_int = get_iter.enemy_int;
-//             new_data.cri_per = get_iter.cri_per;
-//             new_data.cri_dmg = get_iter.cri_dmg;
-//             new_data.speed = get_iter.speed;
-//             new_data.avoid = get_iter.avoid;
-//             new_data.active_list = get_iter.active_list;
-//             new_data.passive_list = get_iter.passive_list;
-//         });
-//         iter++;
+//         for (uint32_t i = 1; i <= 6; ++i)
+//         {
+//             enemyinfo_db other_table(_contract, i);
+//             enemyinfo_db my_table(_self, i);
+//             for (auto iter = other_table.begin(); iter != other_table.end();)
+//             {
+//                 const auto &get_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//                 my_table.emplace(_self, [&](auto &new_data) {
+//                     new_data.index = get_iter.index;
+//                     new_data.id = get_iter.id;
+//                     new_data.type = get_iter.type;
+//                     new_data.active_list = get_iter.active_list;
+//                     new_data.passive_list = get_iter.passive_list;
+                
+//                 });
+//                 iter++;
+//             }
+//         }
 //     }
-// }
-// else if (_table == "dbreward")
-// {
-//     reward_db other_table(_contract, _contract.value);
-//     reward_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//  }
+//     if (_table == "dbhair")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.stage_id = get_iter.stage_id;
-//             new_data.rank_exp = get_iter.rank_exp;
-//             new_data.char_exp = get_iter.char_exp;
-//             new_data.first_reward_type = get_iter.first_reward_type;
-//             new_data.first_reward_id = get_iter.first_reward_id;
-//             new_data.first_reward_grade = get_iter.first_reward_grade;
-//             new_data.first_reward_count = get_iter.first_reward_count;
-//             new_data.reward_utg_min = get_iter.reward_utg_min;
-//             new_data.reward_utg_max = get_iter.reward_utg_max;
-//             new_data.reward_list = get_iter.reward_list;
-//         });
-//         iter++;
+//         hair_db other_table(_contract, _contract.value);
+//         hair_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.hair = get_iter.hair;
+//             });
+//             iter++;
+//         }
 //     }
-// }
-
-// else if (_table == "dbstage")
-// {
-//     stage_db other_table(_contract, _contract.value);
-//     stage_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//     if (_table == "dbhead")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.stage_id = get_iter.stage_id;
-//             new_data.stage_type = get_iter.stage_type;
-//             new_data.stage_floor = get_iter.stage_floor;
-//             new_data.need_stage_id = get_iter.need_stage_id;
-//             new_data.stage_group_index = get_iter.stage_group_index;
-//             new_data.need_entrance_item_id = get_iter.need_entrance_item_id;
-//             new_data.need_entrance_item_count = get_iter.need_entrance_item_count;
-//             new_data.enemy_level_min = get_iter.enemy_level_min;
-//             new_data.enemy_level_max = get_iter.enemy_level_max;
-//             new_data.monster_list = get_iter.monster_list;
-//             new_data.boss_level = get_iter.boss_level;
-//             new_data.boss_passive_list = get_iter.boss_passive_list;
-//             new_data.boss_skill_list = get_iter.boss_skill_list;
-//         });
-//         iter++;
+//         head_db other_table(_contract, _contract.value);
+//         head_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.head = get_iter.head;
+//             });
+//             iter++;
+//         }
 //     }
-// }
-
-// else if (_table == "dbserstat")
-// {
-//     serstat_db other_table(_contract, _contract.value);
-//     serstat_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//     if (_table == "dbgender")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.id = get_iter.id;
-//             new_data.job = get_iter.job;
-//             new_data.grade = get_iter.grade;
-//             new_data.base_str = get_iter.base_str;
-//             new_data.base_dex = get_iter.base_dex;
-//             new_data.base_int = get_iter.base_int;
-//             new_data.speed = get_iter.speed;
-//             new_data.avoid = get_iter.avoid;
-//             new_data.cri_per = get_iter.cri_per;
-//             new_data.cri_dmg = get_iter.cri_dmg;
-//         });
-//         iter++;
+//         gender_db other_table(_contract, _contract.value);
+//         gender_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.gender = get_iter.gender;
+//             });
+//             iter++;
+//         }
 //     }
-// }
 
-// else if (_table == "dbtribe")
-// {
-//     tribe_db other_table(_contract, _contract.value);
-//     tribe_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//     if (_table == "dbservantjob")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.id = get_iter.id;
-//             new_data.base_str = get_iter.base_str;
-//             new_data.base_dex = get_iter.base_dex;
-//             new_data.base_int = get_iter.base_int;
-//             new_data.speed = get_iter.speed;
-//             new_data.avoid = get_iter.avoid;
-//             new_data.cri_per = get_iter.cri_per;
-//             new_data.cri_dmg = get_iter.cri_dmg;
-//             new_data.pair = get_iter.pair;
-//             new_data.triple = get_iter.triple;
-//             new_data.penta = get_iter.penta;
-//         });
-//         iter++;
+//         servant_job_db other_table(_contract, _contract.value);
+//         servant_job_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.job = get_iter.job;
+//                 new_data.min_range = get_iter.min_range;
+//                 new_data.max_range = get_iter.max_range;
+//             });
+//             iter++;
+//         }
 //     }
-// }
 
-// else if (_table == "dbmoupstat")
-// {
-//     upgrade_monster_db other_table(_contract, _contract.value);
-//     upgrade_monster_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//     if (_table == "dbgraderatio")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.upgrade = get_iter.upgrade;
-//             new_data.grade_list = get_iter.grade_list;
-//         });
-//         iter++;
-//     }
-// }
+//         grade_ratio_db other_table(_contract, _contract.value);
+//         grade_ratio_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
 
-// else if (_table == "dbequpstat")
-// {
-//     upgrade_equipment_db other_table(_contract, _contract.value);
-//     upgrade_equipment_db my_table(_self, _self.value);
-//     for (auto iter = other_table.begin(); iter != other_table.end();)
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.grade = get_iter.grade;
+//                 new_data.ratio = get_iter.ratio;
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dbmonsterup")
 //     {
-//         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-//         my_table.emplace(_self, [&](auto &new_data) {
-//             new_data.upgrade = get_iter.upgrade;
-//             new_data.grade_list = get_iter.grade_list;
-//         });
-//         iter++;
+//         upgrade_monster_ratio_db upgrade_monster_ratio_db_table(_contract, _contract.value);
+//         upgrade_monster_ratio_db my_table(_self, _self.value);
+//         for (auto iter2 = upgrade_monster_ratio_db_table.begin(); iter2 != upgrade_monster_ratio_db_table.end();)
+//         {
+//             const auto &upgrade_monster_iter = upgrade_monster_ratio_db_table.get(iter2->primary_key(), "nost exist data");
+//             my_table.emplace(_self, [&](auto &new_data)
+//             {
+//                 new_data.main_monster_grade_upgrade = upgrade_monster_iter.main_monster_grade_upgrade;
+//                 new_data.sub = upgrade_monster_iter.sub;
+//                 new_data.use_UTG = upgrade_monster_iter.use_UTG;
+//             });
+//             iter2++;
+//         }
 //     }
-// }
+//     if (_table == "dbequipup")
+//     {
+//         upgrade_equipment_ratio_dbs upgrade_item_ratio_db_table(_contract, _contract.value);
+//         upgrade_equipment_ratio_dbs my_table(_self, _self.value);
+//         for (auto iter = upgrade_item_ratio_db_table.begin(); iter != upgrade_item_ratio_db_table.end();)
+//         {
+//             const auto &data = upgrade_item_ratio_db_table.get(iter->primary_key(), "nost exist data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.equipment_type_grade = data.equipment_type_grade;
+//                 new_data.material_id = data.material_id;
+//                 new_data.upgrade_ratio = data.upgrade_ratio;
+//                 new_data.material_count= data.material_count;
+//                 new_data.use_UTG = data.use_UTG;
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dblevel")
+//     {
+//         lv_exp other_lv_exp_table(_contract, _contract.value);
+//         lv_exp my_table(_self, _self.value);
+//         for (auto iter15 = other_lv_exp_table.begin(); iter15 != other_lv_exp_table.end();)
+//         {
+//             const auto &lv_exp_iter = other_lv_exp_table.get(iter15->primary_key(), "nost exist data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.lv = lv_exp_iter.lv;
+//                 new_data.rank_exp = lv_exp_iter.rank_exp;
+//                 new_data.char_exp = lv_exp_iter.char_exp;
+//             });
+//             iter15++;
+//         }
+//     }
+//     if (_table == "dbstatusserv")
+//     {
+//         servant_lv_status_db other_table(_contract, _contract.value);
+//         servant_lv_status_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
 
-// else
-// {
-//     eosio_assert(1 == 0, "Not Exist Table");
-// }
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.grade = get_iter.grade;
+//                 new_data.change_status = get_iter.change_status;
+// //                new_data.change_status.insert(new_data.change_status.end(), get_iter.change_status.begin(), get_iter.change_status.end());
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dbstatusmon")
+//     {
+//         monster_lv_status_db other_table(_contract, _contract.value);
+//         monster_lv_status_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.grade = get_iter.grade;
+//                 new_data.change_status = get_iter.change_status;
+//                 //new_data.change_status.insert(new_data.change_status.end(), get_iter.change_status.begin(), get_iter.change_status.end());
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dbstatusequi")
+//     {
+//         equipment_lv_status_db upgrade_item_ratio_db_table(_contract, _contract.value);
+//         equipment_lv_status_db my_table(_self, _self.value);
+//         for (auto iter = upgrade_item_ratio_db_table.begin(); iter != upgrade_item_ratio_db_table.end();)
+//         {
+//             const auto &data = upgrade_item_ratio_db_table.get(iter->primary_key(), "nost exist data");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.grade = data.grade;
+//                 new_data.change_status = data.change_status;
+//             });
+//             iter++;
+//         }
+//     }
+//         if (_table == "dbpassive")
+//         {
+//             passive_db other_table(_contract, _contract.value);
+//             passive_db my_table(_self, _self.value);
+//             for (auto iter = other_table.begin(); iter != other_table.end();)
+//             {
+//                 const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+
+//                 my_table.emplace(_self, [&](auto &new_data) {
+//                     new_data.passive_id = get_iter.passive_id;
+//                     new_data.passive_type = get_iter.passive_type;
+//                     new_data.job_class = get_iter.job_class;
+//                     new_data.enable_stack_max = get_iter.enable_stack_max;
+//                     new_data.effect_id = get_iter.effect_id;
+//                     new_data.effect_type_id = get_iter.effect_type_id;
+//                     new_data.effect_value_a = get_iter.effect_value_a;
+//                     new_data.effect_value_add_b = get_iter.effect_value_add_b;
+//                     new_data.target_id = get_iter.target_id;
+//                 });
+//                 iter++;
+//             }
+//         }
+//         if (_table == "dbactive")
+//         {
+//             active_db other_table(_contract, _contract.value);
+//             active_db my_table(_self, _self.value);
+//             for (auto iter = other_table.begin(); iter != other_table.end();)
+//             {
+//                 const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+
+//                 my_table.emplace(_self, [&](auto &new_data) {
+//                     new_data.active_id = get_iter.active_id;
+//                     new_data.job = get_iter.job;
+//                     new_data.tribe = get_iter.tribe;
+//                     new_data.active_per = get_iter.active_per;
+//                     new_data.skill_type = get_iter.skill_type;
+//                     new_data.active_turn = get_iter.active_turn;
+//                     new_data.attack_type = get_iter.attack_type;
+//                     new_data.dmg_type = get_iter.dmg_type;
+//                     new_data.elemental_type = get_iter.elemental_type;
+//                     new_data.target_type = get_iter.target_type;
+//                     new_data.target_count = get_iter.target_count;
+//                     new_data.hit_count = get_iter.hit_count;
+//                     new_data.atk_per_1 = get_iter.atk_per_1;
+//                     new_data.atk_per_add_1 = get_iter.atk_per_add_1;
+//                     new_data.atk_per_2 = get_iter.atk_per_2;
+//                     new_data.atk_per_add_2 = get_iter.atk_per_add_2;
+//                     new_data.heal_per = get_iter.heal_per;
+//                     new_data.heal_per_add = get_iter.heal_per_add;
+//                     new_data.option_id = get_iter.option_id;
+//                     new_data.buff_id_list = get_iter.buff_id_list;
+//                 });
+//                 iter++;
+//             }
+//         }
+//     if (_table == "dbmonsters")
+//     {
+//         monster_db monster_table(_contract, _contract.value);
+//         monster_db my_table(_self, _self.value);
+//         for (auto iter = monster_table.begin(); iter != monster_table.end();)
+//         {
+//             const auto &data_iter = monster_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_monster)
+//             {
+//                 new_monster.id = data_iter.id;
+//                 new_monster.tribe = data_iter.tribe;
+//                 new_monster.type = data_iter.type;
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dballitem")
+//     {
+//         allitem_db common_item_table(_contract, _contract.value);
+//         allitem_db my_table(_self, _self.value);
+//         for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
+//         {
+//             const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_a) {
+//                 new_a.id = data_iter.id;
+//                 new_a.type = data_iter.type;
+//                 new_a.grade = data_iter.grade;
+//                 new_a.max_count = data_iter.max_count;                
+//                 new_a.sell_item_id = data_iter.sell_item_id;
+//                 new_a.sell_item_count = data_iter.sell_item_count;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbequipment")
+//     {
+//         equipment_db equip_item_table(_contract, _contract.value);
+//         equipment_db my_table(_self, _self.value);
+//         for (auto iter = equip_item_table.begin(); iter != equip_item_table.end();)
+//         {
+//             const auto &data_iter = equip_item_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_a) {
+//                 new_a.item_id = data_iter.item_id;
+//                 new_a.set_id = data_iter.set_id;
+//                 new_a.type = data_iter.type;
+//                 new_a.tier = data_iter.tier;
+//                 new_a.job = data_iter.job;
+
+//                 new_a.option_list = data_iter.option_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbburn")
+//     {
+//         burnitem_db other_table(_contract, _contract.value);
+//          burnitem_db my_table(_self, _self.value);
+//                  for (auto iter2 = other_table.begin(); iter2 != other_table.end();)
+//         {
+//             const auto &upgrade_monster_iter = other_table.get(iter2->primary_key(), "nost exist data");
+//             my_table.emplace(_self, [&](auto &new_data)
+//             {
+//                 new_data.servant_job = upgrade_monster_iter.servant_job;
+//                 new_data.result_item_id = upgrade_monster_iter.result_item_id;
+//             });
+//             iter2++;
+//         }
+//     }
+
+//     if (_table == "dbservants")
+//     {
+//         servant_db servant_table(_contract, _contract.value);
+//         servant_db my_table(_self, _self.value);
+//         for (auto iter = servant_table.begin(); iter != servant_table.end();)
+//         {
+//             const auto &data_iter = servant_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_ser) {
+//                 new_ser.id = data_iter.id;
+//                 new_ser.body = data_iter.body;
+//                 new_ser.head = data_iter.head;
+//                 new_ser.gender = data_iter.gender;
+//                 new_ser.head = data_iter.head;
+//                 new_ser.hair = data_iter.hair;
+//                 new_ser.job = data_iter.job;
+//                 new_ser.grade = data_iter.grade;
+//             });
+//             iter++;
+//         }
+//     }
+
+//   if (_table == "dbgachapool")
+//     {
+//         main_gacha_db other_table(_contract, _contract.value);
+//         main_gacha_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.gacha_id = get_iter.gacha_id;
+//                 new_data.db_index = get_iter.db_index;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbgoldpool")
+//     {
+//         gold_gacha_db other_table(_contract, _contract.value);
+//         gold_gacha_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.gacha_id = get_iter.gacha_id;
+//                 new_data.db_index = get_iter.db_index;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dblimitpool")
+//     {
+//         limit_gacha_db other_table(_contract, _contract.value);
+//         limit_gacha_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.index = get_iter.index;
+//                 new_data.gacha_id = get_iter.gacha_id;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbtribe")
+//     {
+//         tribe_db other_table(_contract, _contract.value);
+//         tribe_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.base_str = get_iter.base_str;
+//                 new_data.base_dex = get_iter.base_dex;
+//                 new_data.base_int = get_iter.base_int;
+//                 new_data.speed = get_iter.speed;
+//                 new_data.avoid = get_iter.avoid;
+//                 new_data.cri_per = get_iter.cri_per;
+//                 new_data.cri_dmg = get_iter.cri_dmg;
+//                 new_data.pair = get_iter.pair;
+//                 new_data.triple = get_iter.triple;
+//                 new_data.penta = get_iter.penta;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbserstat")
+//     {
+//         serstat_db other_table(_contract, _contract.value);
+//         serstat_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.job = get_iter.job;
+//                 new_data.grade = get_iter.grade;
+//                 new_data.base_str = get_iter.base_str;
+//                 new_data.base_dex = get_iter.base_dex;
+//                 new_data.base_int = get_iter.base_int;
+//                 new_data.speed = get_iter.speed;
+//                 new_data.avoid = get_iter.avoid;
+//                 new_data.cri_per = get_iter.cri_per;
+//                 new_data.cri_dmg = get_iter.cri_dmg;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbtype")
+//     {
+//         type_db other_table(_contract, _contract.value);
+//         type_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.strong = get_iter.strong;
+//                 new_data.weak = get_iter.weak;
+//                 new_data.strong_per = get_iter.strong_per;
+//                 new_data.weak_per = get_iter.weak_per;
+//                 new_data.pair = get_iter.pair;
+//                 new_data.triple = get_iter.triple;
+//                 new_data.penta = get_iter.penta;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbmoupstat")
+//     {
+//         upgrade_monster_db other_table(_contract, _contract.value);
+//         upgrade_monster_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.upgrade = get_iter.upgrade;
+//                 new_data.grade_list = get_iter.grade_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbequpstat")
+//     {
+//         upgrade_equipment_db other_table(_contract, _contract.value);
+//         upgrade_equipment_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.upgrade = get_iter.upgrade;
+//                 new_data.grade_list = get_iter.grade_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbitemshop")
+//    {
+//        item_shop other_table(_contract, _contract.value);
+//        item_shop my_table(_self, _self.value);
+//        for (auto iter = other_table.begin(); iter != other_table.end();)
+//        {
+//            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//            my_table.emplace(_self, [&](auto &new_data) {
+//                new_data.id = get_iter.id;
+//                new_data.shop_type = get_iter.shop_type;
+//                new_data.product_id = get_iter.product_id;
+//                new_data.product_count = get_iter.product_count;
+//                new_data.product_limit_max = get_iter.product_limit_max;
+//                new_data.price_id = get_iter.price_id;
+//                new_data.price_count = get_iter.price_count;
+//            });
+//            iter++;
+//        }
+//    }
+
+//     if (_table == "dbpackagshop")
+//     {
+//         package_shop other_table(_contract, _contract.value);
+//         package_shop my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &data_iter = other_table.get(iter->primary_key(), "Not Exist Data");
+//             my_table.emplace(_self, [&](auto &new_ser) {
+//                 new_ser.id = data_iter.id;
+//                 new_ser.GET_UTG = data_iter.GET_UTG;
+//                 new_ser.private_limit_max = data_iter.private_limit_max;
+//                 new_ser.price_id = data_iter.price_id;
+//                 new_ser.price_count = data_iter.price_count;
+//             });
+//             iter++;
+//         }
+//     }
+
+//    if (_table == "tshoplist")
+//    {
+//        shop_list other_table(_contract, _contract.value);
+//        shop_list my_table(_self, _self.value);
+//        for (auto iter = other_table.begin(); iter != other_table.end();)
+//        {
+//            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//            my_table.emplace(_self, [&](auto &new_data) {
+//                new_data.id = get_iter.id;
+//                new_data.shop_type = get_iter.shop_type;
+//                new_data.shop_item_id = get_iter.shop_item_id;
+//                new_data.limit_count = get_iter.limit_count;
+//            });
+//            iter++;
+//        }
+//    }
+  
+//     if (_table == "dbstageinfo")
+//     {
+//         stageinfo_db other_table(_contract, _contract.value);
+//         stageinfo_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.elemental_type = get_iter.elemental_type;
+//                 new_data.floor = get_iter.floor;
+//                 new_data.difficult = get_iter.difficult;
+//                 new_data.need_entrance_item_id = get_iter.need_entrance_item_id;          
+//                 new_data.need_entrance_item_count = get_iter.need_entrance_item_count;    
+//                 new_data.enemy_level_min = get_iter.enemy_level_min;    
+//                 new_data.enemy_level_max = get_iter.enemy_level_max;    
+//                 new_data.enemy_count = get_iter.enemy_count;    
+//                 new_data.option_list = get_iter.option_list;    
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbenemyinfo")
+//     {
+//         enemyinfo_db other_table(_contract, _contract.value);
+//         enemyinfo_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.index = get_iter.index;
+//                 new_data.id = get_iter.id;
+//                 new_data.type = get_iter.type;
+//                 new_data.active_list = get_iter.active_list;
+//                 new_data.passive_list = get_iter.passive_list;          
+
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbenemystat")
+//     {
+//         enemystat_db other_table(_contract, _contract.value);
+//         enemystat_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.base_str = get_iter.base_str;
+//                 new_data.base_dex = get_iter.base_dex;
+//                 new_data.base_int = get_iter.base_int;          
+
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbnewreward")
+//     {
+//         new_reward_db other_table(_contract, _contract.value);
+//         new_reward_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.reward_utg = get_iter.reward_utg;
+//                 new_data.rank_exp = get_iter.rank_exp;
+//                 new_data.char_exp = get_iter.char_exp;
+//                 new_data.reward_count = get_iter.reward_count;
+//                 new_data.per_monster = get_iter.per_monster;
+//                 new_data.per_equipment = get_iter.per_equipment;
+//                 new_data.reward_list = get_iter.reward_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbdayreward")
+//     {
+//         day_reward_db other_table(_contract, _contract.value);
+//         day_reward_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.reward_utg = get_iter.reward_utg;
+//                 new_data.rank_exp = get_iter.rank_exp;
+//                 new_data.char_exp = get_iter.char_exp;
+//                 new_data.reward_count = get_iter.reward_count;
+//                 new_data.per_monster = get_iter.per_monster;
+//                 new_data.per_equipment = get_iter.per_equipment;
+//                 new_data.reward_list = get_iter.reward_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dbdailystage")
+//     {
+//         daily_stage_db other_table(_contract, _contract.value);
+//         daily_stage_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.stage_type = get_iter.stage_type;
+//                 new_data.elemental_type = get_iter.elemental_type;
+//                 new_data.difficult = get_iter.difficult;
+//                 new_data.max_entrance_count = get_iter.max_entrance_count;
+//                 new_data.real_max_entrance_count = get_iter.real_max_entrance_count;
+//                 new_data.enemy_level_min = get_iter.enemy_level_min;
+//                 new_data.enemy_level_max = get_iter.enemy_level_max;
+//                 new_data.enemy_count = get_iter.enemy_count;
+//                 new_data.option_list = get_iter.option_list;
+//             });
+//             iter++;
+//         }
+//     }
+
+//     if (_table == "dblimitbreak")
+//     {
+//         limit_break_db other_table(_contract, _contract.value);
+//         limit_break_db my_table(_self, _self.value);
+//         for (auto iter = other_table.begin(); iter != other_table.end();)
+//         {
+//             const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.type = get_iter.type;
+//                 new_data.available_level = get_iter.available_level;
+//                 new_data.need_item_id = get_iter.need_item_id;
+//                 new_data.need_item_count = get_iter.need_item_count;
+//                 new_data.use_utg = get_iter.use_utg;
+//                 new_data.up_level = get_iter.up_level;
+//             });
+//             iter++;
+//         }
+//     }
+//     if (_table == "dbbuffs")
+//     {
+//         buff_db pre_users_table(_contract, _contract.value);
+//         buff_db my_table(_self, _self.value);
+//         for (auto iter = pre_users_table.begin(); iter != pre_users_table.end();)
+//         {
+//             const auto &get_iter = pre_users_table.get(iter->primary_key(), "not exist data ");
+
+//             my_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.id = get_iter.id;
+//                 new_data.option_check = get_iter.option_check;
+//                 new_data.buff_debuff_check = get_iter.buff_debuff_check;
+//                 new_data.target = get_iter.target;
+//                 new_data.overlapping_check = get_iter.overlapping_check;
+//                 new_data.effect_type = get_iter.effect_type;
+//                 new_data.state = get_iter.state;
+//                 new_data.condition_check = get_iter.condition_check;
+//                 new_data.effect_stat_give = get_iter.effect_stat_give;
+//                 new_data.effect_stat_take = get_iter.effect_stat_take;
+//                 new_data.dmg_type = get_iter.dmg_type;
+//                 new_data.value = get_iter.value;
+//                 new_data.turn_count = get_iter.turn_count;
+//             }); 
+//             iter++;
+//         }
+//     }
+
 //}
-
 
 void battletest::insert_stage_info(std::vector<uint32_t> _stage_info)
 {

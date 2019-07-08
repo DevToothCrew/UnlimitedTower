@@ -1519,7 +1519,7 @@ CONTRACT battletest : public contract
     //ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
     void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list);
-    ACTION towerstart(eosio::name _from, uint64_t _fnum);
+   // ACTION towerstart(eosio::name _from, uint64_t _fnum);
     void npcset(uint64_t _floor, uint32_t _type, uint32_t _index, std::string _data);
     //ACTION deletetower();
     //ACTION resttime(uint64_t _floor, std::string _time);
